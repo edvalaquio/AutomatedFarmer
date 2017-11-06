@@ -1,0 +1,25 @@
+{
+  "name": "automated-farmer",
+  "version": "1.0.0",
+  "description": "Controller for the raspberryRaspberry Pi",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Farmer",
+    "Automated",
+    "Raspberry",
+    "Pi"
+  ],
+  "author": "Marba Valaquio",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "lodash": "^4.17.4",
+    "node-dev": "^3.1.3",
+    "path": "^0.12.7"
+  }
+}
