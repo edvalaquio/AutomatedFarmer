@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" ng-app="indexApp">
 <head>
 	<title>Automated Farmer</title>
-	<link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
+	<!-- <link rel="stylesheet" type="text/css" href="bower_components/jquery/dist/jquery.js"> -->
+	<!-- <link rel="stylesheet" type="text/css" href=""> -->
+	<!-- <link rel="stylesheet" type="text/css" href="public/js/index.js"> -->
+	<link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+	<!-- <link rel="stylesheet" type="text/css" href="/css/w3.css"> -->
+	<link rel="stylesheet" type="text/css" href="/css/style.css">
 </head>
 <body>
-	<div class="container">
-		<div class="row">
-			<h1>Automated Farmer</h1>
-		</div>
-	</div>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="navbar-brand">Automated Farmer</div>
+	</nav>
+	<!-- <h1>Automated Farmer</h1> -->
+	<section ng-view></section>
+	
+	<script type="text/javascript" src="/bower_components/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+	<script type="text/javascript" src="/bower_components/angular-route/angular-route.js"></script>
+	<script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/js/index.js"></script>
 </body>
-<script type="text/javascript" src="bower_components/bootstrap/dist/jquery.js"></script>
-<script type="text/javascript" src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
 </html>
