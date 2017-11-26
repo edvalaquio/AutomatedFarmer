@@ -1,6 +1,8 @@
 'use strict';
 
-angular.module("indexApp", ["ngRoute"])
+angular.module("indexApp", 
+	["ngRoute",
+	"autoFarm.controllers.manualCtrl"])
 .config(["$routeProvider", "$locationProvider",
 	function($routeProvider, $locationProvider){
 		$routeProvider
@@ -8,7 +10,8 @@ angular.module("indexApp", ["ngRoute"])
 			templateUrl: "/partials/homePage.html"
 		})
 		.when("/manual", {
-			templateUrl: "/partials/manualPage.html"
+			templateUrl: 	"/partials/manualPage.html",
+			controller: 	"manualCtrl"
 		})
 		.when("/automated", {
 			templateUrl: "/partials/autoPage.html"

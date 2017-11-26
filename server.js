@@ -1,18 +1,41 @@
 var express = require("express");
-var cors = require("cors");
 var app = express();
+var path = require('path');
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+// var cors = require("cors");
+var port = 3000;
+server.listen(port, function(){
+	console.log("Listening on port: " + port);
+})
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(function(req, res, next) {
-	console.log(`${req.method} request for '${req.url}'`);
-	next();
+var numUsers;
+// var stepper = require('./stepper');
+// console.log(stepper);
+io.on('connection', function(socket){
+	numUsers++;
+	console.log("A user has connected.");
+	socket.on('disconnect', function(){
+		console.log('User disconnected.');
+		numUsers--;
+	});
+	socket.on('move', function(direction){
+		console.log("Tractor is moving: " + direction);
+	});
 });
 
-app.use(express.static("./public"));
+// app.use(function(req, res, next) {
+// 	console.log(`${req.method} request for '${req.url}'`);
+// 	next();
+// });
 
-app.use(cors());
+// app.use(express.static("./public"));
 
-app.listen(3000);
+// app.use(cors());
 
-console.log("Express app running on port 3000");
+// app.listen(3000);
 
-module.exports = app;
+// console.log("Express app running on port 3000");
+
+// module.exports = app;
