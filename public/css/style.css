@@ -1,14 +1,10 @@
-nav{
-	padding: 10px 0;
-}
-
-.container{
-	margin-top: 60px;
-}
-
-.sidenav{
-	padding-top: 15px;
-	margin-top: 11px;
-    background-color: #f1f1f1;	
+.row.content {height: 550px;}
+    
+.sidenav {
+    background-color: #f1f1f1;
     height: 100%;
+    padding-left: 30px;
+        
+@media screen and (max-width: 767px) {
+    .row.content {height: auto;} 
 }
