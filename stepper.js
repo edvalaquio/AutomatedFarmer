@@ -63,8 +63,10 @@ Stepper.prototype.reverse = function(){
 //~ var yellow1 = 23;
 //~ var pink1 = 24;
 //~ var blue1 = 4;
-var	motorA = new Stepper(17, 23, 24, 4);
-motorA.reverse();
-motorA.forward();
+//~ var	motorA = new Stepper(17, 23, 24, 4);
+//~ motorA.clearPins();
+//~ motorA.reverse();
+//~ motorA.forward();
+//~ motorA.clearPins();
 
 module.exports = Stepper;
