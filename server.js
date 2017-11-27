@@ -11,8 +11,8 @@ server.listen(port, function(){
 app.use(express.static(path.join(__dirname, 'public')));
 
 var numUsers;
-// var stepper = require('./stepper');
-// console.log(stepper);
+var stepper = require('./stepper');
+var motor = new stepper(17, 23, 24, 4);
 io.on('connection', function(socket){
 	numUsers++;
 	console.log("A user has connected.");
@@ -21,6 +21,14 @@ io.on('connection', function(socket){
 		numUsers--;
 	});
 	socket.on('move', function(direction){
+		//~ console.log(stepper);
+		motor.clearPins();
+		if(direction == "up"){
+			motor.forward();
+		} else if(direction == "down"){
+			motor.reverse();
+		}
+		motor.clearPins();
 		console.log("Tractor is moving: " + direction);
 	});
 });
