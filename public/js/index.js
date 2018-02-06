@@ -19,4 +19,5 @@ angular.module("indexApp",
 		.when("/activities", {
 			templateUrl: "/partials/activityPage.html"
 		})
-	}]);
+}])
+// Add this directive where you keep your directive
