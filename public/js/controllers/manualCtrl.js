@@ -15,16 +15,17 @@ angular.module("autoFarm.controllers.manualCtrl", [
 
 		var timeout;
 		$scope.buttonPressed = function(direction){
-			console.log(direction);
+			//~ console.log(direction);
 			$scope.pressed = true;
 			timeout = setInterval(function(){
-				console.log(direction);
-			}, 200);
+				socket.emit('move', direction);
+			}, 10);
 		};
 
 		$scope.buttonReleased = function(){
 			$scope.pressed = false;
 			clearInterval(timeout);
+			socket.emit('stop');
 		};
 	}	
 ]);
