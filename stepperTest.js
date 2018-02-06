@@ -108,12 +108,12 @@ Stepper.prototype.right = function(){
 
 
 
-//~ var motors = new Stepper(2, 3, 4, 17, 27, 22, 10, 9);
-//~ motors.clearPins();
-//~ motors.forward();
-//~ motors.reverse();
-//~ motors.left();
-//~ motors.right();
-//~ motors.clearPins();
+var motors = new Stepper(2, 3, 4, 17, 27, 22, 10, 9);
+motors.clearPins();
+motors.forward();
+motors.reverse();
+motors.left();
+motors.right();
+motors.clearPins();
 
 module.exports = Stepper;
