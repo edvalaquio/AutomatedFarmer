@@ -11,6 +11,7 @@ server.listen(port, function(){
 app.use(express.static(path.join(__dirname, 'public')));
 
 var numUsers;
+
 var stepper = require('./stepper');
 var motors = new stepper(2, 3, 4, 17, 27, 22, 10, 9);
 io.on('connection', function(socket){

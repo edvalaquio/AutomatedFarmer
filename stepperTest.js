@@ -46,7 +46,8 @@ Stepper.prototype.clearPins = function(){
 }
 
 Stepper.prototype.forward = function(){
-	console.log("Moving forward...")
+	console.log("Moving forward...");
+	this.clearPins();
 	for(var i = 0; i < 1024; i++){
 		for(var halfstep = 0; halfstep < this.leftSequence.length || halfstep < this.rightSequence.length; halfstep++){
 			for(var pin = 0; pin < this.leftMotor.length || pin < this.rightMotor.length; pin++){
@@ -56,10 +57,12 @@ Stepper.prototype.forward = function(){
 			sleep.msleep(1);
 		}
 	}	
+	this.clearPins();
 }
 
 Stepper.prototype.reverse = function(){
 	console.log("Moving backward...");
+	this.clearPins();
 	this.leftSequence.reverse();
 	this.rightSequence.reverse();
 	for(var i = 0; i < 1024; i++){
@@ -73,10 +76,12 @@ Stepper.prototype.reverse = function(){
 	}
 	this.leftSequence.reverse();
 	this.rightSequence.reverse();
+	this.clearPins();
 }
 
 Stepper.prototype.left = function(){
-	console.log("Moving left...")
+	console.log("Moving left...");
+	this.clearPins();
 	this.rightSequence.reverse();
 	for(var i = 0; i < 1024; i++){
 		for(var halfstep = 0; halfstep < this.leftSequence.length || halfstep < this.rightSequence.length; halfstep++){
@@ -88,11 +93,13 @@ Stepper.prototype.left = function(){
 		}
 	}
 	this.rightSequence.reverse();
+	this.clearPins();
 }
 
 
 Stepper.prototype.right = function(){
-	console.log("Moving right...")
+	console.log("Moving right...");
+	this.clearPins();
 	this.leftSequence.reverse();
 	for(var i = 0; i < 1024; i++){
 		for(var halfstep = 0; halfstep < this.leftSequence.length || halfstep < this.rightSequence.length; halfstep++){
@@ -104,16 +111,17 @@ Stepper.prototype.right = function(){
 		}
 	}
 	this.leftSequence.reverse();
+	this.clearPins();
 }
 
 
 
-var motors = new Stepper(2, 3, 4, 17, 27, 22, 10, 9);
-motors.clearPins();
-motors.forward();
-motors.reverse();
-motors.left();
-motors.right();
-motors.clearPins();
+//~ var motors = new Stepper(2, 3, 4, 17, 27, 22, 10, 9);
+//~ motors.clearPins();
+//~ motors.forward();
+//~ motors.reverse();
+//~ motors.left();
+//~ motors.right();
+//~ motors.clearPins();
 
 module.exports = Stepper;
