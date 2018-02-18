@@ -1,3 +1,4 @@
+
 var Gpio = require('onoff').Gpio;
 var sleep = require('sleep');
 
@@ -15,14 +16,18 @@ var distance = function(){
 	var stopTime;
 
 	while(echo.readSync() == 0){
-		startTime = Math.round(temp.getTime() / 1000);
+
+		startTime = new Date() / 1000;
 	}
+	console.log("Start: " + startTime);
 
 	while(echo.readSync() == 1){
-		stopTime = Math.round(temp.getTime() / 1000);
+		stopTime = new Date() / 1000;
 	}
+	console.log("Stop: " + startTime);
 
 	var timeElapsed = stopTime - startTime;
+	console.log("Elapsed time: " + timeElapsed);
 	var something = (timeElapsed * 34300) / 2;
 
 	return something;
