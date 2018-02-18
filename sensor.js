@@ -7,7 +7,6 @@ var echo = new Gpio(24, 'in');
 var distance = function(){
 	trigger.writeSync(1);
 	sleep.usleep(10);
-
 	trigger.writeSync(0);
 	
 	//~ startTime = new Date();
@@ -17,12 +16,12 @@ var distance = function(){
 
 	while(echo.readSync() == 0){
 		var temp = new Date();
-		startTime = temp.getTime() / 1000;
+		startTime = Math.round(temp.getTime() / 1000);
 	}
 
 	while(echo.readSync() == 1){
 		var temp = new Date();
-		stopTime = temp.getTime() / 1000;
+		stopTime = Math.round(temp.getTime() / 1000);
 	}
 
 	var timeElapsed = stopTime - startTime;
