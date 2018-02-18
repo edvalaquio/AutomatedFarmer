@@ -15,12 +15,10 @@ var distance = function(){
 	var stopTime;
 
 	while(echo.readSync() == 0){
-		var temp = new Date();
 		startTime = Math.round(temp.getTime() / 1000);
 	}
 
 	while(echo.readSync() == 1){
-		var temp = new Date();
 		stopTime = Math.round(temp.getTime() / 1000);
 	}
 
