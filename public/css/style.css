@@ -8,7 +8,6 @@
     margin-right: 0;
     margin-left: 0;
 }
-        
 @media screen and (max-width: 767px) {
 	.row.content {height: auto;}
 }
