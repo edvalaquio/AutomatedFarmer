@@ -5877,11 +5877,11 @@ body {
   margin-top: 70px;
 }
 
-#wrapper {
+.wrapper {
   padding-left: 0;
 }
 
-#page-wrapper {
+.page-wrapper {
   width: 100%;
   padding: 5px 15px;
 }
