@@ -2,7 +2,8 @@
 
 angular.module("indexApp", 
 	["ngRoute",
-	"autoFarm.controllers.manualCtrl"])
+	"autoFarm.controllers.manualCtrl",
+	"autoFarm.controllers.autoCtrl"])
 .config(["$routeProvider", "$locationProvider",
 	function($routeProvider, $locationProvider){
 		$routeProvider
@@ -14,7 +15,8 @@ angular.module("indexApp",
 			controller: 	"manualCtrl"
 		})
 		.when("/automated", {
-			templateUrl: "/partials/autoPage.html"
+			templateUrl: "/partials/autoPage.html",
+			controller: 	"autoCtrl"
 		})
 		.when("/activities", {
 			templateUrl: "/partials/activityPage.html"

@@ -1,0 +1,25 @@
+<div class="row">
+	<h1>Automated Page</h1>
+	<p>Let your tractor do the work.</p>
+
+	<div class="form-inline automated-form-input">
+		<label>Input land dimensions: </label>
+		<div class="form-group">
+			<input class="form-control" type="text" placeholder="length" ng-model="length" />
+			<label> x </label>
+			<input class="form-control" type="text" placeholder="width" ng-model="width" />
+		</div>
+		<button class="btn btn-success" ng-click="computeDimensions(length, width)">Submit</button>
+	</div>
+
+	<div class="automated-form-ouput" ng-if="xAxis && yAxis">
+		<p>{{area}}</p>
+		<table class="table-bordered table-responsive automated-table-output">
+			<tr ng-repeat="x in xAxis">
+				<td ng-repeat="y in yAxis">[ ]</td>
+			</tr>
+		</table>
+	</div>
+
+
+</div>
