@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Kreon|Roboto');
+
 body {
   /*margin-top: 70px;*/
-    font-family: "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-size: 19px;
     line-height: 1.42857143;
     color: #BDBDBD;
     background-color: #060606;
@@ -49,7 +51,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Kreon", serif;
     font-weight: 500;
     line-height: 1.1;
     color: #ffffff;
@@ -106,6 +108,9 @@ ol ol {
     margin: 5px 10px;
 }
 
+.navbar-brand {
+    font-size: 26px;
+    font-family: "Kreon", serif;}
 
 @media (min-width:768px) {
   /* Wrappers */
@@ -124,23 +129,13 @@ ol ol {
     .navbar-side-list {
         display: flex;
         flex-direction: column;
-        /*left: 0;*/
-        /*width: 225px;*/
-        /*position: fixed;*/
-        /*top: 50px;*/
-        /*height: 100%;*/
         border-radius: 0;
         border: none;
         background-color: #222222;
-        /*overflow-y: auto;*/
     }
 
   /*menu overrides*/
     .navbar-side-list>li.dropdown>ul.dropdown-menu {
-    /*position: relative;*/
-    /*min-width: 225px;*/
-    /*margin: 0;*/
-    /*padding: 0;*/ 
         border: none;
         border-radius: 0;
         background-color: transparent;
@@ -149,7 +144,6 @@ ol ol {
 
     .navbar-side-list>li.dropdown>ul.dropdown-menu>li>a {
         color: #999999;
-    /*padding: 15px 15px 15px 25px;*/
     }
 
     .navbar-side-list>li.dropdown>ul.dropdown-menu>li>a:hover,
@@ -170,8 +164,6 @@ ol ol {
     .navbar-side-list,
     .navbar-side-list>li,
     .navbar-header{
-    /*    padding-left: 15px !important;
-    padding-right: 15px !important;*/
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -188,8 +180,7 @@ ol ol {
         flex-direction: column;
         width: 100%;
         padding-left: 25px; 
-        padding-right: 0px; 
-        /*width: 225px;*/
+        padding-right: 0px;
     }
 
     .navbar-side-nav{
@@ -202,6 +193,11 @@ ol ol {
     }
 
 }
-.selected {
+@media only screen and (min-width: 320px) and (max-width: 375px) {
+    .navbar-brand{
+        padding: 1;
+    }
+}
+.selected{
   border-left:7px solid #2A9FD6;
 }

@@ -14,11 +14,13 @@
 
 	<div class="automated-form-ouput" ng-if="xAxis && yAxis">
 		<p>{{area}}</p>
-		<table class="table-bordered table-responsive automated-table-output">
-			<tr ng-repeat="x in xAxis">
-				<td ng-repeat="y in yAxis">[ ]</td>
-			</tr>
-		</table>
+		<div class="table-responsive automated-table-vert-scroll">
+			<table class="table table-bordered automated-table-output">
+				<tr ng-repeat="x in xAxis">
+					<td ng-repeat="y in yAxis">[ ]</td>
+				</tr>
+			</table>
+		</div>
 	</div>
 
 

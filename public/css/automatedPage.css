@@ -2,3 +2,7 @@
 	width: 30px;
 	height: 30px;
 }
+.automated-table-vert-scroll{
+	overflow-y: scroll;
+	height: 70vh;
+}
