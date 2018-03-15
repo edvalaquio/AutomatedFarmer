@@ -1,7 +1,6 @@
 <div class="row">
-	<h1>Automated Page</h1>
+	<h1>Automated Control</h1>
 	<p>Let your tractor do the work.</p>
-
 	<div class="form-inline automated-form-input">
 		<label>Input land dimensions: </label>
 		<div class="form-group">
@@ -14,13 +13,20 @@
 
 	<div class="automated-form-ouput" ng-if="xAxis && yAxis">
 		<p>{{area}}</p>
-		<div class="table-responsive automated-table-vert-scroll">
-			<table class="table table-bordered automated-table-output">
-				<tr ng-repeat="x in xAxis">
-					<td ng-repeat="y in yAxis">[ ]</td>
+		<div class="" style="overflow-x: scroll; height: 60vh; ">
+			<table class="table-bordered" style="width: 100%;">
+				<tr ng-repeat="x in xAxis" style="width: 50px; height: 50px">
+					<td ng-repeat="y in yAxis"></td>
 				</tr>
 			</table>
-		</div>
+		</div><!-- 
+		<div class="automated-table-vert-scroll">
+			<table class="table-bordered automated-table-output">
+				<tr ng-repeat="x in xAxis">
+					<td ng-repeat="y in yAxis"></td>
+				</tr>
+			</table>
+		</div> -->
 	</div>
 
 
