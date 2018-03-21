@@ -13,10 +13,12 @@
 
 	<div class="automated-form-ouput" ng-if="xAxis && yAxis">
 		<p>{{area}}</p>
-		<div class="" style="overflow-x: scroll; height: 60vh; ">
-			<table class="table-bordered" style="width: 100%;">
-				<tr ng-repeat="x in xAxis" style="width: 50px; height: 50px">
-					<td ng-repeat="y in yAxis"></td>
+		<div class="automated-table-vert-scroll">
+			<table class="table-bordered automated-table-output">
+				<tr ng-repeat="x in xAxis">
+					<td ng-repeat="y in yAxis">
+						<input type="checkbox" />
+					</td>
 				</tr>
 			</table>
 		</div><!-- 
@@ -28,6 +30,4 @@
 			</table>
 		</div> -->
 	</div>
-
-
 </div>
