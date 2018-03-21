@@ -13,11 +13,11 @@
 
 	<div class="automated-form-ouput" ng-if="xAxis && yAxis">
 		<p>{{area}}</p>
-		<div class="automated-table-vert-scroll">
+		<div class="automated-table-vert-scroll table-resposive">
 			<table class="table-bordered automated-table-output">
 				<tr ng-repeat="x in xAxis">
 					<td ng-repeat="y in yAxis">
-						<input type="checkbox" />
+						<input class="checkbox-big" type="checkbox" />
 					</td>
 				</tr>
 			</table>
