@@ -12,8 +12,21 @@ angular.module("autoFarm.controllers.autoCtrl", [])
 
 		$scope.computeDimensions = function(length, width){
 			$scope.area = length*width;
-			$scope.xAxis = computeRange(length)
-			$scope.yAxis = computeRange(width)
+			$scope.xAxis = computeRange(length);
+			$scope.yAxis = computeRange(width);
+			$scope.axis = initializeAxis($scope.xAxis, $scope.yAxis);
+			console.log($scope.xAxis);
+			console.log($scope.yAxis);
+		}
+
+		// $scope.storeAxis = function(x, y){
+		// 	// console.log($scope.axis);
+		// 	$scope.axis[x][y] = !$scope.axis[x][y];
+		// 	console.log($scope.axis);
+		// }
+
+		$scope.printAxis = function(){
+			console.log($scope.axis);
 		}
 
 		var computeRange = function(value){
@@ -22,6 +35,16 @@ angular.module("autoFarm.controllers.autoCtrl", [])
 				array.push(i);
 			}
 			return array;
+		}
+
+		var initializeAxis = function(x, y){
+			var temp = [[]];
+			for(var i = 0; i < x; i++){
+				for(var j = 0; j < y; j++){
+					temp[i][j] = false;
+				}
+			}
+			return temp;
 		}
 
 		// $scope.sample = false;

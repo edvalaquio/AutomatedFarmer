@@ -3,6 +3,13 @@
 	height: 50px;
 	padding: 10px;
 }
+
+.automated-table-output td{
+	/*margin-left: 100px;*/
+	margin: 100px;
+	/*margin-right: 4px;*/
+}
+
 .automated-table-vert-scroll{
 	max-height: 70vh;
 	overflow-y: auto;

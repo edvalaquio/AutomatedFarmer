@@ -11,13 +11,14 @@
 		<button class="btn btn-success" ng-click="computeDimensions(length, width)">Submit</button>
 	</div>
 
-	<div class="automated-form-ouput" ng-if="xAxis && yAxis">
-		<p>{{area}}</p>
+	<div class="automated-form-output" ng-if="xAxis && yAxis">
+		<div class="automated-controls-panel">
+		</div>
 		<div class="automated-table-vert-scroll table-resposive">
 			<table class="table-bordered automated-table-output">
 				<tr ng-repeat="x in xAxis">
 					<td ng-repeat="y in yAxis">
-						<input class="checkbox-big" type="checkbox" />
+						<input type="checkbox" class="checkbox-big" ng-model="axis[x][y]"/>
 					</td>
 				</tr>
 			</table>

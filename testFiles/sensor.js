@@ -9,9 +9,7 @@ var distance = function(){
 	trigger.writeSync(1);
 	sleep.usleep(10);
 	trigger.writeSync(0);
-	
-	//~ startTime = new Date();
-	//~ stopTime = new Date();
+
 	var startTime;
 	var stopTime;
 
