@@ -8,7 +8,7 @@ angular.module("indexApp",
 	function($routeProvider, $locationProvider){
 		$routeProvider
 		.when("/", {
-			templateUrl: "/partials/homePage.html"
+			templateUrl: "/partials/homePage.php"
 		})
 		.when("/manual", {
 			templateUrl: 	"/partials/manualPage.html",
