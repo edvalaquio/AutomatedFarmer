@@ -1,10 +1,13 @@
 var geolib = require('geolib');
 var fs = require('fs');
+var path = require('path');
 // var coordinates = ;
 
 var Gps = function(testFile){
-	this.coordinates = JSON.parse(fs.readFileSync('../testFiles/' + testFile));
-	// this.coordinates = JSON.parse(fs.readFileSync('../testFiles/test_North_10s.json'));
+	// var directory = __dirname;
+	// console.log(directory.split("\\"));
+	// this.coordinates = JSON.parse(fs.readFileSync(__dirname  + testFile));
+	this.coordinates = JSON.parse(fs.readFileSync('gps\\test_North_5s.json'));
 };
 
 Gps.prototype.getDistance = function(start, end){

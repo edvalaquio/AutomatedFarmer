@@ -30,3 +30,7 @@ while(true){
 		startPoint = currentLocation;
 	}
 }
+
+module.exports = function(io){
+	
+}

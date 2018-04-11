@@ -9,16 +9,24 @@
 			<input class="form-control" type="text" placeholder="width" ng-model="width" />
 		</div>
 		<button class="btn btn-success" ng-click="computeDimensions(length, width)">Submit</button>
+		<p>{{area}}</p>
 	</div>
 
 	<div class="automated-form-output" ng-if="xAxis && yAxis">
-		<div class="automated-controls-panel">
-		</div>
+		<button class="btn btn-primary" ng-click="toggleSelectAll()">Select All</button>
+		<div class="automated-controls-panel"></div>
 		<div class="automated-table-vert-scroll table-resposive">
+			<table class="table-bordered automated-table-output" ng-if="selectAll">
+				<tr ng-repeat="x in xAxis">
+					<td ng-repeat="y in yAxis">
+						<input type="checkbox" class="checkbox-big" ng-model="checkAll[x][y]"/>
+					</td>
+				</tr>
+			</table>
 			<table class="table-bordered automated-table-output">
 				<tr ng-repeat="x in xAxis">
 					<td ng-repeat="y in yAxis">
-						<input type="checkbox" class="checkbox-big" ng-model="axis[x][y]"/>
+						<input type="checkbox" class="checkbox-big" ng-model="axis[x][y]" ng-click="printAxis()"/>
 					</td>
 				</tr>
 			</table>

@@ -3,7 +3,7 @@ var app = express();
 var path = require('path');
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
-var stepper = require('./stepper-socket/stepper-socket-test')(io);
+var stepper = require('./stepper-socket/automated-control-module')(io);
 
 // var cors = require("cors");
 var port = 3000;

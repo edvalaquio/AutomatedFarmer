@@ -14,9 +14,8 @@ angular.module("autoFarm.controllers.autoCtrl", [])
 			$scope.area = length*width;
 			$scope.xAxis = computeRange(length);
 			$scope.yAxis = computeRange(width);
+			// $scope.selectAll = checkAll($scope.xAxis, $scope.yAxis);
 			$scope.axis = initializeAxis($scope.xAxis, $scope.yAxis);
-			console.log($scope.xAxis);
-			console.log($scope.yAxis);
 		}
 
 		// $scope.storeAxis = function(x, y){
@@ -27,6 +26,20 @@ angular.module("autoFarm.controllers.autoCtrl", [])
 
 		$scope.printAxis = function(){
 			console.log($scope.axis);
+		}
+
+		$scope.toggleSelectAll = function(){
+			$scope.selectAll = checkAll($scope.xAxis, $scope.yAxis);
+		}
+
+		var checkAll = function(x, y){
+			var checks = [[]];
+			for(var i = 0; i < x; i++){
+				for(var j = 0; j < y; j++){
+					checks[i][j] = true;
+				}
+			}
+			return checks;
 		}
 
 		var computeRange = function(value){
