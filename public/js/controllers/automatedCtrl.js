@@ -4,7 +4,7 @@ angular.module("autoFarm.controllers.autoCtrl", [])
 .controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location",
 	function($rootScope, $scope, $window, $location){
 		// var socket;
-		var socket = io();
+		var socket = io('http://192.168.254.39:3000');
 		console.log("Here in autoCtrl");
 		$scope.area = "none";
 		$scope.xAxis = false;

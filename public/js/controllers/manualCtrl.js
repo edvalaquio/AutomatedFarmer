@@ -5,7 +5,8 @@ angular.module("autoFarm.controllers.manualCtrl", [
 .controller("manualCtrl", ["$rootScope", "$scope", "$window", "$location",
 	function($rootScope, $scope, $window, $location){
 		// var socket;
-		var socket = io();
+
+		var socket = io('http://192.168.254.39:3000');
 		console.log("Here in manualCtrl");
 		$scope.sample = false;
 		$scope.move = function(direction){

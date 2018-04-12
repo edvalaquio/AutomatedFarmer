@@ -5,15 +5,7 @@ var gps = require('./../gps/gps-module-test');
 var location = new gps('test_North_5s.json');
 // var motors = new stepper(2, 3, 4, 17, 27, 22, 10, 9);
 
-var sampleInput = [
 
-	"Up", "Up", "Up", "Up", "Right", 
-	"Down", "Down", "Down", "Down", "Right",
-	"Up", "Up", "Up", "Up", "Right", 
-	"Down", "Down", "Down", "Down", "Right",
-	"Up", "Up", "Up", "Up",  "End" 
-
-]
 
 var index = 0;
 var startPoint = location.getCurrentPosition();

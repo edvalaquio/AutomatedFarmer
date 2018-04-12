@@ -1,6 +1,17 @@
-var Gpio = require('onoff').Gpio;
-var sleep = require('sleep');
+// var Gpio = require('onoff').Gpio;
+// var sleep = require('sleep');
 var Stepper = function(orange1, yellow1, pink1, blue1, orange2, yellow2, pink2, blue2){
+	this.setPins = function(orange, yellow, pink, blue){
+		var array = [];
+		var num = [orange, yellow, pink, blue];
+		num.forEach(function(item){
+			// var temp = new Gpio(item, 'out');
+			temp = "";
+			array.push(temp);
+		});
+		
+		return array;
+	}
 	this.leftMotor = this.setPins(orange1, yellow1, pink1, blue1);
 	this.rightMotor = this.setPins(orange2, yellow2, pink2, blue2);
 	this.leftSequence = [
@@ -22,19 +33,10 @@ var Stepper = function(orange1, yellow1, pink1, blue1, orange2, yellow2, pink2, 
 		[0,1,0,0],
 		[1,1,0,0],
 		[1,0,0,0]
-	]
+	];
 }
-
-Stepper.prototype.setPins = function(orange, yellow, pink, blue){
-	var array = [];
-	var num = [orange, yellow, pink, blue];
-	num.forEach(function(item){
-		var temp = new Gpio(item, 'out');
-		array.push(temp);
-	});
-	
-	return array;
-}
+// Stepper.prototype.
+// }
 
 Stepper.prototype.clearPins = function(){
 	this.leftMotor.forEach(function(item){

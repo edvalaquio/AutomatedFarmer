@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 // var coordinates = ;
 
-var Gps = function(testFile){
+var Gps = function(){
 	// var directory = __dirname;
 	// console.log(directory.split("\\"));
 	// this.coordinates = JSON.parse(fs.readFileSync(__dirname  + testFile));

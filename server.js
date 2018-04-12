@@ -2,8 +2,9 @@ var express = require("express");
 var app = express();
 var path = require('path');
 var server = require('http').createServer(app);
-var io = require('socket.io')(server);
-var stepper = require('./stepper-socket/automated-control-module')(io);
+var os = require('os');
+// console.log(address['Wi-Fi'][1].address);
+var farmer = require('./farmer-modules/farmer-socket.io')(server);
 
 // var cors = require("cors");
 var port = 3000;
@@ -15,6 +16,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next) {
 	console.log(`${req.method} request for '${req.url}'`);
 	next();
+});
+
+app.get('/', function(res, req){
+	var address = os.networkInterfaces();
+	res.send(address['Wi-Fi'][1].address);
 });
 
 module.exports = app;
