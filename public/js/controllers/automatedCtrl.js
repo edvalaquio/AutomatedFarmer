@@ -9,35 +9,62 @@ angular.module("autoFarm.controllers.autoCtrl", [])
 		$scope.area = "none";
 		$scope.xAxis = false;
 		$scope.yAxis = false;
+		$scope.axis = [[]];
 
 		$scope.computeDimensions = function(length, width){
 			$scope.area = length*width;
 			$scope.xAxis = computeRange(length);
 			$scope.yAxis = computeRange(width);
-			// $scope.selectAll = checkAll($scope.xAxis, $scope.yAxis);
-			$scope.axis = initializeAxis($scope.xAxis, $scope.yAxis);
 		}
-
-		// $scope.storeAxis = function(x, y){
-		// 	// console.log($scope.axis);
-		// 	$scope.axis[x][y] = !$scope.axis[x][y];
-		// 	console.log($scope.axis);
-		// }
 
 		$scope.printAxis = function(){
 			console.log($scope.axis);
 		}
 
 		$scope.toggleSelectAll = function(){
-			$scope.selectAll = checkAll($scope.xAxis, $scope.yAxis);
+
+			for(var i = 0; i < $scope.xAxis.length; i++){
+				$scope.axis[i] = _.values($scope.axis[i]);
+				for(var j = 0; j < $scope.yAxis.length; j++){
+					$scope.axis[i][j] = !$scope.axis[i][j];
+				}
+			}
+			console.log($scope.axis);
+			// console.log($scope.axis);
+			// for(var i = 0; i < $scope.xAxis; i++){
+			// 	$scope.axis[i] = _.values($scope.axis[x]);
+			// 	// for(var j = 0; j < $scope.yAxis; j++){
+			// 	// 	$scope.axis[i][j] = true;
+			// 	// }
+			// }
+			// console.log($scope.axis);
+			// console.log(_.values($scope.axis));
+			// console.log(_);
+			// $scope.axis.forEach(function(item, index){
+			// 	// _.values(item);
+			// 	item = _.values(item);
+			// 	console.log(item);
+			// 	item.forEach(function(item1){
+			// 		item1 = true;
+			// 	});
+			// 	// item = Array.from(item);
+			// 	// console.log(item);
+			// 	// item.forEach(function(item1, index){
+			// 	// })
+			// });
+			// console.log($scope.axis);
+			// var boxes = Array.from(document.getElementsByClassName('checkbox-big'));
+			// console.log(boxes);
+
+			// boxes.forEach(function(item, index){
+			// 	item.value = true;
+			// });
 		}
 
-		var checkAll = function(x, y){
-			var checks = [[]];
+		var checkAll = function(x){
+			var checks = [];
 			for(var i = 0; i < x; i++){
-				for(var j = 0; j < y; j++){
-					checks[i][j] = true;
-				}
+				checks[i] = true;
 			}
 			return checks;
 		}
@@ -54,7 +81,7 @@ angular.module("autoFarm.controllers.autoCtrl", [])
 			var temp = [[]];
 			for(var i = 0; i < x; i++){
 				for(var j = 0; j < y; j++){
-					temp[i][j] = false;
+					temp[i][j] = true;
 				}
 			}
 			return temp;

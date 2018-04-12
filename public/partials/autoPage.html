@@ -13,20 +13,14 @@
 	</div>
 
 	<div class="automated-form-output" ng-if="xAxis && yAxis">
-		<button class="btn btn-primary" ng-click="toggleSelectAll()">Select All</button>
 		<div class="automated-controls-panel"></div>
 		<div class="automated-table-vert-scroll table-resposive">
-			<table class="table-bordered automated-table-output" ng-if="selectAll">
-				<tr ng-repeat="x in xAxis">
-					<td ng-repeat="y in yAxis">
-						<input type="checkbox" class="checkbox-big" ng-model="checkAll[x][y]"/>
-					</td>
-				</tr>
-			</table>
+			<button class="btn btn-primary" ng-click="toggleSelectAll()">Select All</button>
 			<table class="table-bordered automated-table-output">
 				<tr ng-repeat="x in xAxis">
 					<td ng-repeat="y in yAxis">
-						<input type="checkbox" class="checkbox-big" ng-model="axis[x][y]" ng-click="printAxis()"/>
+						<!-- <input type="checkbox" class="checkbox-big" ng-model="axis[x][y]"/> -->
+						<input ng-init="axis[x][y] = false" type="checkbox" class="checkbox-big" ng-model="axis[x][y]"/>
 					</td>
 				</tr>
 			</table>
