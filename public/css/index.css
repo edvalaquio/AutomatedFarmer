@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css?family=Kreon|Roboto');
+
+body{
+	font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+}
+a{
+	text-decoration: none;
+}
+
+.navbar{
+	margin: 0;
+}
+
+.nav-sidebar{
+	position: absolute;
+	opacity: 1;
+	z-index: 1;
+	display: flex;
+	flex-direction: row;
+	transition: all linear 0.1s;
+	left: -32vh;
+}
+
+.nav-sidebar-container{
+	width: 32vh;
+	height: 100vh;
+	background-color: white;
+	border-right: solid rgb(204, 204, 204) 0.25px;
+}
+
+.nav-sidebar-container div{
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+}
+
+.nav-sidebar-container div:hover{
+	background-color: rgb(230, 230, 230);
+	cursor: pointer;
+}
+
+.nav-sidebar-button{
+	width: 8vh
+	z-index: 1;
+}
+
+.nav-sidebar-button .btn-default{
+	border-left: 0px white; 	
+	border-radius: 0px 5px 5px 0px
+}
+
+.nav-sidebar-button span{
+	font-weight: bolder;
+}
+
+.show-bar{
+	left: 0vh;
+}
+
+.extend-bar{
+	height: 100vh;
+	width: 100%;
+	background-color: rgb(0,0,0);
+	position: absolute;
+	opacity: 0.1;
+	z-index: 1;
+}
+
+.user-view-section{
+	display: flex;
+	justify-content: center;
+	position: absolute;
+}
