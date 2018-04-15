@@ -19,7 +19,7 @@ angular.module("autoFarm.controllers.manualCtrl", [
 			$scope.pressed = true;
 			timeout = setInterval(function(){
 				socket.emit('move', direction);
-			}, 0.5);
+			}, 0.6);
 		};
 
 		$scope.buttonReleased = function(){

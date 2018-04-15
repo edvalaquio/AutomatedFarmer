@@ -39,17 +39,17 @@ io.on('connection', function(socket){
 	});
 });
 
-// app.use(function(req, res, next) {
-// 	console.log(`${req.method} request for '${req.url}'`);
-// 	next();
-// });
+app.use(function(req, res, next) {
+	console.log(`${req.method} request for '${req.url}'`);
+	next();
+});
 
-// app.use(express.static("./public"));
+//~ app.use(express.static("./public"));
 
-// app.use(cors());
+//~ app.use(cors());
 
-// app.listen(3000);
+//~ app.listen(3000);
 
-// console.log("Express app running on port 3000");
+//~ console.log("Express app running on port 3000");
 
-// module.exports = app;
+//~ module.exports = app;
