@@ -1,12 +1,11 @@
-// var Gpio = require('onoff').Gpio;
-// var sleep = require('sleep');
+var Gpio = require('onoff').Gpio;
+var sleep = require('sleep');
 var Stepper = function(orange1, yellow1, pink1, blue1, orange2, yellow2, pink2, blue2){
 	this.setPins = function(orange, yellow, pink, blue){
 		var array = [];
 		var num = [orange, yellow, pink, blue];
 		num.forEach(function(item){
-			// var temp = new Gpio(item, 'out');
-			temp = "";
+			var temp = new Gpio(item, 'out');
 			array.push(temp);
 		});
 		

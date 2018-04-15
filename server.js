@@ -19,7 +19,8 @@ app.use(function(req, res, next) {
 });
 
 
-app.get('/', function(res, req){
+app.get('/getSocketData', function(req, res){
 	var address = os.networkInterfaces();
-	res.send(address['Wi-Fi'][1].address);
+	console.log(address);
+	res.send(address['wlan0'][0].address);
 });

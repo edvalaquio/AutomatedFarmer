@@ -9,7 +9,6 @@ module.exports = function(server){
 
 		socket.on('disconnect', function(){
 			console.log('User disconnected.');
-			numUsers--;
 		});
 
 		socket.on('manual-move', function(direction){
@@ -40,7 +39,7 @@ module.exports = function(server){
 		})
 
 		socket.on('stop', function(){
-			// motor.clearPins();
+			motor.clearPins();
 		});
 
 	});

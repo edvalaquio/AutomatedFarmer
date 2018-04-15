@@ -6,7 +6,7 @@ angular.module("autoFarm.controllers.manualCtrl", [
 	function($rootScope, $scope, $window, $location){
 		// var socket;
 
-		var socket = io('http://192.168.254.39:3000');
+		var socket = io('http://' + $rootScope.hostAddress + ':3000');
 		console.log("Here in manualCtrl");
 		$scope.sample = false;
 		$scope.move = function(direction){
@@ -19,7 +19,7 @@ angular.module("autoFarm.controllers.manualCtrl", [
 			//~ console.log(direction);
 			$scope.pressed = true;
 			timeout = setInterval(function(){
-				socket.emit('move', direction);
+				socket.emit('manual-move', direction);
 			}, 0.6);
 		};
 
