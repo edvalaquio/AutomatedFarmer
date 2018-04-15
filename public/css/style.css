@@ -1,14 +1,199 @@
-.row.content {height: 550px;}
-    
-.sidenav {
-    background-color: #f1f1f1;
-    height: 100%;
+@import url('https://fonts.googleapis.com/css?family=Kreon|Roboto');
+
+body {
+  /*margin-top: 70px;*/
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-size: 19px;
+    line-height: 1.42857143;
+    color: #BDBDBD;
+    background-color: #060606;
+    display: flex;
+    flex-direction: column;
 }
-.row {
-    margin-right: 0;
-    margin-left: 0;
+/*.page-wrapper {
+  width: 100%;
+  padding: 5px 15px;
+}*/
+button {
+    overflow: visible;
+    text-transform: none;
+    color: inherit;
+    font: inherit;
+    margin: 0;
 }
-        
-@media screen and (max-width: 767px) {
-	.row.content {height: auto;}
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+    cursor: pointer;
+}
+a {
+    color: #2a9fd6;
+    text-decoration: none;
+}
+a:active,
+a:hover {
+    outline: 0;
+}
+a:hover,
+a:focus {
+    color: #2a9fd6;
+    text-decoration: underline;
+}
+a:focus {
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+    }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Kreon", serif;
+    font-weight: 500;
+    line-height: 1.1;
+    color: #ffffff;
+}
+ul,
+ol {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+ul ul,
+ol ul,
+ul ol,
+ol ol {
+    margin-bottom: 0;
+}
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus {
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+.btn:hover,
+.btn:focus {
+    color: #ffffff;
+    text-decoration: none;
+}
+.btn:active,
+.btn.active {
+    outline: 0;
+    background-image: none;
+    box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default {
+    color: #ffffff;
+    background-color: #2d2d2d;
+    border-color: #232323;
+}
+.btn-default:active,
+.btn-default.active,
+.open .dropdown-toggle.btn-default {
+    background-image: none;
+}
+.btn-default .badge {
+    color: #424242;
+    background-color: #ffffff;
+}
+
+.navbar-brand {
+    font-size: 26px;
+    font-family: "Kreon", serif;}
+
+@media (min-width:768px) {
+  /* Wrappers */
+
+    .navbar{
+        margin-bottom: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .wrapper{
+        display: flex;
+        height: 100vh;
+    }
+  /* Side Nav */
+    .navbar-side-list {
+        display: flex;
+        flex-direction: column;
+        border-radius: 0;
+        border: none;
+        background-color: #222222;
+    }
+
+  /*menu overrides*/
+    .navbar-side-list>li.dropdown>ul.dropdown-menu {
+        border: none;
+        border-radius: 0;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    .navbar-side-list>li.dropdown>ul.dropdown-menu>li>a {
+        color: #999999;
+    }
+
+    .navbar-side-list>li.dropdown>ul.dropdown-menu>li>a:hover,
+    .navbar-side-list>li.dropdown>ul.dropdown-menu>li>a.active,
+    .navbar-side-list>li.dropdown>ul.dropdown-menu>li>a:focus {
+        color: #fff;
+        background-color: #080808;
+    }
+
+
+    .navbar-inverse .navbar-nav>li>a:hover,
+    .navbar-inverse .navbar-nav>li>a:focus, 
+    .navbar-brand:hover {
+        background-color: #080808;
+    }
+
+    .navbar-side-nav,
+    .navbar-side-list,
+    .navbar-side-list>li,
+    .navbar-header{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .navbar-brand{
+        padding: 25px 15px;
+    }
+
+    .navbar-side-list>li>a {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding-left: 25px; 
+        padding-right: 0px;
+    }
+
+    .navbar-side-nav{
+        height: 100%;
+    }
+
+    .divider{
+        padding: 0.5px;
+        background-color: #404142; 
+    }
+
+}
+@media only screen and (min-width: 320px) and (max-width: 375px) {
+    .navbar-brand{
+        padding: 1;
+    }
+}
+.selected{
+  border-left:7px solid #2A9FD6;
 }

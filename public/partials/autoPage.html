@@ -1,11 +1,35 @@
-<div class="row content">
-	<div class="col-sm-2 sidenav hidden-xs">
-		<h1>Automated Farming</h1>
-		<ul class="nav nav-pills nav-stacked">
-	        <li><a href="#">Home</a></li>
-	        <li><a href="#">Manual Control</a></li>
-	        <li class="active"><a href="#">Automated Control</a></li>
-	        <li><a href="#">Activity Log</a></li>
-	   	</ul><br>
-    </div>
+<div class="row">
+	<h1>Automated Control</h1>
+	<p>Let your tractor do the work.</p>
+	<div class="form-inline automated-form-input">
+		<label>Input land dimensions: </label>
+		<div class="form-group">
+			<input class="form-control" type="text" placeholder="length" ng-model="length" />
+			<label> x </label>
+			<input class="form-control" type="text" placeholder="width" ng-model="width" />
+		</div>
+		<button class="btn btn-success" ng-click="computeDimensions(length, width)">Submit</button>
+		<p>{{area}}</p>
+	</div>
+
+	<div class="automated-form-output" ng-if="xAxis && yAxis">
+		<div class="automated-controls-panel"></div>
+		<div class="automated-table-vert-scroll table-resposive">
+			<button class="btn btn-primary" ng-click="toggleSelectAll()">Select All</button>
+			<table class="table-bordered automated-table-output">
+				<tr ng-repeat="x in xAxis">
+					<td ng-repeat="y in yAxis">
+						<input ng-init="axis[x][y] = false" type="checkbox" class="checkbox-big" ng-model="axis[x][y]"/>
+					</td>
+				</tr>
+			</table>
+		</div><!-- 
+		<div class="automated-table-vert-scroll">
+			<table class="table-bordered automated-table-output">
+				<tr ng-repeat="x in xAxis">
+					<td ng-repeat="y in yAxis"></td>
+				</tr>
+			</table>
+		</div> -->
+	</div>
 </div>

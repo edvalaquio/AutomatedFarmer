@@ -1,0 +1,25 @@
+.automated-table-output tr, .automated-table-output td{
+	width: 50px;
+	height: 50px;
+	padding: 10px;
+}
+
+.automated-table-output td{
+	/*margin-left: 100px;*/
+	margin: 100px;
+	/*margin-right: 4px;*/
+}
+
+.automated-table-vert-scroll{
+	max-height: 70vh;
+	overflow-y: auto;
+	/*overflow-x: auto;*/
+}
+.table-responsive{
+	overflow-x: auto;
+}
+.checkbox-big{
+	width: 30px;
+	height: 30px;
+	text-align: center;
+}
