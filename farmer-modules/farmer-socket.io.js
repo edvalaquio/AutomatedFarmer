@@ -9,7 +9,6 @@ module.exports = function(server){
 
 		socket.on('disconnect', function(){
 			console.log('User disconnected.');
-			numUsers--;
 		});
 
 		socket.on('manual-move', function(direction){
@@ -25,7 +24,7 @@ module.exports = function(server){
 			}
 
 			// Supply GPS coordinates after moving a few steps in this part.
-			console.log("Tractor is moving: " + direction);
+			console.log("Tr actor is moving: " + direction);
 		});
 
 		socket.on('auto-move', function(directionArray){
