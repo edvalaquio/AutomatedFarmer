@@ -22,4 +22,18 @@ angular.module("indexApp",
 			templateUrl: "/partials/activityPage.html"
 		})
 }])
+.controller("indexCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
+	function($rootScope, $scope, $window, $location, $http){
+		$http({
+			method	: 'GET', 
+			url		: '/getSocketData'
+		}).then(function(res){
+			$rootScope.hostAddress = res.data;
+			console.log(res);
+		}, function(error){
+			console.log(error);
+		});
+	}	
+]);
+
 // Add this directive where you keep your directive

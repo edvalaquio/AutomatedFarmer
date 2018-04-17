@@ -39,7 +39,7 @@ module.exports = function(server){
 		})
 
 		socket.on('stop', function(){
-			// motor.clearPins();
+			motor.clearPins();
 		});
 
 	});

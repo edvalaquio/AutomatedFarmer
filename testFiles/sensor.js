@@ -13,16 +13,19 @@ var distance = function(){
 	var startTime;
 	var stopTime;
 
+	console.log(echo.readSync());
+	var start = echo.readSync();
 	while(echo.readSync() == 0){
 
 		startTime = new Date() / 1000;
 	}
 	console.log("Start: " + startTime);
-
+	var end = 
+	console.log(echo.readSync());
 	while(echo.readSync() == 1){
 		stopTime = new Date() / 1000;
 	}
-	console.log("Stop: " + startTime);
+	console.log("Stop: " + stopTime);
 
 	var timeElapsed = stopTime - startTime;
 	console.log("Elapsed time: " + timeElapsed);
