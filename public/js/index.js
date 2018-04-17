@@ -2,6 +2,7 @@
 
 angular.module("indexApp", 
 	["ngRoute",
+	"controllers.modalController",
 	"autoFarm.controllers.manualCtrl",
 	"autoFarm.controllers.autoCtrl"])
 .config(["$routeProvider", "$locationProvider",
