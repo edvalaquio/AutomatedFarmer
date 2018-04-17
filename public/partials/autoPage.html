@@ -9,21 +9,28 @@
 			<input class="form-control" type="text" placeholder="width" ng-model="width" />
 		</div>
 		<button class="btn btn-success" ng-click="computeDimensions(length, width)">Submit</button>
-		<p>{{area}}</p>
+		<!-- <p>{{area}}</p> -->
 	</div>
 
 	<div class="automated-form-output" ng-if="xAxis && yAxis">
 		<div class="automated-controls-panel"></div>
 		<div class="automated-table-vert-scroll table-resposive">
-			<button class="btn btn-primary" ng-click="toggleSelectAll()">Select All</button>
-			<table class="table-bordered automated-table-output">
+			<button class="btn btn-primary" ng-click="toggleSelectAll(true)">
+				<span>Select All</span>
+				<!-- <span ng-if="selectedAll">Deselect All</span> -->
+			</button>
+			<button ng-disabled="!hasPath" class="btn btn-danger" ng-click="toggleSelectAll(false)">Deselect All</button>
+			<button ng-disabled="!hasPath" class="btn btn-success">Submit Path</button>
+			<table class="table-bordered automated-table-output" ng-if="axis.length > 0">
 				<tr ng-repeat="x in xAxis">
 					<td ng-repeat="y in yAxis">
-						<input ng-init="axis[x][y] = false" type="checkbox" class="checkbox-big" ng-model="axis[x][y]"/>
+						<input type="checkbox" class="checkbox-big" ng-model="axis[x][y]" ng-click="checkPath()"/>
+						<!-- <input ng-init="axis[x][y] = false" type="checkbox" class="checkbox-big" ng-model="axis[x][y]" ng-click="checkPath()"/> -->
 					</td>
 				</tr>
 			</table>
-		</div><!-- 
+		</div>
+		<!-- 
 		<div class="automated-table-vert-scroll">
 			<table class="table-bordered automated-table-output">
 				<tr ng-repeat="x in xAxis">
