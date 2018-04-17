@@ -3,6 +3,7 @@ var app = express();
 var path = require('path');
 var server = require('http').createServer(app);
 var os = require('os');
+console.log(os.platform());
 // console.log(address['Wi-Fi'][1].address);
 var farmer = require('./farmer-modules/farmer-socket.io')(server);
 
@@ -21,6 +22,9 @@ app.use(function(req, res, next) {
 
 app.get('/getSocketData', function(req, res){
 	var address = os.networkInterfaces();
-	console.log(address);
-	res.send(address['wlan0'][0].address);
+	if(os.platform() == 'win32'){
+		res.send(address['Wi-Fi'][1].address);
+	} else {
+		res.send(address['wlan0'][0].address);
+	}
 });
