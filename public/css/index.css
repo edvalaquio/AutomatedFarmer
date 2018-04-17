@@ -3,9 +3,18 @@
 body{
 	font-family: "Roboto", Helvetica, Arial, sans-serif;
     font-size: 15px;
+    height: 100vh;
 }
 a{
 	text-decoration: none;
+}
+
+nav{
+	height: 8%;
+}
+
+.nav-sidebar, .extend-bar{
+	height: 92%;
 }
 
 .navbar{
@@ -24,7 +33,7 @@ a{
 
 .nav-sidebar-container{
 	width: 32vh;
-	min-height: 95vh;
+	/*min-height: 92vh;*/
 	background-color: white;
 	border-right: solid rgb(204, 204, 204) 0.25px;
 }
@@ -43,7 +52,7 @@ a{
 }
 
 .nav-sidebar-button{
-	width: 8vh
+	width: 8vh;
 	z-index: 1;
 }
 
@@ -61,7 +70,6 @@ a{
 }
 
 .extend-bar{
-	height: 95vh;
 	width: 100%;
 	background-color: rgb(0,0,0);
 	position: absolute;

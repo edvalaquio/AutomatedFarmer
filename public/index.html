@@ -11,32 +11,30 @@
 	<link rel="stylesheet" type="text/css" href="/css/automatedPage.css">
 </head>
 <body ng-controller="indexCtrl">
-	<div class="wrapper">
-		<nav class="navbar navbar-default">
-			<div class="navbar-header">
-				<button class="navbar-toggle" data-toggle="collapse" data-target=".username-collapse" aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/">Automated Farming</a>
-			</div>
-			<div class="collapse navbar-collapse username-collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown">
-						<a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Username <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="#">Profile</a></li>
-							<li><a href="#"	>Settings</a></li>
-							<li class="divider"></li>
-							<li><a href="#">Logout</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-		</nav>
-	</div>
+	<nav class="navbar navbar-default">
+		<div class="navbar-header">
+			<button class="navbar-toggle" data-toggle="collapse" data-target=".username-collapse" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">Automated Farming</a>
+		</div>
+		<div class="collapse navbar-collapse username-collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Username <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#">Profile</a></li>
+						<li><a href="#"	>Settings</a></li>
+						<li class="divider"></li>
+						<li><a href="#">Logout</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</nav>
 	<div ng-init="sideBar = false" class="extend-bar" ng-show="sideBar" ng-click="sideBar = false"></div>
 	<div class="nav-sidebar" ng-class="{'show-bar': sideBar}">
 		<div class="nav-sidebar-container">
