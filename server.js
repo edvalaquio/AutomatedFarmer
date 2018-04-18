@@ -7,9 +7,10 @@ var farmer = require('./farmer-modules/farmer-socket.io')(server);
 
 var mysql = require('mysql');
 var con = mysql.createConnection({
-	host     : 'localhost',
-	user     : 'root',
-	password : ''
+	host     	: 'localhost',
+	user     	: 'root',
+	password 	: '',
+	database	: 'automated_farmer' 	
 });
  
 con.connect(function(err) {
@@ -28,7 +29,17 @@ con.connect(function(err) {
 		next();
 	});
 });
-
 app.get('/getSocketData', function(req, res){
 	res.send(env.host);
 });
+app.get('/getLotData', function(req, res){
+	con.query("SELECT * FROM lot", function (err, result, fields) {
+		if (err){
+			console.log(err);
+			res.send(err);
+		};
+		console.log(result);
+		res.send(result);
+	});
+});
+
