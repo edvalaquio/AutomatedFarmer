@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Add Lot</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <form class="log-modal-add">
+        <div class="col-xs-12">
+            <label class="">Label</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-xs-12">
+            <label class="">Receiver</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-xs-12">
+            <label class="">Sender</label>
+            <input type="text" class="form-control">
+        </div>
+        <div class="col-xs-12">
+            <label class="">Particulars</label>
+            <input type="text" class="form-control" placeholder="Optional">
+        </div>
+        <div class="col-xs-12">
+            <label class="">Tags</label>
+            <input type="text" class="form-control">
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-success" type="button" ng-click="$ctrl.ok()">Add</button>
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+</div>

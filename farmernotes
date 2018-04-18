@@ -1,5 +1,6 @@
 AUTOMATED CONTROL PAGE
-> Add lot (Modal)
+> Add lot
+	- Ilalagay sa modal when "Add Lot" button is clicked
 	1.	Input lot name
 	2.	Input lot address
 	3.	Input lot dimensions (length, width)

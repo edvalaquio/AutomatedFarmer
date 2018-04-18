@@ -23,3 +23,38 @@
 	height: 30px;
 	text-align: center;
 }
+
+.automated-choose-options{
+	display: flex;
+	flex-direction: column;
+}
+
+.automated-choose-select{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 50vh;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    overflow: auto;
+    margin-top: 10px;
+}
+
+.automated-choose-select .btn-default{
+	height: 20%;
+	padding: 10px;
+	font-size: 24px;
+	display: flex;
+	align-items: center;
+	border: 0;
+	border-radius: 0;
+	border-bottom: 1px solid #ccc;
+	width: 100%;
+}
+/*
+.automated-choose-select .btn-:hover, .selected:hover{
+	background-color: rgb(252, 252, 252);
+}*/
+/*
+.selected{
+	background: rgb(240, 240, 240);
+}*/

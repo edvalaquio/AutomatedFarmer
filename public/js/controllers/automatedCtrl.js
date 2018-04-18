@@ -1,12 +1,14 @@
 'use strict';
 
-angular.module("autoFarm.controllers.autoCtrl", [])
+angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"])
 .controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location",
 	function($rootScope, $scope, $window, $location){
 		// var socket;
+
+		$scope.towns = ['Jaro', 'Tanza', 'Miagao', 'Jamindan', 'Iloilo', 'Roxas'];
+
 		var socket = io('http://' + $rootScope.hostAddress + ':3000');
 		console.log("Here in autoCtrl");
-		$scope.area = "none";
 		$scope.xAxis = false;
 		$scope.yAxis = false;
 		$scope.axis = [[]];

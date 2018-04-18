@@ -3,11 +3,11 @@
 var modalModule = angular.module("controllers.modalController", [])
 modalModule.controller('modalController', function ($uibModal, $log, $document) {
 	var $ctrl = this;
-
+	console.log("HEllo");
 	$ctrl.animationsEnabled = true;
 
 	$ctrl.open = function (template, data) {
-
+		console.log("Helo");
 		$ctrl.data = data;
 		var modalInstance = $uibModal.open({
 			animation: $ctrl.animationsEnabled,

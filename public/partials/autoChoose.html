@@ -1,0 +1,12 @@
+<div class="row">
+	<h1>Automated Control</h1>
+	<p>Choose whether to add a lot or choose an exisiting lot.</p>
+	<div class="automated-choose-options">
+		<span class="automated-choose-button" ng-controller="modalController as $ctrl">
+			<button class="btn btn-primary pull-right" ng-click="$ctrl.open('addLotModal', false)">Add Lot</button>
+		</span>
+		<div class="automated-choose-select">
+			<button ng-repeat="town in towns" ng-click="selected = town" class="btn btn-default" ng-class="">{{town}}</button>
+		</div>
+	</div>
+</div>

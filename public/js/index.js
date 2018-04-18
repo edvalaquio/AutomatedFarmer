@@ -2,9 +2,9 @@
 
 angular.module("indexApp", 
 	["ngRoute",
-	"controllers.modalController",
 	"autoFarm.controllers.manualCtrl",
-	"autoFarm.controllers.autoCtrl"])
+	"autoFarm.controllers.autoCtrl",
+	"controllers.modalController"])
 .config(["$routeProvider", "$locationProvider",
 	function($routeProvider, $locationProvider){
 		$routeProvider
@@ -16,7 +16,11 @@ angular.module("indexApp",
 			controller: 	"manualCtrl"
 		})
 		.when("/automated", {
-			templateUrl: "/partials/autoPage.html",
+			templateUrl: "/partials/autoChoose.html",
+			controller: 	"autoCtrl"
+		})
+		.when("/automated/:lotid", {
+			templateUrl: "/partials/autoControl.html",
 			controller: 	"autoCtrl"
 		})
 		.when("/activities", {
