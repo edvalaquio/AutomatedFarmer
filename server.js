@@ -41,7 +41,8 @@ app.get('/getSocketData', function(req, res){
 });
 
 app.get('/getLots', function(req, res){
-	con.query("SELECT * FROM lot", function (err, result, fields) {
+	var query = "SELECT lot_id, lot_name, lot_province, lot_town, lot_brgy FROM lot;";
+	con.query(query, function (err, result, fields) {
 		if (err){
 			res.send(err);
 		};
@@ -55,6 +56,17 @@ app.get('/getLots', function(req, res){
 			})
 		})
 		res.send(data);
+	});
+});
+
+app.get('/getLot/:lotid', function(req, res){
+	console.log(req.params.lotid);
+	var query = "SELECT * FROM lot WHERE lot_id=" + req.params.lotid + ";";
+	con.query(query, function (err, result, fields) {
+		if (err){
+			res.send(err);
+		};
+		res.send(result[0]);
 	});
 });
 

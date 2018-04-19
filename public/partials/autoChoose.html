@@ -5,46 +5,10 @@
 			<button class="btn btn-primary pull-right" ng-click="$ctrl.open('addLotModal', false)">Add Lot</button>
 		</span>
 		<div class="automated-choose-select">
-			<button ng-repeat="town in towns" ng-click="selected = town" class="btn btn-default">
+			<a ng-repeat="town in towns" ng-click="" class="btn btn-default" ng-href="/#!/automated/{{town.lot_id}}">
 				<h3>{{town.lot_name}}</h3>
 				<p>{{town.lot_address.split(',')[2]}}</p>
-			</button>
-<!-- 			<button ng-click="selected = town" class="btn btn-default">
-				<h3>{{towns[0].lot_name}}</h3>
-				<small>{{towns[0].lot_address}}</small>
-			</button>
-			<button ng-click="selected = town" class="btn btn-default">
-				<h3>{{towns[0].lot_name}}</h3>
-				<small>{{towns[0].lot_address}}</small>
-			</button>
-			<button ng-click="selected = town" class="btn btn-default">
-				<h3>{{towns[0].lot_name}}</h3>
-				<small>{{towns[0].lot_address}}</small>
-			</button>
-			<button ng-click="selected = town" class="btn btn-default">
-				<h3>{{towns[0].lot_name}}</h3>
-				<small>{{towns[0].lot_address}}</small>
-			</button>
-			<button ng-click="selected = town" class="btn btn-default">
-				<h3>{{towns[0].lot_name}}</h3>
-				<small>{{towns[0].lot_address}}</small>
-			</button>
-			<button ng-click="selected = town" class="btn btn-default">
-				<h3>{{towns[0].lot_name}}</h3>
-				<small>{{towns[0].lot_address}}</small>
-			</button>
-			<button ng-click="selected = town" class="btn btn-default">
-				<h3>{{towns[0].lot_name}}</h3>
-				<small>{{towns[0].lot_address}}</small>
-			</button>
-			<button ng-click="selected = town" class="btn btn-default">
-				<h3>{{towns[0].lot_name}}</h3>
-				<small>{{towns[0].lot_address}}</small>
-			</button>
-			<button ng-click="selected = town" class="btn btn-default">
-				<h3>{{towns[0].lot_name}}</h3>
-				<small>{{towns[0].lot_address}}</small>
-			</button>
- -->		</div>
+			</a>
+		</div>
 	</div>
 </div>
