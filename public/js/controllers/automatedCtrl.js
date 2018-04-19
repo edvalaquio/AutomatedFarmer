@@ -1,11 +1,19 @@
 'use strict';
 
-angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"])
-.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location",
-	function($rootScope, $scope, $window, $location){
+var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"])
+autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
+	function($rootScope, $scope, $window, $location, $http){
 		// var socket;
 
-		$scope.towns = ['Jaro', 'Tanza', 'Miagao', 'Jamindan', 'Iloilo', 'Roxas'];
+		$http({
+			method	: 'GET', 
+			url		: '/getLots'
+		}).then(function(res){
+			$scope.towns = res.data;
+		}, function(error){
+			console.log(error);
+		});
+
 
 		var socket = io('http://' + $rootScope.hostAddress + ':3000');
 		console.log("Here in autoCtrl");
@@ -61,3 +69,30 @@ angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"])
 		}
 	}	
 ]);
+
+autoModule.controller("addLotCtrl", ["$scope", "$window", "$location", "$http",
+	function($scope, $window, $location, $http){
+		var $add = this;
+		$add.addLot = function(){
+			var data = {
+				'lot_name' 		: $add.name,
+				'lot_province' 	: $add.province,
+				'lot_town' 		: $add.town,
+				'lot_brgy' 		: $add.brgy,
+				'lot_length' 	: $add.length,
+				'lot_width' 	: $add.width
+			}
+			$http({
+				method	: 'POST', 
+				url		: '/addLot',
+				data 	: data
+			}).then(function(res){
+				console.log("Success");;
+			}, function(error){
+				console.log(error);
+			});
+		}	
+		console.log("Here in addLotCtrl");
+	}
+]);
+

@@ -3,11 +3,9 @@
 var modalModule = angular.module("controllers.modalController", [])
 modalModule.controller('modalController', function ($uibModal, $log, $document) {
 	var $ctrl = this;
-	console.log("HEllo");
 	$ctrl.animationsEnabled = true;
 
 	$ctrl.open = function (template, data) {
-		console.log("Helo");
 		$ctrl.data = data;
 		var modalInstance = $uibModal.open({
 			animation: $ctrl.animationsEnabled,
@@ -16,7 +14,7 @@ modalModule.controller('modalController', function ($uibModal, $log, $document) 
 			templateUrl: '/partials/' + template + '.html',
 			controller: 'modalInstanceController',
 			controllerAs: '$ctrl',
-			size: "",
+			size: 'md',
 			appendTo: undefined,
 			resolve: {
 				items: function () {
@@ -42,7 +40,6 @@ modalModule.controller('modalController', function ($uibModal, $log, $document) 
 modalModule.controller('modalInstanceController', function ($uibModalInstance, items) {
 	var $ctrl = this;
 	$ctrl.items = items;
-	console.log($ctrl.items);
 
 	$ctrl.ok = function () {
 		$uibModalInstance.close();

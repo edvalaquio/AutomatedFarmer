@@ -27,8 +27,8 @@ angular.module("indexApp",
 			templateUrl: "/partials/activityPage.html"
 		})
 }])
-.controller("indexCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
-	function($rootScope, $scope, $window, $location, $http){
+.controller("indexCtrl", ["$rootScope", "$http",
+	function($rootScope, $http){
 		$http({
 			method	: 'GET', 
 			url		: '/getSocketData'

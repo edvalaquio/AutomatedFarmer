@@ -4,6 +4,7 @@ body{
 	font-family: "Roboto", Helvetica, Arial, sans-serif;
     font-size: 15px;
     height: 100vh;
+    /*width: 100vw;*/
 }
 a{
 	text-decoration: none;
@@ -11,6 +12,7 @@ a{
 
 nav{
 	height: 8%;
+	/*width: 100%;*/
 }
 
 .nav-sidebar, .extend-bar{
@@ -80,5 +82,6 @@ nav{
 .user-view-section{
 	display: flex;
 	justify-content: center;
-	position: absolute;
+	width: 100%;
+	/*position: absolute;*/
 }

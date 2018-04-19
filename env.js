@@ -3,8 +3,8 @@ var env = {
 	'port' 	: 3000 
 }
 
-console.log(os.platform())
-console.log(os.networkInterfaces())
+// console.log(os.platform())
+// console.log(os.networkInterfaces())
 
 var address = os.networkInterfaces();
 if(address['Wi-Fi']){
