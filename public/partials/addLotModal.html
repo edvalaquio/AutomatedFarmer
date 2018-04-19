@@ -1,36 +1,47 @@
-
 <div class="modal-content" ng-controller="addLotCtrl as $add">
     <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" ng-click="$ctrl.cancel()">&times;</button>
         <h3 class="modal-title text-center">Add Lot</h3>
     </div>
-    <div class="modal-body" style="overflow: auto;">
-        <div class="col-xs-12">
-            <label class="">Name</label>
-            <input type="text" class="form-control" ng-model="$add.name">
+    <div class="modal-body form-horizontal" style="overflow: auto;">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Lot Name</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="$add.name" />
+            </div>
         </div>
-        <div class="col-xs-12">
-            <label class="">Brgy.</label>
-            <input type="text" class="form-control" ng-model="$add.brgy">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Barangay</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="$add.brgy" />
+            </div>
         </div>
-        <div class="col-xs-12">
-            <label class="">Town</label>
-            <input type="text" class="form-control" ng-model="$add.town">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Town</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="$add.town" />
+            </div>
         </div>
-        <div class="col-xs-12">
-            <label class="">Province</label>
-            <input type="text" class="form-control" ng-model="$add.province" placeholder="Optional">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Province</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="$add.province" placeholder="Optional" />
+            </div>
         </div>
-        <div class="col-xs-12">
-            <label class="">Length</label>
-            <input type="text" class="form-control" ng-model="$add.length">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Lot Length</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="$add.length" />
+            </div>
         </div>
-        <div class="col-xs-12">
-            <label class="">Width</label>
-            <input type="text" class="form-control" ng-model="$add.width">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Lot Width</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" ng-model="$add.width" />
+            </div>
         </div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-success" type="button" ng-click="$add.addLot()">Submit</button>
-        <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
     </div>
 </div>
