@@ -1,18 +1,31 @@
 'use strict';
 
 var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"])
-autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
-	function($rootScope, $scope, $window, $location, $http){
+autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams",
+	function($rootScope, $scope, $window, $location, $http, $routeParams){
 		// var socket;
-
-		$http({
-			method	: 'GET', 
-			url		: '/getLots'
-		}).then(function(res){
-			$scope.towns = res.data;
-		}, function(error){
-			console.log(error);
-		});
+		if($location.url() == '/automated'){
+			$http({
+				method	: 'GET', 
+				url		: '/getLots'
+			}).then(function(res){
+				console.log(res.data);
+				$rootScope.towns = res.data;
+			}, function(error){
+				console.log(error);
+			});
+		} else {
+			// console.log($routeParams.lotid);
+			$http({
+				method	: 'GET', 
+				url		: '/getLot/' + $routeParams.lotid
+			}).then(function(res){
+				$rootScope.towns = res.data;
+				console.log($rootScope.towns);
+			}, function(error){
+				console.log(error);
+			});
+		}
 
 
 		var socket = io('http://' + $rootScope.hostAddress + ':3000');

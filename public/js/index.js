@@ -21,7 +21,7 @@ angular.module("indexApp",
 		})
 		.when("/automated/:lotid", {
 			templateUrl: "/partials/autoControl.html",
-			controller: 	"autoCtrl"
+			controller: "autoCtrl"
 		})
 		.when("/activities", {
 			templateUrl: "/partials/activityPage.html"

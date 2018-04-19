@@ -47,7 +47,7 @@
 	overflow: auto;
 }
 
-.automated-choose-select button{
+.automated-choose-select a{
 	border: 0;
 	border-radius: 0;
 	border-bottom: 1px solid #ccc;	
@@ -59,13 +59,13 @@
 	/*justify-content: flex-start;*/
 }
 
-.automated-choose-select button *{
+.automated-choose-select a *{
 	width: 100%;
 	margin: auto 0;
 	text-align: left;
 }
 
-.automated-choose-select button > p{
+.automated-choose-select a > p{
 	word-wrap: break-word;	
 	width: 100%;
 }
