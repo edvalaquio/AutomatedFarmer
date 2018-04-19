@@ -21,37 +21,29 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				url		: '/getLot/' + $routeParams.lotid
 			}).then(function(res){
 				$rootScope.towns = res.data;
-				console.log($rootScope.towns);
+				
+				$scope.axis = [[]];
+				for(var i = 0; i < $rootScope.towns.lot_length; i++){
+					$scope.axis[i] = [];
+					for(var j = 0; j < $rootScope.towns.lot_width; j++){
+						$scope.axis[i][j] = false;
+					}
+				}
+				console.log($scope.axis);
+				$rootScope.towns.lot_length = computeRange($rootScope.towns.lot_length);
+				$rootScope.towns.lot_width = computeRange($rootScope.towns.lot_width);
+				// console.log($rootScope.towns);
 			}, function(error){
 				console.log(error);
 			});
 		}
 
-
 		var socket = io('http://' + $rootScope.hostAddress + ':3000');
 		console.log("Here in autoCtrl");
-		$scope.xAxis = false;
-		$scope.yAxis = false;
-		$scope.axis = [[]];
-
-		$scope.computeDimensions = function(length, width){
-			// $scope.area = length*width;
-			$scope.xAxis = computeRange(length);
-			$scope.yAxis = computeRange(width);
-			for(var i = 0; i < length; i++){
-				$scope.axis[i] = [];
-				for(var j = 0; j < width; j++){
-					$scope.axis[i][j] = false;
-				}
-			}
-		}
-
-		$scope.printAxis = function(){
-			console.log($scope.axis);
-		}
 
 		$scope.checkPath = function(){
-			for(var i = 0; i < $scope.xAxis.length; i++){
+			console.log($scope.axis);
+			for(var i = 0; i < $rootScope.towns.lot_length.length; i++){
 				if(_.includes($scope.axis[i], true)){
 					$scope.hasPath = true;
 					break;
@@ -65,8 +57,8 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 			if(flag){
 				$scope.hasPath = flag;
 			}
-			for(var i = 0; i < $scope.xAxis.length; i++){
-				for(var j = 0; j < $scope.yAxis.length; j++){
+			for(var i = 0; i < $rootScope.towns.lot_length.length; i++){
+				for(var j = 0; j < $rootScope.towns.lot_width.length; j++){
 					$scope.axis[i][j] = flag;
 				}
 			}

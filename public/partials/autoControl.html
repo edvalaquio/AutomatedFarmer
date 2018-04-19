@@ -2,7 +2,7 @@
 	<h1>Automated Control</h1>
 	<p>Place the parameters.</p>
 	
-	<div class="form-inline automated-form-input">
+	<!-- <div class="form-inline automated-form-input">
 		<label>Input land dimensions: </label>
 		<div class="form-group">
 			<input class="form-control" type="text" placeholder="length" ng-model="length" />
@@ -10,17 +10,28 @@
 			<input class="form-control" type="text" placeholder="width" ng-model="width" />
 		</div>
 		<button class="btn btn-success" ng-click="computeDimensions(length, width)">Submit</button>
-	</div>
+	</div> -->
 
-	<div class="automated-form-output" ng-if="xAxis && yAxis">
+	<div class="dropdown">
+		<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+			Choose Activity 
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu">
+			<li><a href="">Plow</a></li>
+			<li><a href="">Seed</a></li>
+			<li><a href="">Harvest</a></li>
+		</ul>
+	</div>
+	<div class="automated-form-output">
 		<div class="automated-controls-panel"></div>
-		<div class="automated-table-vert-scroll table-resposive">
+		<div class="automated-table-vert-scroll table-resposive" ng-if="towns.lot_length.length > 0 && towns.lot_width.length > 0">
 			<button class="btn btn-primary" ng-click="toggleSelectAll(true)">Select All</button>
 			<button ng-disabled="!hasPath" class="btn btn-danger" ng-click="toggleSelectAll(false)">Deselect All</button>
 			<button ng-disabled="!hasPath" class="btn btn-success">Submit Path</button>
 			<table class="table-bordered automated-table-output" ng-if="axis.length > 0">
-				<tr ng-repeat="x in xAxis">
-					<td ng-repeat="y in yAxis">
+				<tr ng-repeat="x in towns.lot_length">
+					<td ng-repeat="y in towns.lot_width">
 						<input type="checkbox" class="checkbox-big" ng-model="axis[x][y]" ng-click="checkPath()"/>
 					</td>
 				</tr>
