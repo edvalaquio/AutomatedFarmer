@@ -86,7 +86,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 autoModule.controller("addLotCtrl", ["$scope", "$window", "$location", "$http",
 	function($scope, $window, $location, $http){
 		var $add = this;
-		$add.addLot = function(){
+		$add.addLot = function($ctrl){
 			var data = {
 				'name' 		: $add.name,
 				'province' 	: $add.province,
@@ -100,7 +100,9 @@ autoModule.controller("addLotCtrl", ["$scope", "$window", "$location", "$http",
 				url		: '/addLot',
 				data 	: data
 			}).then(function(res){
-				console.log(res);;
+        		$window.location.href = "#!/automated/" + res.data.lotid
+				console.log(res);
+				$ctrl.ok();
 			}, function(error){
 				console.log(error);
 			});
