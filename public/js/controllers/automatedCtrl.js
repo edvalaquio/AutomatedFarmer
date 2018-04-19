@@ -75,19 +75,19 @@ autoModule.controller("addLotCtrl", ["$scope", "$window", "$location", "$http",
 		var $add = this;
 		$add.addLot = function(){
 			var data = {
-				'lot_name' 		: $add.name,
-				'lot_province' 	: $add.province,
-				'lot_town' 		: $add.town,
-				'lot_brgy' 		: $add.brgy,
-				'lot_length' 	: $add.length,
-				'lot_width' 	: $add.width
+				'name' 		: $add.name,
+				'province' 	: $add.province,
+				'town' 		: $add.town,
+				'brgy' 		: $add.brgy,
+				'length' 	: $add.length,
+				'width' 	: $add.width
 			}
 			$http({
 				method	: 'POST', 
 				url		: '/addLot',
 				data 	: data
 			}).then(function(res){
-				console.log("Success");;
+				console.log(res);;
 			}, function(error){
 				console.log(error);
 			});

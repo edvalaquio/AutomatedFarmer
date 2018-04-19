@@ -59,17 +59,23 @@ app.get('/getLots', function(req, res){
 });
 
 app.post('/addLot', function(req, res){
-	var lot_details = req.body;
-	var query = "INSERT INTO lot (lot_name, lot_province, lot_town, lot_brgy, lot_length, lot_width) VALUES ?";
+	var query1 = "SELECT MAX(lot_id) FROM lot;";
+	var lot_details = []
+	con.query(query1, function(err, result){
+		lot_details.push(result[0]['MAX(lot_id)'] + 1);
+		lot_details = lot_details.concat(_.map(req.body));
+		console.log(lot_details);
+		var query2 = "INSERT INTO lot (lot_id, lot_name, lot_province, lot_town, lot_brgy, lot_length, lot_width) VALUES (" + lot_details + ");";
 
-	con.query(query, lot_details, function (err, result, fields) {
-		if(err){
-			console.log(err);
-			res.send("Error");
-		} else {
-			console.log("These is success!");
-			res.send("Success");
-		}
-	});
+		con.query(query2, function (err, result, fields) {
+			if(err){
+				console.log(err);
+				res.send("Error");
+			} else {
+				console.log("These is success!");
+				res.send("Success");
+			}
+		});
+	})
 });
 
