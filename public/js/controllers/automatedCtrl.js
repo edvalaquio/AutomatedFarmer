@@ -1,8 +1,8 @@
 'use strict';
 
 var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"])
-autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams",
-	function($rootScope, $scope, $window, $location, $http, $routeParams){
+autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams", "modalService",
+	function($rootScope, $scope, $window, $location, $http, $routeParams, modalService){
 		// var socket;
 		if($location.url() == '/automated'){
 			$http({
@@ -20,18 +20,31 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				method	: 'GET', 
 				url		: '/getLot/' + $routeParams.lotid
 			}).then(function(res){
+				// $scope.modalService.addData('lotid', $routeParams.lotid);
+				var d = new Date();
+				var temp = '(' + (d.getMonth() + 1) + '-' + d.getDate() + '-' + d.getFullYear() + ')';
+				// label	date	type	path	startpoint	direction	start_time	end_time	lot_id
+
+				$scope.activity = {
+					label 		: temp,
+					date 		: '',
+					type 		: '',
+					path 		: [[]],
+					startPoint 	: '',
+					direction	: '',
+					lot_id		: $routeParams.lotid
+				};
+
 				$rootScope.towns = res.data;
-				
-				$scope.axis = [[]];
-				for(var i = 0; i < $rootScope.towns.lot_length; i++){
-					$scope.axis[i] = [];
-					for(var j = 0; j < $rootScope.towns.lot_width; j++){
-						$scope.axis[i][j] = false;
+				for(var i = 0; i < $rootScope.towns.length; i++){
+					$scope.activity.path[i] = [];
+					for(var j = 0; j < $rootScope.towns.width; j++){
+						$scope.activity.path[i][j] = false;
 					}
 				}
-				console.log($scope.axis);
-				$rootScope.towns.lot_length = computeRange($rootScope.towns.lot_length);
-				$rootScope.towns.lot_width = computeRange($rootScope.towns.lot_width);
+				console.log($scope.activity.path);
+				$rootScope.towns.length = computeRange($rootScope.towns.length);
+				$rootScope.towns.width = computeRange($rootScope.towns.width);
 				// console.log($rootScope.towns);
 			}, function(error){
 				console.log(error);
@@ -42,9 +55,9 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		console.log("Here in autoCtrl");
 
 		$scope.checkPath = function(){
-			console.log($scope.axis);
-			for(var i = 0; i < $rootScope.towns.lot_length.length; i++){
-				if(_.includes($scope.axis[i], true)){
+			console.log($scope.activity.path);
+			for(var i = 0; i < $rootScope.towns.length.length; i++){
+				if(_.includes($scope.activity.path[i], true)){
 					$scope.hasPath = true;
 					break;
 				}
@@ -57,12 +70,12 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 			if(flag){
 				$scope.hasPath = flag;
 			}
-			for(var i = 0; i < $rootScope.towns.lot_length.length; i++){
-				for(var j = 0; j < $rootScope.towns.lot_width.length; j++){
-					$scope.axis[i][j] = flag;
+			for(var i = 0; i < $rootScope.towns.length.length; i++){
+				for(var j = 0; j < $rootScope.towns.width.length; j++){
+					$scope.activity.path[i][j] = flag;
 				}
 			}
-			console.log($scope.axis);
+			console.log($scope.activity.path);
 		}
 
 		var computeRange = function(value){
@@ -75,15 +88,19 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 	}	
 ]);
 
-autoModule.controller("addLotCtrl", ["$scope", "$window", "$location", "$http",
-	function($scope, $window, $location, $http){
+autoModule.controller("autoModalCtrl", ["$scope", "$window", "$location", "$http", "modalService",
+	function($scope, $window, $location, $http, modalService){
 		var $add = this;
+		console.log("Here in autoModalCtrl");
+		if(modalService.getData('activity')){
+			$add.activity = modalService.getData('activity')
+		}
 		$add.addLot = function($ctrl){
 			var data = {
-				'name' 		: $add.name,
-				'province' 	: $add.province,
-				'town' 		: $add.town,
-				'brgy' 		: $add.brgy,
+				'name' 		: $add.name + "",
+				'province' 	: $add.province + "",
+				'town' 		: $add.town + "",
+				'brgy' 		: $add.brgy + "",
 				'length' 	: $add.length,
 				'width' 	: $add.width
 			}
@@ -98,8 +115,26 @@ autoModule.controller("addLotCtrl", ["$scope", "$window", "$location", "$http",
 			}, function(error){
 				console.log(error);
 			});
-		}	
-		console.log("Here in addLotCtrl");
+		}
+		// var d = new Date();
+		// $add.label = '(' + (d.getMonth() + 1) + '.' + d.getDate() + '.' + d.getFullYear() + ')';
+
+		$add.submitActivityLabel = function($ctrl){
+			// console.log($add.activity);
+			$add.activity.date = new Date();
+			$http({
+				method	: 'POST', 
+				url		: '/addActivity',
+				data 	: $add.activity
+			}).then(function(res){
+        		// $window.location.href = "#!/automated/" + res.data.lotid
+				console.log(res);
+				$ctrl.ok();
+			}, function(error){
+				console.log(error);
+			});
+		}
+
 	}
 ]);
 

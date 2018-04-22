@@ -1,12 +1,15 @@
 'use strict';
 
 var modalModule = angular.module("controllers.modalController", [])
-modalModule.controller('modalController', function ($uibModal, $log, $document) {
+modalModule.controller('modalController', function ($uibModal, $log, $document, modalService) {
 	var $ctrl = this;
 	$ctrl.animationsEnabled = true;
 
 	$ctrl.open = function (template, data) {
 		$ctrl.data = data;
+		if($ctrl.data && $ctrl.data.path){
+			modalService.addData('activity', data);
+		}
 		var modalInstance = $uibModal.open({
 			animation: $ctrl.animationsEnabled,
 			ariaLabelledBy: 'modal-title',
@@ -39,6 +42,7 @@ modalModule.controller('modalController', function ($uibModal, $log, $document) 
 // It is not the same as the $uibModal service used above.
 modalModule.controller('modalInstanceController', function ($uibModalInstance, items) {
 	var $ctrl = this;
+	// console.log(items);
 	$ctrl.items = items;
 
 	$ctrl.ok = function () {
@@ -47,5 +51,19 @@ modalModule.controller('modalInstanceController', function ($uibModalInstance, i
 
 	$ctrl.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
+	};
+});
+
+modalModule.service('modalService', function(){
+	var data = {};
+	var addData = function(key, value){
+		data[key] = value;
+	};
+	var getData = function(key){
+		return data[key];
+	};
+	return{
+		addData: addData,
+		getData: getData
 	};
 });

@@ -1,13 +1,13 @@
-<div class="row automated-choose">
+<div class="row col-md-6 col-xs-12 automated-choose">
 	<h2>Automated Control</h2>
 	<div class="automated-choose-options">
 		<span class="automated-choose-button" ng-controller="modalController as $ctrl">
-			<button class="btn btn-primary pull-right" ng-click="$ctrl.open('addLotModal', false)">Add Lot</button>
+			<button class="btn btn-primary pull-right" ng-click="$ctrl.open('addLotModal', activity)">Add Lot</button>
 		</span>
 		<div class="automated-choose-select">
-			<a ng-repeat="town in towns" ng-click="" class="btn btn-default" ng-href="/#!/automated/{{town.lot_id}}">
-				<h3>{{town.lot_name}}</h3>
-				<p>{{town.lot_address.split(',')[2]}}</p>
+			<a ng-repeat="town in towns" ng-click="" class="btn btn-default" ng-href="/#!/automated/{{town.id}}">
+				<h3>{{town.name}}</h3>
+				<p>{{town.address.split(',')[2]}}</p>
 			</a>
 		</div>
 	</div>

@@ -21,14 +21,14 @@ angular.module("indexApp",
 		})
 		.when("/automated/:lotid", {
 			templateUrl: "/partials/autoControl.html",
-			controller: "autoCtrl"
+			controller: 	"autoCtrl"
 		})
 		.when("/activities", {
 			templateUrl: "/partials/activityPage.html"
 		})
 }])
-.controller("indexCtrl", ["$rootScope", "$http",
-	function($rootScope, $http){
+.controller("indexCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
+	function($rootScope, $scope, $window, $location, $http){
 		$http({
 			method	: 'GET', 
 			url		: '/getSocketData'
