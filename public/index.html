@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Automated Farmer</title>
+	<title>Automated Farming</title>
 	<link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/manualPage.css">
 	<link rel="stylesheet" type="text/css" href="/css/automatedPage.css">
@@ -40,10 +40,10 @@
 	<div ng-init="sideBar = false" class="extend-bar" ng-show="sideBar" ng-click="sideBar = false"></div>
 	<div class="nav-sidebar" ng-class="{'show-bar': sideBar}">
 		<div class="nav-sidebar-container">
-			<div><a href="/">Welcome</a></div>
-			<div><a href="/#!/manual">Manual Control</a></div>
-			<div><a href="/#!/automated">Automated Control</a></div>
-			<div><a href="/#!/activities">Activity</a></div>
+			<a class="a-sidebar" href="/">Welcome</a>
+			<a class="a-sidebar" href="/#!/manual">Manual Control</a>
+			<a class="a-sidebar" href="/#!/automated">Automated Control</a>
+			<a class="a-sidebar" href="/#!/activities">Activity</a>
 		</div>
 		<div class="nav-sidebar-button">
 			<button class="btn btn-sidebar" ng-click="sideBar = !sideBar">

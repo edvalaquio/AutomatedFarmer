@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Kreon|Roboto');
+@import url('https://fonts.googleapis.com/css?family=Raleway|Roboto');
 
 body{
 	font-family: "Roboto", Helvetica, Arial, sans-serif;
@@ -6,13 +6,19 @@ body{
     height: 100vh;
     /*width: 100vw;*/
 }
+
 a{
 	text-decoration: none;
+	color: #333;
+}
+
+a:hover, a:focus, a:active{
+	text-decoration: none;
+	color: #000;
 }
 
 nav{
 	height: 8%;
-	/*width: 100%;*/
 }
 
 .nav-sidebar, .extend-bar{
@@ -21,6 +27,7 @@ nav{
 
 .navbar{
 	margin: 0;
+	border-radius: 0;
 }
 
 .navbar-automated-farming{
@@ -29,7 +36,8 @@ nav{
 }
 
 .navbar-brand{
-	color: #dde4da;
+	color: #fff;
+	font-family: "Raleway", Arial,sans-serif;
 }
 
 .navbar-brand:focus, .navbar-brand:hover, .btn-sidebar:focus, .btn-sidebar:hover{
@@ -37,12 +45,14 @@ nav{
 }
 
 .btn-sidebar{
-	background-color: #1a9b30;
+	/*background-color: #1a9b30;*/
+	background-color: #ffca28;
 	color: #ffffff;
 }
 
 .btn-sidebar:hover, .btn-sidebar:focus{
-	background-color: #7cb342;
+	/*background-color: #7cb342;*/
+	background-color: #ffb300;
 }
 
 .nav-sidebar{
@@ -61,7 +71,7 @@ nav{
 	border-right: solid rgb(204, 204, 204) 0.25px;
 }
 
-.nav-sidebar-container div{
+.nav-sidebar-container a{
 	height: 50px;
 	display: flex;
 	justify-content: center;
@@ -69,7 +79,7 @@ nav{
 	margin: 0;
 }
 
-.nav-sidebar-container div:hover{
+.nav-sidebar-container a:hover{
 	background-color: rgb(230, 230, 230);
 	cursor: pointer;
 }
