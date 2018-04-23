@@ -1,31 +1,30 @@
 <div class="row col-md-6 col-xs-12 automated-control">
 	<h1>Automated Control</h1>
 	<p>Choose whether to create a activity or choose from existing activity.</p>
-	<!-- <div class="automated-control-option" ng-controller="modalController as $ctrl"> -->
 	<div class="automated-control-option">
 		<select class="form-control" ng-model="activity.type">
 			<option value="plow">Plow</option>
 			<option value="seed">Seed</option>
 			<option value=harvest>Harvest</option>
-		</select><!-- 
-		<button ng-disabled="!activity" class="btn btn-info" ng-click="$ctrl.open('addActivityModal', activity)">Create Template</button>
-		OR
-		<button class="btn btn-info" ng-click="$ctrl.open('chooseActivityModal', activity)" disabled="true">Choose Template</button> -->
+		</select>
 		<button ng-disabled="!activity.type" class="btn btn-info" ng-click="option = 'create'">Create Template</button>
 		OR
-		<button class="btn btn-info" ng-click="option = 'choose'" disabled="true">Choose Template</button>
+		<button ng-disabled="!activity.type" class="btn btn-info" ng-click="option = 'choose'">Choose Template</button>
 	</div>
-	<!-- <div ng-hide="!modalService.getData('label')" class="automated-form-output"> -->
-	<div ng-init="activity.label = activity.type + activity.label" ng-if="activity.type != ''" class="automated-form-output">
+	<div ng-if="activity.type" class="automated-form-output">
 		<div class="automated-controls-panel">
 			<span class="col-xs-12" ng-controller="modalController as $ctrl">
-				<input type="text" ng-model="activity.label" class="form-control">
+				<input ng-if="option == 'create'" type="text" ng-init="activity.label = activity.type + activity.label" ng-model="activity.label" class="form-control">
+				<select ng-if="option == 'choose'" >
+					<option ng-repeat="item in activityList">{{item}}</option>
+				</select>
 				<button ng-disabled="!hasPath" class="btn btn-success" ng-click="$ctrl.open('addActivityModal', activity)">Ok</button>
+				<!-- <button ng-disabled="!hasPath" class="btn btn-success" ng-click="generateStartPoint()">Ok</button> -->
 			</span>
 			<button class="btn btn-primary" ng-click="toggleSelectAll(true)">Select All</button>
 			<button ng-disabled="!hasPath" class="btn btn-danger" ng-click="toggleSelectAll(false)">Deselect All</button>
-			<!-- <span></span> -->
 		</div>
+		<button ng-click="checkStartPoints(activity.path)">Click Me</button>
 		<div class="automated-table-vert-scroll table-resposive" ng-if="towns.length.length > 0 && towns.width.length > 0">
 			<table class="table-bordered automated-table-output">
 				<tr ng-repeat="x in towns.length">
