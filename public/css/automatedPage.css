@@ -69,3 +69,9 @@
 	word-wrap: break-word;	
 	width: 100%;
 }
+
+.automated-controls-panel, .automated-controls-select{
+	margin-bottom: 20px;
+	display: flex;
+	flex-direction: row;
+}

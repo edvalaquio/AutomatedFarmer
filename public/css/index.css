@@ -85,3 +85,7 @@ nav{
 	width: 100%;
 	/*position: absolute;*/
 }
+
+.btn, .nav-sidebar-button{
+	border-radius: 0;
+}
