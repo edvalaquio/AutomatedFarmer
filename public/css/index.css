@@ -23,6 +23,28 @@ nav{
 	margin: 0;
 }
 
+.navbar-automated-farming{
+	background-color: #0c6e3e;
+	border-color: #0c6e3e;
+}
+
+.navbar-brand{
+	color: #dde4da;
+}
+
+.navbar-brand:focus, .navbar-brand:hover, .btn-sidebar:focus, .btn-sidebar:hover{
+	color: #ffffff;
+}
+
+.btn-sidebar{
+	background-color: #1a9b30;
+	color: #ffffff;
+}
+
+.btn-sidebar:hover, .btn-sidebar:focus{
+	background-color: #7cb342;
+}
+
 .nav-sidebar{
 	position: absolute;
 	opacity: 1;
@@ -35,7 +57,6 @@ nav{
 
 .nav-sidebar-container{
 	width: 32vh;
-	/*min-height: 92vh;*/
 	background-color: white;
 	border-right: solid rgb(204, 204, 204) 0.25px;
 }
@@ -59,8 +80,7 @@ nav{
 }
 
 .nav-sidebar-button .btn-default{
-	border-left: 0px white; 	
-	border-radius: 0px 5px 5px 0px
+	border-left: 0px white;
 }
 
 .nav-sidebar-button span{
@@ -84,4 +104,8 @@ nav{
 	justify-content: center;
 	width: 100%;
 	/*position: absolute;*/
+}
+
+.btn, .form-control{
+	border-radius: 0;
 }

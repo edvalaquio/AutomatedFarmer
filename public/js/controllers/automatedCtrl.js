@@ -48,6 +48,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 			});
 			
 			$scope.activityList = []
+			$scope.option = 'create'
 			$http({
 				method	: 'GET', 
 				url		: '/getActivity/' + $routeParams.lotid
@@ -62,6 +63,10 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 
 		var socket = io('http://' + $rootScope.hostAddress + ':3000');
 		console.log("Here in autoCtrl");
+
+		$scope.toggleOption = function(flag){
+			$scope.option = flag;
+		}
 
 		$scope.checkPath = function(){
 			// console.log($scope.activity.path);
@@ -139,8 +144,6 @@ autoModule.controller("autoModalCtrl", ["$scope", "$window", "$location", "$http
 				console.log(error);
 			});
 		}
-		// var d = new Date();
-		// $add.label = '(' + (d.getMonth() + 1) + '.' + d.getDate() + '.' + d.getFullYear() + ')';
 
 		$add.submitActivityLabel = function($ctrl){
 			// console.log($add.activity);

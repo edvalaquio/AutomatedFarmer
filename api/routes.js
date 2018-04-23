@@ -53,16 +53,17 @@ module.exports = function(app, con, env){
 
 		var lotDetails = [];
 		lotDetails = _.map(req.body);
-		var query2 = "INSERT INTO lot (name, province, town, brgy, length, width) VALUES ?";
-		con.query(query2, [[lotDetails]], function (err, result, fields) {
+		var query = "INSERT INTO lot (name, province, town, brgy, length, width) VALUES ?";
+		con.query(query, [[lotDetails]], function (err, result) {
 			if(err){
 				console.log(err);
 				res.send("Error");
 				return;
 			}
 			console.log("These is success!");
+			console.log(result);
 			res.send({
-				lotid 	: lotDetails[0]
+				lotid 	: result.insertId
 			});
 		});
 	});

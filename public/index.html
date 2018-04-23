@@ -5,21 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Automated Farmer</title>
 	<link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/index.css">
+	<link rel="stylesheet" type="text/css" href="/css/manualPage.css">
 	<link rel="stylesheet" type="text/css" href="/css/automatedPage.css">
+	<link rel="stylesheet" type="text/css" href="/css/index.css">
 </head>
 <body ng-controller="indexCtrl">
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-automated-farming">
 		<div class="navbar-header">
-			<button class="navbar-toggle" data-toggle="collapse" data-target=".username-collapse" aria-expanded="false">
+			<!-- <button class="navbar-toggle" data-toggle="collapse" data-target=".username-collapse" aria-expanded="false">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-leaf"></span> Automated Farming</a>
+			</button> -->
+			<a class="navbar-brand" href="/">
+				<span class="glyphicon glyphicon-grain"></span>
+				 Automated Farming
+			</a>
 		</div>
-		<div class="collapse navbar-collapse username-collapse">
+		<!-- <div class="collapse navbar-collapse username-collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
 					<a class="dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Username <span class="caret"></span></a>
@@ -31,7 +35,7 @@
 					</ul>
 				</li>
 			</ul>
-		</div>
+		</div> -->
 	</nav>
 	<div ng-init="sideBar = false" class="extend-bar" ng-show="sideBar" ng-click="sideBar = false"></div>
 	<div class="nav-sidebar" ng-class="{'show-bar': sideBar}">
@@ -42,44 +46,12 @@
 			<div><a href="/#!/activities">Activity</a></div>
 		</div>
 		<div class="nav-sidebar-button">
-			<button class="btn btn-default" ng-click="sideBar = !sideBar">
+			<button class="btn btn-sidebar" ng-click="sideBar = !sideBar">
 				<span class="glyphicon" ng-class="{'glyphicon-menu-right':!sideBar, 'glyphicon-menu-left':sideBar}"></span>
-				<!-- <span class="glyphicon glyphicon-minus"></span> -->
-				<!-- <span class="glyphicon glyphicon-minus"></span> -->
 			</button>
 		</div>
 	</div>
 	<section class="user-view-section" ng-view></section>
-	<!-- <div class="wrapper">
-		<nav class="navbar navbar-inverse col-sm-3" role="navigation">
-			<div class="navbar-header">
-				<button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/">Automated Farming</a>
-			</div>
-			<div class="collapse navbar-collapse navbar-side-nav navbar-ex1-collapse">
-				<ul class="nav navbar-nav navbar-side-list">
-					<li><a href="/">Welcome</a></li>
-					<li><a href="/#!/manual">Manual Control</a></li>
-					<li><a href="/#!/automated">Automated Control</a></li>
-					<li><a href="/#!/activities">Activity</a></li>
-					<li class="divider"></li>
-				 </ul>
-				<ul class="nav navbar-nav navbar-side-list">
-					<li><a href="#">Profile</a></li>
-					<li><a href="#"	>Settings</a></li>
-					<li></li>
-					<li><a href="#">Logout</a></li>
-				</ul>
-			</div>
-		</nav>
-		<section class="user-view-section col-sm-9" ng-view></section>
-	</div> -->
-
 	
 	<script type="text/javascript" src="/bower_components/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
