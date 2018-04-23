@@ -1,34 +1,36 @@
 <div class="row col-md-6 col-xs-12 automated-control">
 	<h1>Automated Control</h1>
 	<p>Choose whether to create a activity or choose from existing activity.</p>
-	<!-- <div class="automated-control-option" ng-controller="modalController as $ctrl"> -->
 	<div class="automated-control-option form-group">
 		<label>Select activity type:</label>
-		<select class="form-control" ng-init="activity.type = 'plow'" ng-model="activity.type">
+		<select class="form-control" ng-model="activity.type" ng-click="activity.label = activity.type + activity.label">
 			<option value="plow">Plow</option>
 			<option value="seed">Seed</option>
 			<option value=harvest>Harvest</option>
-		</select><!-- 
-		<button ng-disabled="!activity" class="btn btn-info" ng-click="$ctrl.open('addActivityModal', activity)">Create Template</button>
-		OR
-		<button class="btn btn-info" ng-click="$ctrl.open('chooseActivityModal', activity)" disabled="true">Choose Template</button> -->
+		</select>
 	</div>
-	<div class="form-group">
-		<ul class="nav nav-tabs" ng-init="option = 'create'">
-			<li role="presentation" ng-class="{'active': (activity.type && option == 'create')}" ng-disabled="!activity.type" ng-click="option = 'create'"><a href="">Create</a></li>
-			<li role="presentation" ng-class="{'active': (activity.type && option == 'choose')}" ng-disabled = "true" ng-click="option = 'choose'"><a href="">Choose</a></li>
+	<div ng-if="activity.type" class="form-group">
+		<ul class="nav nav-tabs" >
+			<li role="presentation" ng-class="{'active': (activity.type && option == 'create')}" ng-click="toggleOption('create')"><a href="">Create</a></li>
+			<li role="presentation" ng-class="{'active': (activity.type && option == 'choose')}" ng-click="toggleOption('choose')"><a href="">Choose</a></li>
 		</ul>
 	</div>
-	<!-- <div ng-hide="!modalService.getData('label')" class="automated-form-output"> -->
-	<div ng-init="activity.label = activity.type + activity.label" ng-if="activity.type != ''" class="automated-form-output">
-		<div class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
-			<input type="text" ng-model="activity.label" class="col-xs-10 col-md-11 form-control">
+	<div ng-if="activity.type" class="automated-form-output">
+		<div ng-if="option == 'create'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
+			<input type="text" ng-model="activity.label" class="col-xs-10 col-md-11 form-control" />
 			<button ng-disabled="!hasPath" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('addActivityModal', activity)">Ok</button>
+		</div>
+		<div ng-if="option == 'choose'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
+			<select class="col-xs-10 col-md-11 form-control">
+				<option ng-repeat="item in activityList" >{{item.type}}: {{item.label}}, {{item.date}}</option>
+			</select>
+			<button ng-disabled="!hasPath" class="col-xs-2 col-md-1 btn btn-success" ng-click="">Ok</button>
 		</div>
 		<div class="col-xs-12 automated-controls-select">
 			<button class="btn btn-primary" ng-click="toggleSelectAll(true)">Select All</button>
 			<button class="btn btn-danger" ng-disabled="!hasPath" ng-click="toggleSelectAll(false)">Deselect All</button>
 		</div>
+		<button ng-click="checkStartPoints(activity.path)">Click Me</button>
 		<div class="automated-table-vert-scroll table-resposive" ng-if="towns.length.length > 0 && towns.width.length > 0">
 			<table class="table-bordered automated-table-output">
 				<tr ng-repeat="x in towns.length">
