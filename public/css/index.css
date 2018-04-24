@@ -4,7 +4,7 @@ body{
 	font-family: "Roboto", Helvetica, Arial, sans-serif;
     font-size: 15px;
     height: 100vh;
-    /*width: 100vw;*/
+    background-color: #fff;
 }
 
 a{
@@ -67,8 +67,8 @@ nav{
 
 .nav-sidebar-container{
 	width: 32vh;
-	background-color: white;
-	border-right: solid rgb(204, 204, 204) 0.25px;
+	background-color: #fff;
+	border-right: solid #bdbdbd 0.25px;
 }
 
 .nav-sidebar-container a{
@@ -80,7 +80,7 @@ nav{
 }
 
 .nav-sidebar-container a:hover{
-	background-color: rgb(230, 230, 230);
+	background-color: #ab47bc;
 	cursor: pointer;
 }
 
@@ -95,6 +95,11 @@ nav{
 
 .nav-sidebar-button span{
 	font-weight: bolder;
+}
+
+.nav-sidebar-active{
+	background-color: #9c27b0;
+	color: #fff;
 }
 
 .show-bar{
