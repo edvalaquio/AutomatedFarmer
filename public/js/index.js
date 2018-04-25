@@ -9,7 +9,7 @@ angular.module("indexApp",
 	function($routeProvider, $locationProvider){
 		$routeProvider
 		.when("/", {
-			templateUrl: "/partials/homePage.php"
+			templateUrl: 	"/partials/home.html",
 		})
 		.when("/manual", {
 			templateUrl: 	"/partials/manualPage.html",
@@ -29,6 +29,7 @@ angular.module("indexApp",
 }])
 .controller("indexCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
 	function($rootScope, $scope, $window, $location, $http){
+		$scope.active = $location.url();
 		$http({
 			method	: 'GET', 
 			url		: '/getSocketData'
@@ -38,6 +39,7 @@ angular.module("indexApp",
 		}, function(error){
 			console.log(error);
 		});
+
 	}	
 ]);
 
