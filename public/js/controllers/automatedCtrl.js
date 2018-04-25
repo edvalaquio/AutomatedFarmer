@@ -20,6 +20,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				url		: '/getLot/' + $routeParams.lotid
 			}).then(function(res){
 				var d = new Date();
+
 				var temp = '(' + (d.getMonth() + 1) + '-' + d.getDate() + '-' + d.getFullYear() + ')';
 
 				$scope.activity = {
@@ -32,6 +33,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 					lot_id		: $routeParams.lotid
 				};
 
+				$scope.option = 'create'
 				$rootScope.towns = res.data;
 				for(var i = 0; i < $rootScope.towns.length; i++){
 					$scope.activity.path[i] = [];
@@ -39,22 +41,8 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 						$scope.activity.path[i][j] = false;
 					}
 				}
-				// console.log($scope.activity.path);
 				$rootScope.towns.length = computeRange($rootScope.towns.length);
 				$rootScope.towns.width = computeRange($rootScope.towns.width);
-				// console.log($rootScope.towns);
-			}, function(error){
-				console.log(error);
-			});
-			
-			$scope.activityList = []
-			$scope.option = 'create'
-			$http({
-				method	: 'GET', 
-				url		: '/getActivity/' + $routeParams.lotid
-			}).then(function(res){
-				console.log(res);
-				$scope.activityList = res.data
 			}, function(error){
 				console.log(error);
 			});
@@ -65,11 +53,40 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		console.log("Here in autoCtrl");
 
 		$scope.toggleOption = function(flag){
+			if(flag == 'choose'){
+				$scope.activityList = []
+				$http({
+					method	: 'GET', 
+					url		: '/getActivity/' + $routeParams.lotid
+				}).then(function(res){
+					console.log(res);
+					$scope.activityList = res.data
+				}, function(error){
+					console.log(error);
+				});
+			}
 			$scope.option = flag;
 		}
 
+		$scope.createLabel = function(){
+			$http({
+				method	: 'GET', 
+				url		: '/getActivity/' + $routeParams.lotid
+			}).then(function(res){
+				var temp = $scope.activity.type + $scope.activity.label;
+				var count = 0;
+				res.data.forEach(function(item){
+					if(item.label.startsWith(temp)){
+						count++;
+					}
+				})
+				$scope.activity.label = temp + "_" + count;
+			}, function(error){
+				console.log(error);
+			});
+		}
+
 		$scope.checkPath = function(){
-			// console.log($scope.activity.path);
 			for(var i = 0; i < $rootScope.towns.length.length; i++){
 				if(_.includes($scope.activity.path[i], true)){
 					$scope.hasPath = true;
@@ -93,17 +110,18 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		}
 
 		$scope.checkStartPoints = function(path){
-			// console.log(path[0].length);
-			var array = [];
-			for(var i = 0; i < path.length; i++){
-				for(var j = 0; j < path[i].length; j++){
-					if(path[i][j]){
-						var temp = "(" + i + "," + j + ")";
-						array.push(temp);
-					}
-				}
-			}
-			console.log(array);
+			console.log($scope.activity);
+			console.log($scope.activityList);
+			// var array = [];
+			// for(var i = 0; i < path.length; i++){
+			// 	for(var j = 0; j < path[i].length; j++){
+			// 		if(path[i][j]){
+			// 			var temp = "(" + i + "," + j + ")";
+			// 			array.push(temp);
+			// 		}
+			// 	}
+			// }
+			// console.log(array);
 		}
 
 		var computeRange = function(value){

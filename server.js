@@ -1,8 +1,6 @@
 'use strict';
 
 var app = require("./config/express.js");
-// var path = require('path');
-// var bodyParser = require('body-parser');
 var server = require('http').createServer(app);
 var env = require('./env');
 
@@ -27,13 +25,3 @@ con.connect(function(err) {
 		console.log("Listening on port: " + env.port);
 	})
 });
-// app.use(express.static(path.join(__dirname, 'public')));
-
-// app.use(function(req, res, next) {
-// 	console.log(`${req.method} request for '${req.url}'`);
-// 	next();
-// });
-
-// app.use(bodyParser.urlencoded({ extended: true }));
-
-// app.use(bodyParser.json());

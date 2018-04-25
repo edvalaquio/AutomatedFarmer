@@ -3,7 +3,7 @@
 	<p>Choose whether to create a activity or choose from existing activity.</p>
 	<div class="automated-control-option form-group">
 		<label>Select activity type:</label>
-		<select class="form-control" ng-model="activity.type" ng-click="activity.label = activity.type + activity.label">
+		<select class="form-control" ng-model="activity.type" ng-change="createLabel()">
 			<option value="plow">Plow</option>
 			<option value="seed">Seed</option>
 			<option value=harvest>Harvest</option>
@@ -17,12 +17,12 @@
 	</div>
 	<div ng-if="activity.type" class="automated-form-output">
 		<div ng-if="option == 'create'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
-			<input type="text" ng-model="activity.label" class="col-xs-10 col-md-11 form-control" />
+			<input type="text" ng-model="activity.label" class="col-xs-10 col-md-11 form-control" ng-change="checkLabel()"/>
 			<button ng-disabled="!hasPath" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('addActivityModal', activity)">Ok</button>
 		</div>
 		<div ng-if="option == 'choose'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
-			<select class="col-xs-10 col-md-11 form-control">
-				<option ng-repeat="item in activityList" >{{item.type}}: {{item.label}}, {{item.date}}</option>
+			<select class="col-xs-10 col-md-11 form-control" ng-options="item.label for item in activityList" ng-change="checkStartPoints(selected)" ng-model="selected">
+				<!-- <option ng-repeat="item in activityList" value="item.id">{{item.type}}: {{item.label}}, {{item.date}}</option> -->
 			</select>
 			<button ng-disabled="!hasPath" class="col-xs-2 col-md-1 btn btn-success" ng-click="">Ok</button>
 		</div>
@@ -35,7 +35,7 @@
 			<table class="table-bordered automated-table-output">
 				<tr ng-repeat="x in towns.length">
 					<td ng-repeat="y in towns.width">
-						<input type="checkbox" class="checkbox-big" ng-model="activity.path[x][y]" ng-click="checkPath()"/>
+						<input type="checkbox" class="checkbox-big" ng-class="{'disabled': option=='choose'}" ng-model="activity.path[x][y]" ng-click="checkPath()"/>
 					</td>
 				</tr>
 			</table>
