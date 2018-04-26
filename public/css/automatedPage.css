@@ -1,3 +1,13 @@
+.automated-form-output{
+	display: flex;
+	flex-direction: column;
+	/*height: 60vh;*/
+}
+
+.automated-table-output{
+	/*height: */
+}
+
 .automated-table-output tr, .automated-table-output td{
 	width: 50px;
 	height: 50px;
@@ -5,23 +15,30 @@
 }
 
 .automated-table-output td{
-	/*margin-left: 100px;*/
 	margin: 100px;
-	/*margin-right: 4px;*/
 }
 
-.automated-table-vert-scroll{
-	max-height: 60vh;
-	overflow-y: auto;
+.automated-table{
+	height: 40vh;
+	overflow-y: scroll;
+	overflow-x: scroll;
+	/*border: 1px solid;*/
+	/*overflow: auto;*/
+	/*overflow-y: auto;*/
 	/*overflow-x: auto;*/
 }
+
 .table-responsive{
-	overflow-x: auto;
+	overflow: auto;
 }
 .checkbox-big{
 	width: 30px;
 	height: 30px;
 	text-align: center;
+}
+
+.checkbox-start{
+	background: green;
 }
 
 .automated-choose{
@@ -71,9 +88,15 @@
 }
 
 .automated-controls-panel, .automated-controls-select{
-	margin-bottom: 20px;
+	margin-bottom: 15px;
 	display: flex;
 	flex-direction: row;
+	/*height: 10%;*/
+}
+
+.automated-controls-panel > *, .automated-controls-select > *{
+	/*height: 100%;*/
+	height: 35px;
 }
 
 .modal-content{

@@ -28,7 +28,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 					date 		: '',
 					type 		: '',
 					path 		: [[]],
-					startPoint 	: '',
+					points 		: [],
 					direction	: '',
 					lot_id		: $routeParams.lotid
 				};
@@ -41,8 +41,10 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 						$scope.activity.path[i][j] = false;
 					}
 				}
+				// console.log($rootScope.towns);
 				$rootScope.towns.length = computeRange($rootScope.towns.length);
 				$rootScope.towns.width = computeRange($rootScope.towns.width);
+				// console.log($rootScope.towns);
 			}, function(error){
 				console.log(error);
 			});
@@ -85,14 +87,67 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				console.log(error);
 			});
 		}
-
-		$scope.checkPath = function(){
-			for(var i = 0; i < $rootScope.towns.length.length; i++){
-				if(_.includes($scope.activity.path[i], true)){
-					$scope.hasPath = true;
-					break;
+		$scope.points = [];
+		$scope.checkFunction = function(x, y){
+			countTrue();
+			if($scope.activity.path[x][y]){
+				$scope.points.push({x: x, y: y});
+				if($scope.numChecks == 1){
+					$scope.startPoint = $scope.points[0];
+					return;
 				}
+				var direction = getDirection($scope.points[$scope.points.length - 2], $scope.points[$scope.points.length - 1]);
+				if(!direction){
+					$scope.hasInvalid = $scope.points[$scope.points.length - 1];
+				}
+			} else { 
+				$scope.points = removePoints($scope.points, x, y);
+				if($scope.hasInvalid){
+					$scope.hasInvalid = false;
+				}
+				countTrue();
+				if(!$scope.numChecks){
+					console.log("Hello");
+					$scope.startPoint = false;
+				}
+			}
+		}
+
+		var removePoints = function(points, x, y){
+			var index = _.findIndex(points, function(item){
+				return item.x == x && item.y == y;
+			});
+			var removedPoints = _.slice(points, index, points.length)
+			var dropCount =  points.length - index;
+			points = _.dropRight(points, dropCount)
+			removedPoints.forEach(function(item){
+				$scope.activity.path[item.x][item.y] = false;
+			});
+			return points;
+		}
+
+		var getDirection = function(from, to){
+			if(from.x == (to.x) + 1 && from.y == (to.y)){
+				return "South";
+			} else if(from.x == (to.x) - 1 && from.y == to.y){
+				return "North";
+			} else if(from.x == (to.x) && from.y == (to.y) + 1){
+				return "East";
+			} else if(from.x == (to.x) && from.y == (to.y) - 1){
+				return "West";
+			}
+			return false;
+		}
+
+		var countTrue = function(){
+			var temp = _.flatten($scope.activity.path, true);
+			$scope.numChecks = _.filter(temp, function(item){
+				return item == true;
+			}).length;
+			if($scope.numChecks == 0){
 				$scope.hasPath = false;
+			} else {
+				$scope.hasPath = true;
 			}
 		}
 
@@ -171,7 +226,6 @@ autoModule.controller("autoModalCtrl", ["$scope", "$window", "$location", "$http
 				url		: '/addActivity',
 				data 	: $add.activity
 			}).then(function(res){
-        		// $window.location.href = "#!/automated/" + res.data.lotid
 				console.log(res);
 				$ctrl.ok();
 			}, function(error){
