@@ -193,9 +193,7 @@ autoModule.controller("autoModalCtrl", ["$scope", "$window", "$location", "$http
 	function($scope, $window, $location, $http, modalService){
 		var $add = this;
 		console.log("Here in autoModalCtrl");
-		if(modalService.getData('activity')){
-			$add.activity = modalService.getData('activity')
-		}
+
 		$add.addLot = function($ctrl){
 			var data = {
 				'name' 		: $add.name + "",
@@ -231,6 +229,21 @@ autoModule.controller("autoModalCtrl", ["$scope", "$window", "$location", "$http
 			}, function(error){
 				console.log(error);
 			});
+		}
+		
+		// $scope.count = 0;
+		// $scope.validateLotName = function(){
+		// 	$scope.count = $scope.name.length;
+		// }
+
+		$scope.validateForm = function(){
+			console.log("Validating...");
+			if(!$scope.name || !$scope.province || !$scope.length1 || !$scope.width){
+				return true;
+			}
+			if(isNaN(parseInt($scope.length1)) || isNaN(parseInt($scope.width))){
+				return true;
+			}
 		}
 
 	}
