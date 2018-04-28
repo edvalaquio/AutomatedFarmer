@@ -86,6 +86,7 @@ nav{
 
 .nav-sidebar-container a:hover{
 	background-color: #ab47bc;
+	color: #fff;
 	cursor: pointer;
 }
 
@@ -102,7 +103,7 @@ nav{
 	font-weight: bolder;
 }
 
-.nav-sidebar-active{
+.nav-sidebar-active, .nav-sidebar-active:visited{
 	background-color: #9c27b0;
 	color: #fff;
 }

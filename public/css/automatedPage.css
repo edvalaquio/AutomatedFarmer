@@ -4,10 +4,6 @@
 	/*height: 60vh;*/
 }
 
-.automated-table-output{
-	/*height: */
-}
-
 .automated-table-output tr, .automated-table-output td{
 	width: 50px;
 	height: 50px;
@@ -22,6 +18,8 @@
 	height: 40vh;
 	overflow-y: scroll;
 	overflow-x: scroll;
+	/*display: flex;*/
+	/*justify-content: center;*/
 	/*border: 1px solid;*/
 	/*overflow: auto;*/
 	/*overflow-y: auto;*/
