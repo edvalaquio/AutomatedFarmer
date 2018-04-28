@@ -27,24 +27,21 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 					label 		: temp,
 					date 		: '',
 					type 		: '',
-					path 		: [[]],
-					points 		: [],
-					direction	: '',
+					grid 		: [[]],
+					path 		: [],
 					lot_id		: $routeParams.lotid
 				};
 
 				$scope.option = 'create'
 				$rootScope.towns = res.data;
 				for(var i = 0; i < $rootScope.towns.length; i++){
-					$scope.activity.path[i] = [];
+					$scope.activity.grid[i] = [];
 					for(var j = 0; j < $rootScope.towns.width; j++){
-						$scope.activity.path[i][j] = false;
+						$scope.activity.grid[i][j] = false;
 					}
 				}
-				// console.log($rootScope.towns);
 				$rootScope.towns.length = computeRange($rootScope.towns.length);
 				$rootScope.towns.width = computeRange($rootScope.towns.width);
-				// console.log($rootScope.towns);
 			}, function(error){
 				console.log(error);
 			});
@@ -55,6 +52,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		console.log("Here in autoCtrl");
 
 		$scope.toggleOption = function(flag){
+			$scope.toggleSelectAll(false);
 			if(flag == 'choose'){
 				$scope.activityList = []
 				$http({
@@ -71,59 +69,81 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		}
 
 		$scope.createLabel = function(){
-			$http({
-				method	: 'GET', 
-				url		: '/getActivity/' + $routeParams.lotid
-			}).then(function(res){
-				var temp = $scope.activity.type + $scope.activity.label;
-				var count = 0;
-				res.data.forEach(function(item){
-					if(item.label.startsWith(temp)){
-						count++;
-					}
-				})
-				$scope.activity.label = temp + "_" + count;
-			}, function(error){
-				console.log(error);
-			});
+			$scope.activity.label = $scope.activity.type + $scope.activity.label
 		}
-		$scope.points = [];
-		$scope.checkFunction = function(x, y){
-			countTrue();
-			if($scope.activity.path[x][y]){
-				$scope.points.push({x: x, y: y});
-				if($scope.numChecks == 1){
-					$scope.startPoint = $scope.points[0];
-					return;
-				}
-				var direction = getDirection($scope.points[$scope.points.length - 2], $scope.points[$scope.points.length - 1]);
-				if(!direction){
-					$scope.hasInvalid = $scope.points[$scope.points.length - 1];
-				}
-			} else { 
-				$scope.points = removePoints($scope.points, x, y);
-				if($scope.hasInvalid){
-					$scope.hasInvalid = false;
-				}
-				countTrue();
-				if(!$scope.numChecks){
-					console.log("Hello");
-					$scope.startPoint = false;
+
+		// $scope.selectedActivity = false;
+		$scope.toggleActivity = function(activity){
+			console.log(activity);
+			$scope.activity.grid = activity.grid;
+			$scope.startPoint = activity.path[0]
+		}
+
+		$scope.toggleSelectAll = function(flag){
+			$scope.hasPath = flag;
+			$scope.activity.path = [];
+			for(var i = 0; i < $rootScope.towns.length.length; i++){
+				if(!(i%2)){
+					for(var j = 0; j < $rootScope.towns.width.length; j++){
+						$scope.activity.grid[i][j] = flag;
+						pathFunction(i, j);
+					}
+				} else {
+					for(var j = $rootScope.towns.width.length - 1; j > -1; j--){
+						$scope.activity.grid[i][j] = flag;
+						pathFunction(i, j);
+					}
 				}
 			}
 		}
 
-		var removePoints = function(points, x, y){
-			var index = _.findIndex(points, function(item){
+		$scope.checkFunction = function(x, y){
+			pathFunction(x, y);
+		}
+
+		var pathFunction = function(x, y){
+			console.log($scope.activity.grid[x][y]);
+			if($scope.activity.grid[x][y]){
+				$scope.activity.path = createPath($scope.activity.path, x, y);
+				if($scope.activity.path.length > 1){
+					var direction = getDirection($scope.activity.path[$scope.activity.path.length - 2], $scope.activity.path[$scope.activity.path.length - 1]);
+					if(!direction){
+						$scope.hasInvalid = $scope.activity.path[$scope.activity.path.length - 1];
+						$scope.message = "Invalid path!";
+					}
+				}
+			} else { 
+				$scope.activity.path = removePath($scope.activity.path, x, y);
+				if($scope.hasInvalid){
+					$scope.hasInvalid = false;
+					$scope.message = "";
+				}
+			}
+		}
+
+		var createPath = function(path, x, y){
+			path.push({x: x, y: y});
+			if(path.length == 1){
+				$scope.startPoint = path[0];
+			}
+			return path;
+		}
+
+		var removePath = function(path, x, y){
+			var index = _.findIndex(path, function(item){
 				return item.x == x && item.y == y;
 			});
-			var removedPoints = _.slice(points, index, points.length)
-			var dropCount =  points.length - index;
-			points = _.dropRight(points, dropCount)
+			var removedPoints = _.slice(path, index, path.length)
+			var dropCount =  path.length - index;
+			path = _.dropRight(path, dropCount)
 			removedPoints.forEach(function(item){
-				$scope.activity.path[item.x][item.y] = false;
+				$scope.activity.grid[item.x][item.y] = false;
 			});
-			return points;
+			if(!path.length){
+				$scope.startPoint = false;
+				return [];
+			}
+			return path;
 		}
 
 		var getDirection = function(from, to){
@@ -137,46 +157,6 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				return "West";
 			}
 			return false;
-		}
-
-		var countTrue = function(){
-			var temp = _.flatten($scope.activity.path, true);
-			$scope.numChecks = _.filter(temp, function(item){
-				return item == true;
-			}).length;
-			if($scope.numChecks == 0){
-				$scope.hasPath = false;
-			} else {
-				$scope.hasPath = true;
-			}
-		}
-
-		$scope.toggleSelectAll = function(flag){
-			$scope.hasPath = false;
-			if(flag){
-				$scope.hasPath = flag;
-			}
-			for(var i = 0; i < $rootScope.towns.length.length; i++){
-				for(var j = 0; j < $rootScope.towns.width.length; j++){
-					$scope.activity.path[i][j] = flag;
-				}
-			}
-			console.log($scope.activity.path);
-		}
-
-		$scope.checkStartPoints = function(path){
-			console.log($scope.activity);
-			console.log($scope.activityList);
-			// var array = [];
-			// for(var i = 0; i < path.length; i++){
-			// 	for(var j = 0; j < path[i].length; j++){
-			// 		if(path[i][j]){
-			// 			var temp = "(" + i + "," + j + ")";
-			// 			array.push(temp);
-			// 		}
-			// 	}
-			// }
-			// console.log(array);
 		}
 
 		var computeRange = function(value){

@@ -38,12 +38,16 @@ module.exports = function(app, con, env){
 
 	app.get('/getActivity/:lotid', function(req, res){
 		console.log("hello");
-		var query = "SELECT * FROM acitivity WHERE lot_id=" + req.params.lotid;
+		var query = "SELECT id, label, grid, path FROM acitivity WHERE lot_id=" + req.params.lotid;
 		con.query(query, function(err, result, fields){
 			if(err){
 				res.send(err);
 				return;
 			}
+			result.forEach(function(activity){
+				activity.path = JSON.parse(activity.path)
+				activity.grid = JSON.parse(activity.grid)
+			})
 			console.log(result);
 			res.send(result);
 		})
@@ -71,24 +75,36 @@ module.exports = function(app, con, env){
 	app.post('/addActivity', function(req, res){
 		console.log(req.body);
 		var activityDetails = req.body;
-		var temp = [];
-		for(var i = 0; i < activityDetails.path.length; i++){
-			for(var j = 0; j < activityDetails.path[i].length; j++){
-				temp.push('(' + i + ',' + j + ')');
-			}
-		}
-		activityDetails.path = JSON.stringify(temp);
-		activityDetails = _.map(activityDetails);
 		console.log(activityDetails);
-		var query = "INSERT INTO acitivity (label, date, type, path, startpoint, direction, lot_id) VALUES ?"
-		con.query(query, [[activityDetails]], function (err, result, fields) {
+
+		var labelCount = "SELECT id, COUNT(*) from acitivity WHERE label LIKE '" + activityDetails.label + "%'";
+		con.query(labelCount, function(err, result, fields){
 			if(err){
 				console.log(err);
 				res.send("Error");
 				return;
 			}
-			console.log("These is success!");
-			res.send("Success!");
+			console.log(result);
+			var count =  "_" + (result[0]['COUNT(*)'] + 1); 
+			// console.log(activityDetails.label);
+
+			activityDetails.label += count;
+			
+			activityDetails.path = JSON.stringify(activityDetails.path);
+			activityDetails.grid = JSON.stringify(activityDetails.grid);
+			activityDetails = _.map(activityDetails);
+			console.log(activityDetails);
+			var query = "INSERT INTO acitivity (label, date, type, grid, path, lot_id) VALUES ?"
+			con.query(query, [[activityDetails]], function (err, result, fields) {
+				if(err){
+					console.log(err);
+					res.send("Error");
+					return;
+				}
+				console.log("These is success!");
+				res.send("Success!");
+			});
 		});
+
 	})
 }

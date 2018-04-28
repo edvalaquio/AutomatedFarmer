@@ -10,15 +10,16 @@
 	<link rel="stylesheet" type="text/css" href="/css/index.css">
 </head>
 <body ng-controller="indexCtrl">
-	<nav class="navbar navbar-automated-farming">
+	<nav class="navbar navbar-automated-farming navbar-fixed-top">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/">
+			<a class="navbar-brand">
+				<button ng-click="sideBar = !sideBar">click</button>
 				<span class="glyphicon glyphicon-grain"></span>
 				 Automated Farming
 			</a>
 		</div>
 	</nav>
-	<div ng-init="sideBar = false" class="extend-bar" ng-show="sideBar" ng-click="sideBar = false"></div>
+	<div class="extend-bar" ng-show="sideBar" ng-click="sideBar = false"></div>
 	<div class="nav-sidebar" ng-class="{'show-bar': sideBar}">
 		<div class="nav-sidebar-container">
 			<a class="a-sidebar" ng-click="active = '/'" ng-class="{'nav-sidebar-active': active == '/'}" href="/">Welcome</a>
@@ -26,11 +27,11 @@
 			<a class="a-sidebar" ng-click="active = '/automated'" ng-class="{'nav-sidebar-active': active.includes('/automated')}" href="/#!/automated">Automated Control</a>
 			<a class="a-sidebar" ng-click="active = '/activities'" ng-class="{'nav-sidebar-active': active == '/activities'}" href="/#!/activities">Activity</a>
 		</div>
-		<div class="nav-sidebar-button">
+<!-- 		<div class="nav-sidebar-button">
 			<button class="btn btn-sidebar" ng-click="sideBar = !sideBar">
 				<span class="glyphicon" ng-class="{'glyphicon-menu-right':!sideBar, 'glyphicon-menu-left':sideBar}"></span>
 			</button>
-		</div>
+		</div> -->
 	</div>
 	<section class="user-view-section" ng-view></section>
 	

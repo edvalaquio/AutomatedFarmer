@@ -6,7 +6,7 @@
 		<select class="form-control" ng-model="activity.type" ng-change="createLabel()">
 			<option value="plow">Plow</option>
 			<option value="seed">Seed</option>
-			<option value=harvest>Harvest</option>
+			<option value="harvest">Harvest</option>
 		</select>
 	</div>
 	<div ng-if="activity.type" class="form-group">
@@ -15,32 +15,31 @@
 			<li role="presentation" ng-class="{'active': (activity.type && option == 'choose')}" ng-click="toggleOption('choose')"><a href="">Choose</a></li>
 		</ul>
 	</div>
-	<div class="automated-form-output">
-	<!-- <div ng-if="activity.type" class="automated-form-output"> -->
+	<div ng-if="activity.type" class="automated-form-output">
 		<div ng-if="option == 'create'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
-			<input type="text" ng-model="activity.label" class="col-xs-10 col-md-11 form-control" ng-change="checkLabel()"/>
-			<button ng-disabled="!hasPath || hasInvalid" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('addActivityModal', activity)">Ok</button>
+			<input type="text" ng-model="activity.label" class="col-xs-10 col-md-11 form-control"/>
+			<button ng-disabled="activity.path.length == 0 || hasInvalid" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('addActivityModal', activity)">Ok</button>
 		</div>
-		<div ng-if="option == 'choose'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
-			<select class="col-xs-10 col-md-11 form-control" ng-options="item.label for item in activityList" ng-change="checkStartPoints(selected)" ng-model="selected">
+		<div ng-if="option == 'choose'" class="col-xs-12 automated-controls-panel">
+			<select class="col-xs-10 col-md-11 form-control" ng-change="toggleActivity(value)" ng-model="value">
+				<option ng-repeat="item in activityList" ng-value="item">{{item.label}}</option>
 				<!-- <option ng-repeat="item in activityList" value="item.id">{{item.type}}: {{item.label}}, {{item.date}}</option> -->
 			</select>
 			<button ng-disabled="!hasPath" class="col-xs-2 col-md-1 btn btn-success" ng-click="">Ok</button>
 		</div>
-		<div class="col-xs-12 automated-controls-select">
-			<button class="btn btn-primary" ng-click="toggleSelectAll(true)">Select All</button>
-			<button class="btn btn-danger" ng-disabled="!hasPath" ng-click="toggleSelectAll(false)">Deselect All</button>
+		<div ng-if="option == 'create'" class="col-xs-12 automated-controls-select">
+			<button class="btn btn-primary" ng-click="toggleSelectAll(true)" ng-disabled="hasInvalid">Select All</button>
+			<button class="btn btn-danger" ng-disabled="activity.path.length == 0" ng-click="toggleSelectAll(false)">Deselect All</button>
 		</div>
 		<!-- <button></button> -->
 		<div class="col-xs-12 automated-table" ng-if="towns.length.length > 0 && towns.width.length > 0">
-			<p>{{startPoint}}</p>
+			<p>{{message}}</p>
 			<table class="table-bordered automated-table-output">
 				<tr ng-repeat="x in towns.length">
 					<td ng-repeat="y in towns.width" ng-class="{'checkbox-start': (startPoint.x == x && startPoint.y == y)}">
-						<!-- <input ng-if="!hasInvalid" type="checkbox" class="checkbox-big" ng-class="{'disabled': option=='choose'}" ng-model="activity.path[x][y]" ng-click="checkFunction(x, y)"/> -->
-						<input ng-if="!hasInvalid" type="checkbox" class="checkbox-big"  ng-disabled="option=='choose'" ng-model="activity.path[x][y]" ng-click="checkFunction(x, y)"/>
+						<input ng-if="!hasInvalid" type="checkbox" class="checkbox-big"  ng-disabled="option=='choose'" ng-model="activity.grid[x][y]" ng-click="checkFunction(x, y)"/>
 
-						<input ng-if="hasInvalid && x == hasInvalid.x && y == hasInvalid.y" type="checkbox" class="checkbox-big" ng-disabled="option=='choose'" ng-model="activity.path[x][y]" ng-click="checkFunction(x, y)"/>
+						<input ng-if="hasInvalid && x == hasInvalid.x && y == hasInvalid.y" type="checkbox" class="checkbox-big" ng-disabled="option=='choose'" ng-model="activity.grid[x][y]" ng-click="checkFunction(x, y)"/>
 					</td>
 				</tr>
 			</table>
