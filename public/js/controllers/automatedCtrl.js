@@ -4,6 +4,7 @@ var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"
 autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams", "modalService",
 	function($rootScope, $scope, $window, $location, $http, $routeParams, modalService){
 		// var socket;
+		$scope.isLoading = true;
 		if($location.url() == '/automated'){
 			$http({
 				method	: 'GET', 
@@ -11,6 +12,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 			}).then(function(res){
 				console.log(res.data);
 				$rootScope.towns = res.data;
+				$scope.isLoading = false;
 			}, function(error){
 				console.log(error);
 			});
@@ -19,12 +21,9 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				method	: 'GET', 
 				url		: '/getLot/' + $routeParams.lotid
 			}).then(function(res){
-				var d = new Date();
-
-				var temp = '(' + (d.getMonth() + 1) + '-' + d.getDate() + '-' + d.getFullYear() + ')';
-
+				
 				$scope.activity = {
-					label 		: temp,
+					label 		: "",
 					date 		: '',
 					type 		: '',
 					grid 		: [[]],
@@ -42,6 +41,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				}
 				$rootScope.towns.length = computeRange($rootScope.towns.length);
 				$rootScope.towns.width = computeRange($rootScope.towns.width);
+
 			}, function(error){
 				console.log(error);
 			});
@@ -57,10 +57,11 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				$scope.activityList = []
 				$http({
 					method	: 'GET', 
-					url		: '/getActivity/' + $routeParams.lotid
+					url		: '/getActivity/' + $routeParams.lotid + '/' + $scope.activity.type
 				}).then(function(res){
 					console.log(res);
 					$scope.activityList = res.data
+					// console.log($scope.activity.path);
 				}, function(error){
 					console.log(error);
 				});
@@ -69,21 +70,52 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		}
 
 		$scope.createLabel = function(){
-			$scope.activity.label = $scope.activity.type + $scope.activity.label
+			var d = new Date();
+			var temp = '(' + (d.getMonth() + 1) + '-' + d.getDate() + '-' + d.getFullYear() + ')';
+			$scope.activity.label = $scope.activity.type + temp;
+			$scope.toggleSelectAll(false);
+			if($scope.activity.type != 'plow'){
+				var type = "";
+				if($scope.activity.type == 'seed'){
+					type = 'plow';
+				} else {
+					type = 'seed';
+				}
+
+				$scope.templateList = []
+				$http({
+					method	: 'GET', 
+					url		: '/getActivity/' + $routeParams.lotid + '/' + type
+				}).then(function(res){
+					console.log(res);
+					$scope.templateList = res.data;
+					console.log($scope.templateList);
+				}, function(error){
+					console.log(error);
+				});
+			}
 		}
 
-		// $scope.selectedActivity = false;
+		$scope.setTemplate = function(item){
+			if(!item){
+				return;
+			}
+			$scope.activity.path = item.path;
+			$scope.activity.grid = item.grid;
+			$scope.startPoint = item.path[0];
+			console.log($scope.activity.grid);
+		}
+
 		$scope.toggleActivity = function(activity){
-			console.log(activity);
-			$scope.activity.grid = activity.grid;
-			$scope.startPoint = activity.path[0]
+			$scope.activity = activity;
+			$scope.startPoint = activity.path[0];
 		}
 
 		$scope.toggleSelectAll = function(flag){
 			$scope.hasPath = flag;
 			$scope.activity.path = [];
 			for(var i = 0; i < $rootScope.towns.length.length; i++){
-				if(!(i%2)){
+				if(i%2 == 0){
 					for(var j = 0; j < $rootScope.towns.width.length; j++){
 						$scope.activity.grid[i][j] = flag;
 						pathFunction(i, j);
@@ -102,7 +134,6 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		}
 
 		var pathFunction = function(x, y){
-			console.log($scope.activity.grid[x][y]);
 			if($scope.activity.grid[x][y]){
 				$scope.activity.path = createPath($scope.activity.path, x, y);
 				if($scope.activity.path.length > 1){
@@ -197,12 +228,12 @@ autoModule.controller("autoModalCtrl", ["$scope", "$window", "$location", "$http
 		}
 
 		$add.submitActivityLabel = function($ctrl){
-			// console.log($add.activity);
-			$add.activity.date = new Date();
+			console.log($scope.activity);
+			$scope.activity.date = new Date();
 			$http({
 				method	: 'POST', 
 				url		: '/addActivity',
-				data 	: $add.activity
+				data 	: $scope.activity
 			}).then(function(res){
 				console.log(res);
 				$ctrl.ok();
