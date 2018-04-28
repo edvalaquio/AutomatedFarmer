@@ -42,8 +42,8 @@ modalModule.controller('modalController', function ($uibModal, $log, $document, 
 // It is not the same as the $uibModal service used above.
 modalModule.controller('modalInstanceController', function ($uibModalInstance, items) {
 	var $ctrl = this;
-	// console.log(items);
 	$ctrl.items = items;
+	console.log($ctrl.items);
 
 	$ctrl.ok = function () {
 		$uibModalInstance.close();
