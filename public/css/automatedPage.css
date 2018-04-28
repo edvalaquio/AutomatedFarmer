@@ -26,6 +26,17 @@
 	/*overflow-x: auto;*/
 }
 
+.automated-plus-button{
+	background-color: #4a148c;
+	border-color: #4a148c;
+	color: #fff;
+}
+
+.automated-plus-button:hover{
+	border-color: #ccc;
+	box-shadow: 2px 2px 2px 2px #ccc;
+}
+
 .table-responsive{
 	overflow: auto;
 }
@@ -54,7 +65,7 @@
 
 .automated-choose-select{
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 1px;
     margin-top: 10px;
     padding: 0;
     height: 55vh;
@@ -65,7 +76,7 @@
 .automated-choose-select a{
 	border: 0;
 	border-radius: 0;
-	border-bottom: 1px solid #ccc;	
+	border-bottom: 1px solid #ccc;
 	min-height: 30%;
 	width: 100%;
 	padding: 10px;
@@ -99,4 +110,34 @@
 
 .modal-content{
 	border-radius: 0;
+	border: none;
+}
+
+.automated-modal-header{
+	background-color: #4a148c;
+	color: #fff;
+}
+
+.automated-modal-close{
+	color: #fff;
+	opacity: 0.7;
+}
+
+.automated-modal-close:hover, .automated-modal-close:focus{
+	color: #fff;
+	opacity: 1;
+}
+
+.automated-modal-input{
+	width: 100%;
+	padding: 15px;
+	border: none;
+	border-bottom: 3px solid #ccc;
+	transition: 0.5s;
+    outline: none;
+}
+
+.automated-modal-input:focus{
+	border: none;
+	border-bottom: 3px solid #4a148c;
 }
