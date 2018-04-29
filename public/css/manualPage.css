@@ -13,6 +13,6 @@
 .btn.btn-manual:hover{
 	border: none;
 	color: #212121;
-	background-color: #eeeeee;
-	box-shadow: 0 2px 2px #ccc;
+	background-color: #D2D7D3;
+	box-shadow: 2px 2px 2px #999;
 }

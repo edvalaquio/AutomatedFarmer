@@ -37,8 +37,8 @@
 .btn.automated-plus-button:hover{
 	border: none;
 	color: #212121;
-	background-color: #eeeeee;
-	box-shadow: 0 2px 2px #ccc;
+	background-color: #D2D7D3;
+	box-shadow: 0 2px 2px #999;
 }
 
 .table-responsive{
@@ -126,7 +126,7 @@
 }
 
 .automated-modal-header{
-	background-color: #bdbdbd;
+	background-color: #27ae60;
 	color: #fff;
 }
 
@@ -151,5 +151,5 @@
 
 .automated-modal-input:focus{
 	border: none;
-	border-bottom: 3px solid #4527a0;
+	border-bottom: 3px solid #566573;
 }
