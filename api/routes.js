@@ -37,7 +37,6 @@ module.exports = function(app, con, env){
 	});
 
 	app.get('/getActivity/:lotid', function(req, res){
-		console.log("hello");
 		var query = "SELECT id, label, grid, path FROM acitivity WHERE lot_id=" + req.params.lotid;
 		con.query(query, function(err, result, fields){
 			if(err){
@@ -54,8 +53,16 @@ module.exports = function(app, con, env){
 	});
 
 	app.get('/getActivity/:lotid/:type', function(req, res){
-		console.log("hello");
-		var query = "SELECT * FROM acitivity WHERE lot_id=" + req.params.lotid + " AND type='" + req.params.type + "';"
+
+		var query = "";
+		if(req.params.type == "plow"){
+			query = "SELECT id, grid, path, label FROM " + req.params.type + " WHERE lot_id=" + req.params.lotid;
+		} else if(req.params.type == "seed"){
+			query = "SELECT seed.id, seed.label, seed.lot_id, seed.template, plow.grid, plow.path FROM seed INNER JOIN plow ON seed.template=plow.id WHERE seed.lot_id=" + req.params.lotid;
+		} else {
+			query = "SELECT harvest.id, harvest.label, harvest.lot_id, harvest.template, plow.grid, plow.path FROM harvest INNER JOIN seed INNER JOIN plow ON harvest.template=seed.id AND seed.template=plow.id WHERE harvest.lot_id=" + req.params.lotid;
+		}
+
 		con.query(query, function(err, result, fields){
 			if(err){
 				res.send(err);
@@ -90,10 +97,10 @@ module.exports = function(app, con, env){
 	});
 
 	app.post('/addActivity', function(req, res){
-		console.log(req.body);
 		var activityDetails = req.body;
+		console.log(activityDetails);
 
-		var labelCount = "SELECT id, COUNT(*) from acitivity WHERE label LIKE '" + activityDetails.label + "%'";
+		var labelCount = "SELECT id, COUNT(*) from " + activityDetails.type + " WHERE label LIKE '" + activityDetails.label + "%'";
 		con.query(labelCount, function(err, result, fields){
 			if(err){
 				console.log(err);
@@ -104,10 +111,22 @@ module.exports = function(app, con, env){
 			var count =  "_" + (result[0]['COUNT(*)'] + 1); 
 			activityDetails.label += count;
 			
-			activityDetails.path = JSON.stringify(activityDetails.path);
-			activityDetails.grid = JSON.stringify(activityDetails.grid);
+			var columns;
+			if(activityDetails.type == 'plow'){
+				columns = "label, grid, path, lot_id";
+				activityDetails.path = JSON.stringify(activityDetails.path);
+				activityDetails.grid = JSON.stringify(activityDetails.grid);
+				activityDetails = _.omit(activityDetails, 'template')
+			} else {
+				columns = "label, template, lot_id";
+				activityDetails = _.omit(activityDetails, ['grid', 'path'])
+			}
+
+			var query = "INSERT INTO " + activityDetails.type + " (" + columns + ") VALUES ?";
+			
+			activityDetails = _.omit(activityDetails, 'type');
 			activityDetails = _.map(activityDetails);
-			var query = "INSERT INTO acitivity (label, date, type, grid, path, lot_id) VALUES ?"
+			console.log(activityDetails);
 			con.query(query, [[activityDetails]], function (err, result, fields) {
 				if(err){
 					console.log(err);

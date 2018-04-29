@@ -3,7 +3,7 @@
 	<p>Choose whether to create an activity or to choose from existing activity.</p>
 	<div class="automated-control-option form-group">
 		<label>Select activity type:</label>
-		<select class="form-control" ng-model="activity.type" ng-change="createLabel()">
+		<select class="form-control" ng-model="activity.type" ng-change="setActivity()">
 			<option value="plow">Plow</option>
 			<option value="seed">Seed</option>
 			<option value="harvest">Harvest</option>
@@ -21,7 +21,7 @@
 			<button ng-disabled="activity.path.length == 0 || hasInvalid" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('addActivityModal', activity)">Ok</button>
 		</div>
 		<div ng-if="option == 'choose'" class="col-xs-12 automated-controls-panel">
-			<select class="col-xs-10 col-md-11 form-control" ng-change="toggleActivity(value)" ng-model="value">
+			<select class="col-xs-10 col-md-11 form-control" ng-change="setTemplate(value)" ng-model="value">
 				<option ng-repeat="item in activityList" ng-value="item">{{item.label}}</option>
 			</select>
 			<button ng-disabled="!hasPath" class="col-xs-2 col-md-1 btn btn-success" ng-click="">Ok</button>
@@ -31,7 +31,7 @@
 			<button class="btn btn-danger" ng-disabled="activity.path.length == 0" ng-click="toggleSelectAll(false)">Deselect All</button>
 		</div>
 		<div ng-if="option == 'create' && (activity.type == 'seed' || activity.type == 'harvest')" class="col-xs-12 automated-controls-select">
-			<select class="form-control" ng-model="template" ng-change="setTemplate(template)">
+			<select class="form-control" ng-model="template" ng-change="setPreviousActivity(template)">
 				<option ng-repeat="item in templateList" ng-value="item">{{item.label}}</option>
 			</select>
 		</div>

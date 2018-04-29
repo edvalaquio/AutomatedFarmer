@@ -24,10 +24,9 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				
 				$scope.activity = {
 					label 		: "",
-					date 		: '',
-					type 		: '',
 					grid 		: [[]],
 					path 		: [],
+					template 	: "",
 					lot_id		: $routeParams.lotid
 				};
 
@@ -51,29 +50,12 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		var socket = io('http://' + $rootScope.hostAddress + ':3000');
 		console.log("Here in autoCtrl");
 
-		$scope.toggleOption = function(flag){
-			$scope.toggleSelectAll(false);
-			if(flag == 'choose'){
-				$scope.activityList = []
-				$http({
-					method	: 'GET', 
-					url		: '/getActivity/' + $routeParams.lotid + '/' + $scope.activity.type
-				}).then(function(res){
-					console.log(res);
-					$scope.activityList = res.data
-					// console.log($scope.activity.path);
-				}, function(error){
-					console.log(error);
-				});
-			}
-			$scope.option = flag;
-		}
-
-		$scope.createLabel = function(){
+		$scope.setActivity = function(){
 			var d = new Date();
 			var temp = '(' + (d.getMonth() + 1) + '-' + d.getDate() + '-' + d.getFullYear() + ')';
 			$scope.activity.label = $scope.activity.type + temp;
 			$scope.toggleSelectAll(false);
+			console.log($scope.activity.label);
 			if($scope.activity.type != 'plow'){
 				var type = "";
 				if($scope.activity.type == 'seed'){
@@ -96,19 +78,49 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 			}
 		}
 
-		$scope.setTemplate = function(item){
+		$scope.toggleOption = function(flag){
+			$scope.toggleSelectAll(false);
+			if(flag == 'choose'){
+				$scope.activityList = []
+				$http({
+					method	: 'GET', 
+					url		: '/getActivity/' + $routeParams.lotid + '/' + $scope.activity.type
+				}).then(function(res){
+					console.log(res);
+					$scope.activityList = res.data
+				}, function(error){
+					console.log(error);
+				});
+				// $http({
+				// 	method	: 'GET', 
+				// 	url		: '/getActivity/' + $routeParams.lotid + '/' + $scope.activity.type
+				// }).then(function(res){
+				// 	console.log(res);
+				// 	$scope.activityList = res.data
+				// }, function(error){
+				// 	console.log(error);
+				// });
+			}
+			$scope.option = flag;
+		}
+
+		$scope.setTemplate = function(activity){
+			console.log(activity);
+			$scope.activity.path = activity.path;
+			$scope.startPoint = activity.path[0];
+			$scope.activity.grid = activity.grid;
+		}
+
+		$scope.setPreviousActivity = function(item){
 			if(!item){
 				return;
 			}
+			console.log(item);
 			$scope.activity.path = item.path;
+			$scope.activity.template = item.id;
 			$scope.activity.grid = item.grid;
 			$scope.startPoint = item.path[0];
-			console.log($scope.activity.grid);
-		}
-
-		$scope.toggleActivity = function(activity){
-			$scope.activity = activity;
-			$scope.startPoint = activity.path[0];
+			// console.log($scope.activity.grid);
 		}
 
 		$scope.toggleSelectAll = function(flag){
@@ -229,7 +241,7 @@ autoModule.controller("autoModalCtrl", ["$scope", "$window", "$location", "$http
 
 		$add.submitActivityLabel = function($ctrl){
 			console.log($scope.activity);
-			$scope.activity.date = new Date();
+			// $scope.activity.date = new Date();
 			$http({
 				method	: 'POST', 
 				url		: '/addActivity',
@@ -242,11 +254,6 @@ autoModule.controller("autoModalCtrl", ["$scope", "$window", "$location", "$http
 			});
 		}
 		
-		// $scope.count = 0;
-		// $scope.validateLotName = function(){
-		// 	$scope.count = $scope.name.length;
-		// }
-
 		$scope.validateForm = function(){
 			console.log("Validating...");
 			if(!$scope.name || !$scope.province || !$scope.length1 || !$scope.width){
