@@ -4,15 +4,15 @@
 
 .btn.btn-manual{
 	border: none;
-	background-color: #fbbc05;
-	color: #fff;
+	background-color: #e0e0e0;
+	color: #333;
 	border-radius: 50%;
 	padding: 10px 14px;
 }
 
 .btn.btn-manual:hover{
-	border: #333;
-	color: #333;
-	background-color: #e0e0e0;
+	border: none;
+	color: #212121;
+	background-color: #eeeeee;
 	box-shadow: 0 2px 2px #ccc;
 }

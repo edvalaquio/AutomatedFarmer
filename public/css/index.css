@@ -34,7 +34,7 @@ nav{
 }
 
 .navbar-automated-farming{
-	background-color: #34a853;
+	background-color: #3f573d;
 	border: none;
 	position: fixed;
 	width: 100%;
@@ -47,7 +47,6 @@ nav{
 
 .navbar-brand-a{
 	color: #fff;
-	font-weight: bold;
 }
 
 .navbar-brand-a:focus, .navbar-brand-a:hover{

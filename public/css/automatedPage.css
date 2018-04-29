@@ -28,16 +28,16 @@
 
 .btn.automated-plus-button{
 	border: none;
-	background-color: #fbbc05;
-	color: #fff;
+	background-color: #e0e0e0;
+	color: #333;
 	border-radius: 50%;
 	padding: 10px 14px;
 }
 
 .btn.automated-plus-button:hover{
 	border: none;
-	color: #333;
-	background-color: #e0e0e0;
+	color: #212121;
+	background-color: #eeeeee;
 	box-shadow: 0 2px 2px #ccc;
 }
 
@@ -126,7 +126,7 @@
 }
 
 .automated-modal-header{
-	background-color: #ffbb00;
+	background-color: #bdbdbd;
 	color: #fff;
 }
 
