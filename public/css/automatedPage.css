@@ -26,15 +26,19 @@
 	/*overflow-x: auto;*/
 }
 
-.automated-plus-button{
-	background-color: #4a148c;
-	border-color: #4a148c;
+.btn.automated-plus-button{
+	border: none;
+	background-color: #fbbc05;
 	color: #fff;
+	border-radius: 50%;
+	padding: 10px 14px;
 }
 
-.automated-plus-button:hover{
-	border-color: #ccc;
-	box-shadow: 2px 2px 2px 2px #ccc;
+.btn.automated-plus-button:hover{
+	border: none;
+	color: #333;
+	background-color: #ccc;
+	box-shadow: 0 2px 2px #ccc;
 }
 
 .table-responsive{
