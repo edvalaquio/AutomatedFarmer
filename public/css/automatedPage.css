@@ -48,6 +48,7 @@
 	width: 30px;
 	height: 30px;
 	text-align: center;
+	border-radius: 0;
 }
 
 .checkbox-start{
@@ -152,4 +153,22 @@
 .automated-modal-input:focus{
 	border: none;
 	border-bottom: 3px solid #566573;
+}
+
+.btn-select-all{
+	background-color: #d7dbdd;
+}
+
+.btn-select-all:hover{
+	background-color: #ccd1d1;
+}
+
+.btn-deselect-all{
+	background-color: #cb4335;
+	color: #fff;
+}
+
+.btn-deselect-all:hover{
+	background-color: #c0392b;
+	color: #fff;
 }
