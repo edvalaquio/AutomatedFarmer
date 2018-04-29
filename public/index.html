@@ -12,11 +12,10 @@
 <body ng-controller="indexCtrl">
 	<nav class="navbar navbar-automated-farming navbar-fixed-top">
 		<div class="navbar-header">
-			<a class="navbar-brand">
-				<button ng-click="sideBar = !sideBar">click</button>
-				<span class="glyphicon glyphicon-grain"></span>
-				 Automated Farming
-			</a>
+			<span class="navbar-brand">
+				<a class="glyphicon glyphicon-menu-hamburger navbar-brand-a" ng-click="sideBar = !sideBar"></a>
+				<a class="navbar-brand-a" href="/">Automated Farming</a>
+			</span>
 		</div>
 	</nav>
 	<div class="extend-bar" ng-show="sideBar" ng-click="sideBar = false"></div>

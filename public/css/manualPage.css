@@ -1,3 +1,14 @@
 .manual-div-gap{
 	margin-bottom: 20px;
 }
+
+.btn-manual{
+	border-color: #4a148c;
+	background-color: #4a148c;
+	color: #fff;
+}
+
+.btn-manual:hover{
+	border-color: #ccc;
+	box-shadow: 2px 2px 2px 2px #ccc;
+}

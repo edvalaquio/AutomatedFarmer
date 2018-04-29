@@ -18,7 +18,7 @@
 	<div ng-if="activity.type" class="automated-form-output">
 		<div ng-if="option == 'create'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
 			<input type="text" ng-model="activity.label" class="col-xs-10 col-md-11 form-control"/>
-			<button ng-disabled="activity.path.length == 0 || hasInvalid" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('addActivityModal', activity)">Ok</button>
+			<button ng-disabled="activity.path.length == 0 || hasInvalid" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('addActivityModal', activity)"><span class="glyphicon glyphicon-ok"></span></button>
 		</div>
 		<div ng-if="option == 'choose'" class="col-xs-12 automated-controls-panel">
 			<select class="col-xs-10 col-md-11 form-control" ng-change="setTemplate(value)" ng-model="value">
