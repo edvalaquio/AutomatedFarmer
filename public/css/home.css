@@ -1,9 +1,25 @@
 .home-page-wrapper{
-	margin-top: 90px;
+	padding-top: 50px;
 	display: flex;
+	flex-direction: column;
+}
+
+.home-clock-wrapper{
+	justify-content: center;
 }
 
 .home-clock-text{
-	justify-content: center;
 	font-weight: bold;
+}
+
+@media screen and (min-width: 600px){
+	.home-clock-text{
+		font-size: 90px;
+	}
+}
+
+@media screen and (max-width: 600px){
+	.home-clock-text{
+		font-size: 40px;
+	}
 }

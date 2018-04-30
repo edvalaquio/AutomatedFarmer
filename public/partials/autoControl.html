@@ -1,0 +1,51 @@
+<div class="row col-md-6 col-xs-12 automated-control">
+	<h1 class="page-header">Automated Control</h1>
+	<p>Choose whether to create an activity or to choose from existing activity.</p>
+	<div class="automated-control-option form-group">
+		<label>Select activity type:</label>
+		<select class="form-control" ng-model="activity.type" ng-change="setActivity()">
+			<option value="plow">Plow</option>
+			<option value="seed">Seed</option>
+			<option value="harvest">Harvest</option>
+		</select>
+	</div>
+	<div ng-if="activity.type" class="form-group">
+		<ul class="nav nav-tabs" >
+			<li role="presentation" ng-class="{'active': (activity.type && option == 'create')}" ng-click="toggleOption('create')"><a href="">Create</a></li>
+			<li role="presentation" ng-class="{'active': (activity.type && option == 'choose')}" ng-click="toggleOption('choose')"><a href="">Choose</a></li>
+		</ul>
+	</div>
+	<div ng-if="activity.type" class="automated-form-output">
+		<div ng-if="option == 'create'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
+			<input type="text" ng-model="activity.label" class="col-xs-10 col-md-11 form-control"/>
+			<button ng-disabled="activity.path.length == 0 || hasInvalid" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('addActivityModal', activity)"><span class="glyphicon glyphicon-ok"></span></button>
+		</div>
+		<div ng-if="option == 'choose'" class="col-xs-12 automated-controls-panel">
+			<select class="col-xs-10 col-md-11 form-control" ng-change="setTemplate(value)" ng-model="value">
+				<option ng-repeat="item in activityList" ng-value="item">{{item.label}}</option>
+			</select>
+			<button ng-disabled="!hasPath" class="col-xs-2 col-md-1 btn btn-success" ng-click="">Ok</button>
+		</div>
+		<div ng-if="option == 'create' && activity.type == 'plow'" class="col-xs-12 automated-controls-select">
+			<button class="btn btn-select-all" ng-click="toggleSelectAll(true)" ng-disabled="hasInvalid">Select All</button>
+			<button class="btn btn-deselect-all" ng-disabled="activity.path.length == 0" ng-click="toggleSelectAll(false)">Deselect All</button>
+		</div>
+		<div ng-if="option == 'create' && (activity.type == 'seed' || activity.type == 'harvest')" class="col-xs-12 automated-controls-select">
+			<select class="form-control" ng-model="template" ng-change="setPreviousActivity(template)">
+				<option ng-repeat="item in templateList" ng-value="item">{{item.label}}</option>
+			</select>
+		</div>
+		<div class="col-xs-12 automated-table" ng-if="towns.length.length > 0 && towns.width.length > 0">
+			<p>{{message}}</p>
+			<table class="table-bordered automated-table-output">
+				<tr ng-repeat="x in towns.length">
+					<td ng-repeat="y in towns.width" ng-class="{'checkbox-start': (startPoint.x == x && startPoint.y == y)}">
+						<input ng-if="!hasInvalid" type="checkbox" class="checkbox-big"  ng-disabled="option=='choose' || activity.type != 'plow'" ng-model="activity.grid[x][y]" ng-click="checkFunction(x, y)"/>
+
+						<input ng-if="hasInvalid && x == hasInvalid.x && y == hasInvalid.y" type="checkbox" class="checkbox-big" ng-disabled="option=='choose' || activity.type != 'plow'" ng-model="activity.grid[x][y]" ng-click="checkFunction(x, y)"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
