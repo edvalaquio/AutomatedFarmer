@@ -42,6 +42,18 @@ angular.module("indexApp",
 		});
 
 		$scope.time = new Date();
+		var time = $scope.time;
+		var hours = time.getHours();
+		
+		if(hours < 12){
+			$scope.greet = "Good Morning";
+		}
+		else if(hours >= 12 && hours <= 17){
+			$scope.greet = "Good Afternoon";
+		}
+		else if(hours > 17 && hours <=24){
+			$scope.greet = "Good Evening";
+		}
 	}	
 ]);
 

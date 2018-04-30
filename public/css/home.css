@@ -1,14 +1,9 @@
 .home-page-wrapper{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-
-.home-clock-wrapper{
 	margin-top: 90px;
+	display: flex;
 }
 
 .home-clock-text{
-	font-size: 90px;
+	justify-content: center;
 	font-weight: bold;
 }
