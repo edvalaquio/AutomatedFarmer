@@ -29,7 +29,8 @@ angular.module("indexApp",
 			controller: 	"autoCtrl"
 		})
 		.when("/activities", {
-			templateUrl: "/partials/activityPage.html"
+			templateUrl: "/partials/activityPage.html",
+			controller: 	"indexCtrl"
 		})
 }])
 .controller("indexCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
@@ -45,19 +46,9 @@ angular.module("indexApp",
 			console.log(error);
 		});
 
-		$scope.time = new Date();
-		var time = $scope.time;
-		var hours = time.getHours();
 		
-		if(hours < 12){
-			$scope.greet = "Good Morning";
-		}
-		else if(hours >= 12 && hours <= 17){
-			$scope.greet = "Good Afternoon";
-		}
-		else if(hours > 17 && hours <=24){
-			$scope.greet = "Good Evening";
-		}
+		
+
 	}	
 ]);
 
