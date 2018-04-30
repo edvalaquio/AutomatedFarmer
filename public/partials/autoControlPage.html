@@ -27,8 +27,8 @@
 			<button ng-disabled="activity.path.length == 0" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('useActivityModal', activity)">Ok</button>
 		</div>
 		<div ng-if="option == 'create' && activity.type == 'plow'" class="col-xs-12 automated-controls-select">
-			<button class="btn btn-primary" ng-click="toggleSelectAll(true)" ng-disabled="hasInvalid">Select All</button>
-			<button class="btn btn-danger" ng-disabled="activity.path.length == 0" ng-click="toggleSelectAll(false)">Deselect All</button>
+			<button class="btn btn-select-all" ng-click="toggleSelectAll(true)" ng-disabled="hasInvalid">Select All</button>
+			<button class="btn btn-deselect-all" ng-disabled="activity.path.length == 0" ng-click="toggleSelectAll(false)">Deselect All</button>
 		</div>
 		<div ng-if="option == 'create' && (activity.type == 'seed' || activity.type == 'harvest')" class="col-xs-12 automated-controls-select">
 			<select class="form-control" ng-model="template" ng-change="setPreviousActivity(template)">

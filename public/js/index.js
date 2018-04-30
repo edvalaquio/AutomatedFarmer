@@ -9,7 +9,8 @@ angular.module("indexApp",
 	function($routeProvider, $locationProvider){
 		$routeProvider
 		.when("/", {
-			templateUrl: 	"/partials/homePage.html",
+			templateUrl: 	"/partials/home.html",
+			controller:     "indexCtrl"
 		})
 		.when("/manual", {
 			templateUrl: 	"/partials/manualPage.html",
@@ -44,6 +45,7 @@ angular.module("indexApp",
 			console.log(error);
 		});
 
+		$scope.time = new Date();
 	}	
 ]);
 
