@@ -1,8 +1,8 @@
 'use strict';
 
 var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"])
-autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams", "modalService",
-	function($rootScope, $scope, $window, $location, $http, $routeParams, modalService){
+autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams",
+	function($rootScope, $scope, $window, $location, $http, $routeParams){
 		// var socket;
 		$scope.isLoading = true;
 		if($location.url() == '/automated'){
@@ -47,7 +47,6 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 
 		}
 
-		var socket = io('http://' + $rootScope.hostAddress + ':3000');
 		console.log("Here in autoCtrl");
 
 		$scope.setActivity = function(){
@@ -106,20 +105,23 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 
 		$scope.setTemplate = function(activity){
 			console.log(activity);
+			$scope.activity.id = activity.id;
+			$scope.activity.template = activity.template;
+			$scope.activity.label = activity.label
 			$scope.activity.path = activity.path;
 			$scope.startPoint = activity.path[0];
 			$scope.activity.grid = activity.grid;
 		}
 
-		$scope.setPreviousActivity = function(item){
-			if(!item){
+		$scope.setPreviousActivity = function(activity){
+			if(!activity){
 				return;
 			}
-			console.log(item);
-			$scope.activity.path = item.path;
-			$scope.activity.template = item.id;
-			$scope.activity.grid = item.grid;
-			$scope.startPoint = item.path[0];
+			console.log(activity);
+			$scope.activity.path = activity.path;
+			$scope.activity.template = activity.id;
+			$scope.activity.grid = activity.grid;
+			$scope.startPoint = activity.path[0];
 			// console.log($scope.activity.grid);
 		}
 
@@ -212,8 +214,8 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 	}	
 ]);
 
-autoModule.controller("autoModalCtrl", ["$scope", "$window", "$location", "$http", "modalService",
-	function($scope, $window, $location, $http, modalService){
+autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$http",
+	function($rootScope, $scope, $window, $http){
 		var $add = this;
 		console.log("Here in autoModalCtrl");
 
@@ -239,19 +241,31 @@ autoModule.controller("autoModalCtrl", ["$scope", "$window", "$location", "$http
 			});
 		}
 
-		$add.submitActivityLabel = function($ctrl){
-			console.log($scope.activity);
+		$add.submitActivity = function($ctrl){
+			console.log($add.activity);
 			// $scope.activity.date = new Date();
 			$http({
 				method	: 'POST', 
 				url		: '/addActivity',
-				data 	: $scope.activity
+				data 	: $add.activity
 			}).then(function(res){
-				console.log(res);
+				// console.log(res);
 				$ctrl.ok();
+				$rootScope.pilotActivity = $add.activity;
+				$window.localStorage.setItem('activity', JSON.stringify($add.activity));
+        		$window.location.href = "#!/automated/autoPilot";
 			}, function(error){
 				console.log(error);
 			});
+		}
+
+		$add.useActivity = function($ctrl){
+			console.log($add.activity);
+			$ctrl.ok();
+			$rootScope.pilotActivity = $add.activity;
+			$window.localStorage.setItem('activity', JSON.stringify($add.activity));
+    		$window.location.href = "#!/automated/autoPilot";
+			
 		}
 		
 		$scope.validateForm = function(){
@@ -263,6 +277,34 @@ autoModule.controller("autoModalCtrl", ["$scope", "$window", "$location", "$http
 				return true;
 			}
 		}
+
+	}
+]);
+
+autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
+	function($rootScope, $scope, $window, $location, $http){
+		
+		console.log("Here in autoPilotCtrl");
+		var activity = "";
+		if(!$rootScope.pilotActivity){
+			activity = JSON.parse($window.localStorage.getItem('activity'));
+			// $window.location.href = "#!/automated/";
+			// return;
+		} else {
+			activity = $rootScope.pilotActivity;
+		}
+		// console.log($rootScope.pilotActivity);
+		var socket = io('http://' + $rootScope.hostAddress + ':3000');
+
+		$scope.sample = function(){
+			socket.emit('generate-dummy-data', activity);
+		}
+
+		socket.on('plow-finished', function(data){
+			console.log(data.message);
+			console.log(data.coordinates);
+		})
+
 
 	}
 ]);

@@ -20,7 +20,17 @@ con.connect(function(err) {
 	}
 	console.log("Successfully connected!");
 	require('./api/routes.js')(app, con, env);
-	require('./farmer-modules/farmer-socket.io')(server);
+
+	var io = require('socket.io')(server);
+	io.on('connection', function(socket){
+		console.log("A user has connected");
+		require('./farmer-modules/manual-socket.io')(socket);
+		require('./farmer-modules/auto-socket.io')(socket, con);
+
+		socket.on('disconnect', function(){
+			console.log('User disconnected.');
+		});
+	})
 	server.listen(env.port, function(){
 		console.log("Listening on port: " + env.port);
 	})

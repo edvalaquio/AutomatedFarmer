@@ -9,18 +9,22 @@ angular.module("indexApp",
 	function($routeProvider, $locationProvider){
 		$routeProvider
 		.when("/", {
-			templateUrl: 	"/partials/home.html",
+			templateUrl: 	"/partials/homePage.html",
 		})
 		.when("/manual", {
 			templateUrl: 	"/partials/manualPage.html",
 			controller: 	"manualCtrl"
 		})
+		.when("/automated/autoPilot", {
+			templateUrl: "/partials/autoPilotPage.html",
+			controller: 	"autoPilotCtrl"
+		})
 		.when("/automated", {
-			templateUrl: "/partials/autoChoose.html",
+			templateUrl: "/partials/autoChoosePage.html",
 			controller: 	"autoCtrl"
 		})
 		.when("/automated/:lotid", {
-			templateUrl: "/partials/autoControl.html",
+			templateUrl: "/partials/autoControlPage.html",
 			controller: 	"autoCtrl"
 		})
 		.when("/activities", {

@@ -16,7 +16,7 @@ angular.module("autoFarm.controllers.manualCtrl", [
 
 		var timeout;
 		$scope.buttonPressed = function(direction){
-			//~ console.log(direction);
+			console.log(direction);
 			$scope.pressed = true;
 			timeout = setInterval(function(){
 				socket.emit('manual-move', direction);
