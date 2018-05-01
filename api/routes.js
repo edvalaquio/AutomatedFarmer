@@ -163,21 +163,31 @@ module.exports = function(app, con, env){
 
 	});
 
+	app.get('/getLotActivities', function(req, res){
+		var query = "SELECT activity.type, activity.status, activity.start_time, activity.end_time, lot.name FROM activity JOIN lot ON activity.lot_id = lot.id";
+		con.query(query, function(err, result){
+			if(err){
+				console.log(err);
+				return;
+			}
+			res.send(result);
+		})
+	});
 
-	app.post('/addActivity', function(req, res){
-		var activityDetails = req.body;
-		console.log(activityDetails);
+	// app.post('/addActivity', function(req, res){
+	// 	var activityDetails = req.body;
+	// 	console.log(activityDetails);
 
-		// var labelCount = "SELECT id, COUNT(*) from " + activityDetails.type + " WHERE label LIKE '" + activityDetails.label + "%'";
-		// con.query(labelCount, function(err, result, fields){
-		// 	if(err){
-		// 		console.log(err);
-		// 		res.send("Error");
-		// 		return;
-		// 	}
-		// 	// console.log(result);
-		// 	var count =  "_" + (result[0]['COUNT(*)'] + 1); 
-		// 	activityDetails.label += count;
+	// 	var labelCount = "SELECT id, COUNT(*) from " + activityDetails.type + " WHERE label LIKE '" + activityDetails.label + "%'";
+	// 	con.query(labelCount, function(err, result, fields){
+	// 		if(err){
+	// 			console.log(err);
+	// 			res.send("Error");
+	// 			return;
+	// 		}
+	// 		// console.log(result);
+	// 		var count =  "_" + (result[0]['COUNT(*)'] + 1); 
+	// 		activityDetails.label += count;
 			
 		// 	var columns;
 		// 	if(activityDetails.type == 'plow'){
@@ -206,5 +216,5 @@ module.exports = function(app, con, env){
 		// 	});
 		// });
 
-	});
+	// });
 }

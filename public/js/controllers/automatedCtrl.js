@@ -314,6 +314,8 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 		
 		console.log("Here in autoPilotCtrl");
 
+		
+
 		if($window.localStorage.getItem('activity') == null || $window.localStorage.getItem('template') == null){
 			$window.location.href = "#!/automated/";
 			return;

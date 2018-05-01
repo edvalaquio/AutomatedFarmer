@@ -10,7 +10,7 @@
 }
 
 body{
-    background-color: #fff;
+    background-color: #F7F8FA;
     height: 100vh;
 	font-family: 'Roboto', Helvetica, Arial, sans-serif;
     font-size: 15px;
@@ -43,7 +43,7 @@ nav{
 }
 
 .navbar-automated-farming{
-	background-color: #1e8449;
+	background-color: #5CB85C;
 	border: none;
 	position: fixed;
 	width: 100%;
@@ -61,6 +61,14 @@ nav{
 .navbar-brand-a:focus, .navbar-brand-a:hover{
 	color: #ececec;
 	cursor: pointer;
+}
+
+.navbar-brand-name{
+	font-weight: bold;
+}
+
+.glyphicon-menu-hamburger{
+	font-weight: lighter;
 }
 
 .nav-sidebar{
@@ -87,13 +95,13 @@ nav{
 }
 
 .nav-sidebar-container a:hover{
-	background-color: #ececec;
+	background-color: #F2F1EF;
 	color: #333;
 	cursor: pointer;
 }
 
 .nav-sidebar-active, .nav-sidebar-active:visited{
-	background-color: #e0e0e0;
+	background-color: #dedfe1;
 	color: #333;
 }
 

@@ -127,7 +127,7 @@
 }
 
 .automated-modal-header{
-	background-color: #27ae60;
+	background-color: #69B391;
 	color: #fff;
 }
 
@@ -156,11 +156,13 @@
 }
 
 .btn-select-all{
-	background-color: #d7dbdd;
+	background-color: #5CB85C;
+	color: #fff;
 }
 
-.btn-select-all:hover{
-	background-color: #ccd1d1;
+.btn-select-all:hover, .btn-select-all:focus{
+	background-color: #5CB83C;
+	color: #fff;
 }
 
 .btn-deselect-all{
@@ -168,7 +170,7 @@
 	color: #fff;
 }
 
-.btn-deselect-all:hover{
+.btn-deselect-all:hover, .btn-deselect-all:focus{
 	background-color: #c0392b;
 	color: #fff;
 }

@@ -1,5 +1,5 @@
-.manual-div-gap{
-	margin-bottom: 20px;
+.manual-button-wrapper div{
+	text-align: center;
 }
 
 .btn.btn-manual{
@@ -8,6 +8,8 @@
 	color: #333;
 	border-radius: 50%;
 	padding: 10px 14px;
+	width: 60px;
+	height: 60px;
 }
 
 .btn.btn-manual:hover{
