@@ -10,7 +10,7 @@ var con = mysql.createConnection({
 	host     	: 'localhost',
 	user     	: 'root',
 	password 	: '',
-	database	: 'automated_farmer1' 	
+	database	: 'automated_farmer' 	
 });
  
 con.connect(function(err) {

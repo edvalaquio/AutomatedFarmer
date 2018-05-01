@@ -79,13 +79,14 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		$scope.toggleOption = function(flag){
 			$scope.toggleSelectAll(false);
 			if(flag == 'choose'){
-				$rootScope.activityList = []
+
+				$scope.activityList = []
 				$http({
 					method	: 'GET', 
 					url		: '/getTemplateActivity/' + $routeParams.lotid + '/' + $rootScope.activity.type
 				}).then(function(res){
 					console.log(res);
-					$rootScope.activityList = res.data
+					$scope.activityList = res.data
 				}, function(error){
 					console.log(error);
 				});
@@ -274,23 +275,20 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 					template 	: $rootScope.template 
 				}
 			}).then(function(res){
-				// console.log(res);
 				$ctrl.ok();
-				// $rootScope.pilotActivity = $add.activity;
-				// $window.localStorage.setItem('activity', JSON.stringify($add.activity));
-        		// $window.location.href = "#!/automated/autoPilot";
+				$window.localStorage.setItem('activity', JSON.stringify($add.activity));
+        		$window.location.href = "#!/automated/autoPilot";
 			}, function(error){
 				console.log(error);
 			});
 		}
 
 		$add.useActivity = function($ctrl){
-			console.log($add.activity);
+			console.log($rootScope.activity);
 			$ctrl.ok();
-			$rootScope.pilotActivity = $add.activity;
-			$window.localStorage.setItem('activity', JSON.stringify($add.activity));
+			$window.localStorage.setItem('activity', JSON.stringify($rootScope.activity));
+			$window.localStorage.setItem('template', JSON.stringify($rootScope.template));
     		$window.location.href = "#!/automated/autoPilot";
-			
 		}
 		
 		$scope.validateForm = function(){
@@ -315,19 +313,23 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 	function($rootScope, $scope, $window, $location, $http){
 		
 		console.log("Here in autoPilotCtrl");
-		var activity = "";
-		if(!$rootScope.pilotActivity){
-			activity = JSON.parse($window.localStorage.getItem('activity'));
-			// $window.location.href = "#!/automated/";
-			// return;
-		} else {
-			activity = $rootScope.pilotActivity;
-		}
-		// console.log($rootScope.pilotActivity);
-		var socket = io('http://' + $rootScope.hostAddress + ':3000');
 
+		if($window.localStorage.getItem('activity') == null || $window.localStorage.getItem('template') == null){
+			$window.location.href = "#!/automated/";
+			return;
+		}
+
+		if(!$rootScope.activity || !$rootScope.template){
+			$rootScope.activity = JSON.parse($window.localStorage.getItem('activity'));
+			$rootScope.template = JSON.parse($window.localStorage.getItem('template'));
+		}
+
+		var socket = io('http://' + $rootScope.hostAddress + ':3000');
 		$scope.sample = function(){
-			socket.emit('generate-dummy-data', activity);
+			var data = $scope.activity;
+			data.path = $rootScope.template.path;
+			data.grid = $rootScope.template.grid;
+			socket.emit('generate-dummy-data', data);
 		}
 
 		socket.on('plow-finished', function(data){
