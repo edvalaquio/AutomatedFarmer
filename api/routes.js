@@ -180,6 +180,17 @@ module.exports = function(app, con, env){
 	});
 
 
+	app.get('/getLotActivities', function(req, res){
+		var query = "SELECT activity.type, activity.status, activity.start_time, activity.end_time, lot.name FROM activity JOIN lot ON activity.lot_id = lot.id";
+		con.query(query, function(err, result){
+			if(err){
+				console.log(err);
+				return;
+			}
+			res.send(result);
+		})
+	});
+
 	// app.post('/addActivity', function(req, res){
 	// 	var activityDetails = req.body;
 	// 	console.log(activityDetails);

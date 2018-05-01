@@ -23,7 +23,6 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 			}).then(function(res){
 				
 				$rootScope.activity = {
-					label 		: "",
 					template 	: "",
 					lot_id		: $routeParams.lotid
 				};
@@ -53,7 +52,6 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 
 		$scope.setActivity = function(){
 			$scope.toggleSelectAll(false);
-			$rootScope.activity.label = "";
 			if($rootScope.activity.type != 'plow'){
 				var type = "";
 				if($rootScope.activity.type == 'seed'){

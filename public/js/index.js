@@ -46,9 +46,15 @@ angular.module("indexApp",
 			console.log(error);
 		});
 
-		
-		
-
+		$http({
+			method	: 'GET',
+			url 	: '/getLotActivities'
+		}).then(function(res){
+			$scope.lotActivities = res.data;
+			console.log(res.data);
+		}, function(error){
+			console.log(error);
+		});
 	}	
 ]);
 

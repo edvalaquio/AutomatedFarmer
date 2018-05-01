@@ -1,0 +1,7 @@
+.panel{
+	border-radius: 0;
+}
+
+.panel-title, .activity-page-table th, .activity-page-table td{
+	text-align: center;
+}
