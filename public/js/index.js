@@ -29,7 +29,8 @@ angular.module("indexApp",
 			controller: 	"autoCtrl"
 		})
 		.when("/activities", {
-			templateUrl: "/partials/activityPage.html"
+			templateUrl: "/partials/activityPage.html",
+			controller: 	"indexCtrl"
 		})
 }])
 .controller("indexCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
@@ -45,7 +46,9 @@ angular.module("indexApp",
 			console.log(error);
 		});
 
-		$scope.time = new Date();
+		
+		
+
 	}	
 ]);
 

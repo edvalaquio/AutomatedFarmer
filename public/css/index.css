@@ -1,11 +1,20 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway|Roboto');
+/*@import url('https://fonts.googleapis.com/css?family=Raleway|Roboto');*/
+@font-face{
+	font-family: 'Roboto';
+	src: url(fonts/Roboto-Regular.ttf);
+}
+
+@font-face{
+	font-family: 'Raleway';
+	src: url(fonts/Raleway-Regular.ttf);
+}
 
 body{
-	font-family: "Roboto", Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    height: 100vh;
-    padding-top: 20px;
     background-color: #fff;
+    height: 100vh;
+	font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    padding: 20px;
 }
 
 a{
@@ -34,7 +43,6 @@ nav{
 }
 
 .navbar-automated-farming{
-	/*background-color: #229954;*/
 	background-color: #1e8449;
 	border: none;
 	position: fixed;
@@ -43,7 +51,7 @@ nav{
 }
 
 .navbar-brand{
-	font-family: "Raleway", Arial,sans-serif;
+	font-family: 'Raleway', Arial,sans-serif;
 }
 
 .navbar-brand-a{
