@@ -52,16 +52,24 @@ module.exports = function(app, con, env){
 		})
 	});
 
-	app.get('/getActivity/:lotid/:type', function(req, res){
+	app.get('/getTemplateActivity/:lotid/:type', function(req, res){
 
-		var query = "";
+		var columns = "", table = "", where = "";
 		if(req.params.type == "plow"){
-			query = "SELECT id, grid, path, label FROM " + req.params.type + " WHERE lot_id=" + req.params.lotid;
+			columns = [' plow.id', ' plow.label', ' plow.template_id', ' template.grid', ' template.path'];
+			table = "plow INNER JOIN template ON plow.template_id=template.id";
+			where = "plow.lot_id="
 		} else if(req.params.type == "seed"){
-			query = "SELECT seed.id, seed.label, seed.lot_id, seed.template, plow.grid, plow.path FROM seed INNER JOIN plow ON seed.template=plow.id WHERE seed.lot_id=" + req.params.lotid;
+			columns = [' seed.id', ' seed.label', ' seed.template_id', ' template.grid', ' template.path'];
+			table = "seed INNER JOIN template ON seed.template_id=template.id";
+			where = "seed.lot_id="
 		} else {
-			query = "SELECT harvest.id, harvest.label, harvest.lot_id, harvest.template, plow.grid, plow.path FROM harvest INNER JOIN seed INNER JOIN plow ON harvest.template=seed.id AND seed.template=plow.id WHERE harvest.lot_id=" + req.params.lotid;
+			columns = [' harvest.id', ' harvest.label', ' harvest.template_id', ' template.grid', ' template.path'];
+			table = "harvest INNER JOIN template ON harvest.template_id=template.id";
+			where = "harvest.lot_id="
 		}
+		var query = "SELECT" + columns + " FROM " + table + " WHERE " + where + req.params.lotid;
+		console.log(query);
 
 		con.query(query, function(err, result, fields){
 			if(err){
@@ -74,13 +82,14 @@ module.exports = function(app, con, env){
 			})
 			console.log(result);
 			res.send(result);
-		})
+		});
 	});
 
 	app.post('/addLot', function(req, res){
 
-		var lotDetails = [];
-		lotDetails = _.map(req.body);
+		console.log(req.body);
+		var lotDetails = _.map(req.body);
+		console.log(lotDetails);
 		var query = "INSERT INTO lot (name, province, town, brgy, length, width) VALUES ?";
 		con.query(query, [[lotDetails]], function (err, result) {
 			if(err){
@@ -88,7 +97,7 @@ module.exports = function(app, con, env){
 				res.send("Error");
 				return;
 			}
-			console.log("These is success!");
+			console.log("Successfully inserted into lot!");
 			console.log(result);
 			res.send({
 				lotid 	: result.insertId
@@ -96,47 +105,122 @@ module.exports = function(app, con, env){
 		});
 	});
 
-	app.post('/addActivity', function(req, res){
-		var activityDetails = req.body;
-		console.log(activityDetails);
+	// ACTIVITY TEMPLATES
 
-		var labelCount = "SELECT id, COUNT(*) from " + activityDetails.type + " WHERE label LIKE '" + activityDetails.label + "%'";
-		con.query(labelCount, function(err, result, fields){
+	app.post('/getTemplates', function(req, res){
+		console.log(req.body);
+		var activity = req.body.activity;
+		var template = req.body.template;
+		
+		var query = "";
+		if(activity.type == 'plow'){
+			query = "SELECT plow.label FROM plow INNER JOIN template ON plow.template_id=template.id WHERE template.grid='" + JSON.stringify(req.body.template.grid) + "'";
+		} else{
+			query = "SELECT * FROM " + activity.type + " INNER JOIN template ON " + activity.type + ".template_id=template.id"
+		}
+		// var query = "";
+		// 
+		con.query(query, function(err, result){
 			if(err){
 				console.log(err);
-				res.send("Error");
+				res.send("Error!");
 				return;
 			}
-			// console.log(result);
-			var count =  "_" + (result[0]['COUNT(*)'] + 1); 
-			activityDetails.label += count;
-			
-			var columns;
-			if(activityDetails.type == 'plow'){
-				columns = "label, grid, path, lot_id";
-				activityDetails.path = JSON.stringify(activityDetails.path);
-				activityDetails.grid = JSON.stringify(activityDetails.grid);
-				activityDetails = _.omit(activityDetails, 'template')
-			} else {
-				columns = "label, template, lot_id";
-				activityDetails = _.omit(activityDetails, ['grid', 'path'])
-			}
+			console.log(result);
+			res.send(result);
+		});
+	});
 
-			var query = "INSERT INTO " + activityDetails.type + " (" + columns + ") VALUES ?";
-			
-			activityDetails = _.omit(activityDetails, 'type');
-			activityDetails = _.map(activityDetails);
-			console.log(activityDetails);
-			con.query(query, [[activityDetails]], function (err, result, fields) {
+	app.post('/addTemplate', function(req, res){
+
+		var insertFunction = function(data){
+			var statement = "INSERT INTO " + data.type + " (label, template_id, lot_id) VALUES?";
+			var data = _.map(_.omit(data, 'type'));
+			con.query(statement, [[data]], function(err, result){
 				if(err){
 					console.log(err);
 					res.send("Error");
 					return;
 				}
-				console.log("These is success!");
+				console.log("Successfully inserted into table!");
 				res.send("Success!");
 			});
-		});
+		}
 
-	})
+		var activity = req.body.activity;
+		activity.lot_id = parseInt(activity.lot_id);
+		var query = "";
+
+		if(activity.type == 'plow'){
+			var template = {
+				grid 	: JSON.stringify(req.body.template.grid),
+				path 	: JSON.stringify(req.body.template.path),
+				lot_id 	: activity.lot_id
+			}
+			console.log(template);
+			template = _.map(template)
+			query = "INSERT INTO template (grid, path, lot_id) VALUES ?";
+			con.query(query, [[template]], function (err, result) {
+				if(err){
+					console.log(err);	
+					res.send("Error");
+					return;
+				}
+				console.log("Successfully inserted into template!");
+				activity.template = result.insertId;
+				insertFunction(activity);
+			});
+
+		} else {
+			insertFunction(activity);
+		}
+
+
+
+	});
+
+
+	// app.post('/addActivity', function(req, res){
+	// 	var activityDetails = req.body;
+	// 	console.log(activityDetails);
+
+	// 	var labelCount = "SELECT id, COUNT(*) from " + activityDetails.type + " WHERE label LIKE '" + activityDetails.label + "%'";
+	// 	con.query(labelCount, function(err, result, fields){
+	// 		if(err){
+	// 			console.log(err);
+	// 			res.send("Error");
+	// 			return;
+	// 		}
+	// 		// console.log(result);
+	// 		var count =  "_" + (result[0]['COUNT(*)'] + 1); 
+	// 		activityDetails.label += count;
+			
+	// 		var columns;
+	// 		if(activityDetails.type == 'plow'){
+	// 			columns = "label, grid, path, lot_id";
+	// 			activityDetails.path = JSON.stringify(activityDetails.path);
+	// 			activityDetails.grid = JSON.stringify(activityDetails.grid);
+	// 			activityDetails = _.omit(activityDetails, 'template')
+	// 		} else {
+	// 			columns = "label, template, lot_id";
+	// 			activityDetails = _.omit(activityDetails, ['grid', 'path'])
+	// 		}
+
+	// 		var query = "INSERT INTO " + activityDetails.type + " (" + columns + ") VALUES ?";
+			
+	// 		activityDetails = _.omit(activityDetails, 'type');
+	// 		activityDetails = _.map(activityDetails);
+	// 		console.log(activityDetails);
+	// 		con.query(query, [[activityDetails]], function (err, result, fields) {
+	// 			if(err){
+	// 				console.log(err);
+	// 				res.send("Error");
+	// 				return;
+	// 			}
+	// 			console.log("These is success!");
+	// 			res.send("Success!");
+	// 		});
+	// 	});
+
+	// });
 }

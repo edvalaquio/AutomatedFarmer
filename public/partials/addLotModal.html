@@ -55,42 +55,42 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">Lot Name</label>
             <div class="col-sm-9">
-                <input type="text" class="automated-modal-input" ng-model="name" required />
+                <input type="text" class="automated-modal-input" ng-model="lot.name" required />
                 <!-- <span ng-show="name.length < 5">You need to add {{5 - name.length}} more characters</span> -->
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">Barangay</label>
             <div class="col-sm-9">
-                <input type="text" class="automated-modal-input" ng-model="brgy" />
+                <input type="text" class="automated-modal-input" ng-model="lot.brgy" />
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">Town</label>
             <div class="col-sm-9">
-                <input type="text" class="automated-modal-input" ng-model="town" />
+                <input type="text" class="automated-modal-input" ng-model="lot.town" />
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">Province</label>
             <div class="col-sm-9">
-                <input type="text" class="automated-modal-input" ng-model="province" required />
+                <input type="text" class="automated-modal-input" ng-model="lot.province" required />
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">Lot Length</label>
             <div class="col-sm-9">
-                <input type="text" class="automated-modal-input" ng-model="length1" required />
+                <input type="text" class="automated-modal-input" ng-model="lot.length1" required />
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">Lot Width</label>
             <div class="col-sm-9">
-                <input type="text" class="automated-modal-input" ng-model="width" required />
+                <input type="text" class="automated-modal-input" ng-model="lot.width" required />
             </div>
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-success" type="button" ng-click="addLot($ctrl)" ng-disabled="validateForm()">Done</button>
+        <button class="btn btn-success" type="button" ng-click="$add.addLot($ctrl)" ng-disabled="!validateForm()">Done</button>
     </div>
 </div>

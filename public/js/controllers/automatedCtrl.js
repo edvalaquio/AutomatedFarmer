@@ -22,20 +22,22 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				url		: '/getLot/' + $routeParams.lotid
 			}).then(function(res){
 				
-				$scope.activity = {
+				$rootScope.activity = {
 					label 		: "",
-					grid 		: [[]],
-					path 		: [],
 					template 	: "",
 					lot_id		: $routeParams.lotid
 				};
+				$rootScope.template = {
+					grid 	: 	[[]],
+					path 	: 	[]
+				}
 
 				$scope.option = 'create'
 				$rootScope.towns = res.data;
 				for(var i = 0; i < $rootScope.towns.length; i++){
-					$scope.activity.grid[i] = [];
+					$rootScope.template.grid[i] = [];
 					for(var j = 0; j < $rootScope.towns.width; j++){
-						$scope.activity.grid[i][j] = false;
+						$rootScope.template.grid[i][j] = false;
 					}
 				}
 				$rootScope.towns.length = computeRange($rootScope.towns.length);
@@ -50,27 +52,24 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		console.log("Here in autoCtrl");
 
 		$scope.setActivity = function(){
-			var d = new Date();
-			var temp = '(' + (d.getMonth() + 1) + '-' + d.getDate() + '-' + d.getFullYear() + ')';
-			$scope.activity.label = $scope.activity.type + temp;
 			$scope.toggleSelectAll(false);
-			console.log($scope.activity.label);
-			if($scope.activity.type != 'plow'){
+			$rootScope.activity.label = "";
+			if($rootScope.activity.type != 'plow'){
 				var type = "";
-				if($scope.activity.type == 'seed'){
+				if($rootScope.activity.type == 'seed'){
 					type = 'plow';
 				} else {
 					type = 'seed';
 				}
 
-				$scope.templateList = []
+				$rootScope.templateList = []
 				$http({
 					method	: 'GET', 
-					url		: '/getActivity/' + $routeParams.lotid + '/' + type
+					url		: '/getTemplateActivity/' + $routeParams.lotid + '/' + type
 				}).then(function(res){
 					console.log(res);
-					$scope.templateList = res.data;
-					console.log($scope.templateList);
+					$rootScope.templateList = res.data;
+					console.log($rootScope.templateList);
 				}, function(error){
 					console.log(error);
 				});
@@ -80,63 +79,63 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		$scope.toggleOption = function(flag){
 			$scope.toggleSelectAll(false);
 			if(flag == 'choose'){
-				$scope.activityList = []
+				$rootScope.activityList = []
 				$http({
 					method	: 'GET', 
-					url		: '/getActivity/' + $routeParams.lotid + '/' + $scope.activity.type
+					url		: '/getTemplateActivity/' + $routeParams.lotid + '/' + $rootScope.activity.type
 				}).then(function(res){
 					console.log(res);
-					$scope.activityList = res.data
+					$rootScope.activityList = res.data
 				}, function(error){
 					console.log(error);
 				});
-				// $http({
-				// 	method	: 'GET', 
-				// 	url		: '/getActivity/' + $routeParams.lotid + '/' + $scope.activity.type
-				// }).then(function(res){
-				// 	console.log(res);
-				// 	$scope.activityList = res.data
-				// }, function(error){
-				// 	console.log(error);
-				// });
 			}
 			$scope.option = flag;
 		}
 
-		$scope.setTemplate = function(activity){
-			console.log(activity);
-			$scope.activity.id = activity.id;
-			$scope.activity.template = activity.template;
-			$scope.activity.label = activity.label
-			$scope.activity.path = activity.path;
-			$scope.startPoint = activity.path[0];
-			$scope.activity.grid = activity.grid;
-		}
-
-		$scope.setPreviousActivity = function(activity){
+		$scope.setTemplate = function(activity, isChosen){
+			// console.log(activity);
 			if(!activity){
 				return;
 			}
-			console.log(activity);
-			$scope.activity.path = activity.path;
-			$scope.activity.template = activity.id;
-			$scope.activity.grid = activity.grid;
+			if(isChosen){
+				$rootScope.activity.id = activity.id;
+				$rootScope.activity.label = activity.label
+			}
+			
+			$rootScope.activity.template = activity.template_id;
+			$rootScope.template.path = activity.path;
+			$rootScope.template.grid = activity.grid;
+			
 			$scope.startPoint = activity.path[0];
-			// console.log($scope.activity.grid);
 		}
+
+		// $scope.setPreviousActivity = function(activity){
+		// 	if(!activity){
+		// 		return;
+		// 	}
+		// 	console.log(activity);
+			
+		// 	$rootScope.activity.template = activity.template_id;
+		// 	$rootScope.template.path = activity.path;
+		// 	$rootScope.template.grid = activity.grid;
+			
+		// 	$scope.startPoint = activity.path[0];
+		// 	// console.log($rootScope.template.grid);
+		// }
 
 		$scope.toggleSelectAll = function(flag){
 			$scope.hasPath = flag;
-			$scope.activity.path = [];
+			$rootScope.template.path = [];
 			for(var i = 0; i < $rootScope.towns.length.length; i++){
 				if(i%2 == 0){
 					for(var j = 0; j < $rootScope.towns.width.length; j++){
-						$scope.activity.grid[i][j] = flag;
+						$rootScope.template.grid[i][j] = flag;
 						pathFunction(i, j);
 					}
 				} else {
 					for(var j = $rootScope.towns.width.length - 1; j > -1; j--){
-						$scope.activity.grid[i][j] = flag;
+						$rootScope.template.grid[i][j] = flag;
 						pathFunction(i, j);
 					}
 				}
@@ -148,17 +147,17 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		}
 
 		var pathFunction = function(x, y){
-			if($scope.activity.grid[x][y]){
-				$scope.activity.path = createPath($scope.activity.path, x, y);
-				if($scope.activity.path.length > 1){
-					var direction = getDirection($scope.activity.path[$scope.activity.path.length - 2], $scope.activity.path[$scope.activity.path.length - 1]);
+			if($rootScope.template.grid[x][y]){
+				$rootScope.template.path = createPath($rootScope.template.path, x, y);
+				if($rootScope.template.path.length > 1){
+					var direction = getDirection($rootScope.template.path[$rootScope.template.path.length - 2], $rootScope.template.path[$rootScope.template.path.length - 1]);
 					if(!direction){
-						$scope.hasInvalid = $scope.activity.path[$scope.activity.path.length - 1];
+						$scope.hasInvalid = $rootScope.template.path[$rootScope.template.path.length - 1];
 						$scope.message = "Invalid path!";
 					}
 				}
 			} else { 
-				$scope.activity.path = removePath($scope.activity.path, x, y);
+				$rootScope.template.path = removePath($rootScope.template.path, x, y);
 				if($scope.hasInvalid){
 					$scope.hasInvalid = false;
 					$scope.message = "";
@@ -182,7 +181,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 			var dropCount =  path.length - index;
 			path = _.dropRight(path, dropCount)
 			removedPoints.forEach(function(item){
-				$scope.activity.grid[item.x][item.y] = false;
+				$rootScope.template.grid[item.x][item.y] = false;
 			});
 			if(!path.length){
 				$scope.startPoint = false;
@@ -220,14 +219,8 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 		console.log("Here in autoModalCtrl");
 
 		$add.addLot = function($ctrl){
-			var data = {
-				'name' 		: $add.name + "",
-				'province' 	: $add.province + "",
-				'town' 		: $add.town + "",
-				'brgy' 		: $add.brgy + "",
-				'length' 	: $add.length,
-				'width' 	: $add.width
-			}
+			var data = $scope.lot;
+			console.log(data);
 			$http({
 				method	: 'POST', 
 				url		: '/addLot',
@@ -241,19 +234,51 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 			});
 		}
 
-		$add.submitActivity = function($ctrl){
-			console.log($add.activity);
-			// $scope.activity.date = new Date();
+		$add.validateTemplate = function($ctrl){
 			$http({
 				method	: 'POST', 
-				url		: '/addActivity',
-				data 	: $add.activity
+				url		: '/getTemplates',
+				data 	: {
+					activity 	: $rootScope.activity,
+					template 	: $rootScope.template 
+				}
+			}).then(function(res){
+				console.log(res.data);
+				if(res.data.length == 0){
+					$ctrl.open('addActivityModal', false);
+				} else {
+					console.log("Template already exists as: " + res.data[0].label);
+				}
+				$ctrl.ok();
+			}, function(error){
+				console.log(error);
+			});
+		}
+
+		$add.checkActivityLabel = function(label, type){
+			if(!label){
+				var randomString = Math.random().toString(36).substring(7);
+				$rootScope.activity.label = type + "_" + randomString;
+			}
+		}
+
+		$add.submitActivity = function($ctrl){
+			// console.log($rootScope.activity);
+			// console.log($rootScope.template);
+			// $rootScope.activity.date = new Date();
+			$http({
+				method	: 'POST', 
+				url		: '/addTemplate',
+				data 	: {
+					activity 	: $rootScope.activity,
+					template 	: $rootScope.template 
+				}
 			}).then(function(res){
 				// console.log(res);
 				$ctrl.ok();
-				$rootScope.pilotActivity = $add.activity;
-				$window.localStorage.setItem('activity', JSON.stringify($add.activity));
-        		$window.location.href = "#!/automated/autoPilot";
+				// $rootScope.pilotActivity = $add.activity;
+				// $window.localStorage.setItem('activity', JSON.stringify($add.activity));
+        		// $window.location.href = "#!/automated/autoPilot";
 			}, function(error){
 				console.log(error);
 			});
@@ -270,11 +295,16 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 		
 		$scope.validateForm = function(){
 			console.log("Validating...");
-			if(!$scope.name || !$scope.province || !$scope.length1 || !$scope.width){
-				return true;
-			}
-			if(isNaN(parseInt($scope.length1)) || isNaN(parseInt($scope.width))){
-				return true;
+			if($scope.lot){
+				// console.log($scope.lot);
+				if($scope.lot.name && $scope.lot.province && $scope.lot.length1 && $scope.lot.width){
+					return true;
+				} else {
+					return false;
+				}
+				// if(!isNaN(parseInt($scope.lot.length1)) || !isNaN(parseInt($scope.lot.width))){
+				// 	return true;
+				// }
 			}
 		}
 

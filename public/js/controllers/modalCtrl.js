@@ -6,7 +6,8 @@ modalModule.controller('modalController', function ($uibModal, $log, $document, 
 	$ctrl.animationsEnabled = true;
 
 	$ctrl.open = function (template, data) {
-		$ctrl.data = data;
+		// console.log($ctrl);
+		$ctrl.data = $ctrl.open;
 		if($ctrl.data && $ctrl.data.path){
 			modalService.addData('activity', data);
 		}
@@ -42,8 +43,8 @@ modalModule.controller('modalController', function ($uibModal, $log, $document, 
 // It is not the same as the $uibModal service used above.
 modalModule.controller('modalInstanceController', function ($uibModalInstance, items) {
 	var $ctrl = this;
-	$ctrl.items = items;
-	console.log($ctrl.items);
+	console.log(items);
+	$ctrl.open = items;
 
 	$ctrl.ok = function () {
 		$uibModalInstance.close();
