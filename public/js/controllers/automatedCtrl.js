@@ -309,24 +309,54 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 			console.log($rootScope.template);
 		}
 
-		var socket = io('http://' + $rootScope.hostAddress + ':3000');
+		if($rootScope.activity.type != 'plow'){
+			var activity = $rootScope.activity;
+			var type = "";
+			if(activity.type == 'seed'){
+				type = 'plow';
+			} else {
+				type = 'seed';
+			}
+
+			$http({
+				method 	: 'GET',
+				url 	: '/getLotActivities/' + activity.lot_id + '/' + type + '/' + activity.template
+			}).then(function(res){
+				console.log(res);
+				$scope.activityList = res.data;
+				console.log($scope.activityList);
+			}, function(error){
+				console.log(error);
+			});
+		}
+
 		$scope.startActivity = function(){
+
 			$scope.isExecuting = true;
+			// console.log($scope.selectedActivity);
 			$http({
 				method	: 'POST', 
 				url		: '/addActivity',
 				data 	: _.omit($rootScope.activity, ['path', 'grid', 'label', 'template'])
 			}).then(function(res){
-				// console.log(res);
-				var data = $scope.activity;
+				console.log($scope.selectedActivity);
+				var data = $rootScope.activity;
 				data.path = $rootScope.template.path;
 				data.grid = $rootScope.template.grid;
 				data.activity = res.data.activityID;
-				socket.emit('generate-dummy-data', data);
+				if($scope.selectedActivity){
+					data.selected = $scope.selectedActivity; 
+				}
+				$rootScope.socket.emit('generate-dummy-data', data);
 			}, function(error){
 				console.log(error);
 			});
 
+		}
+
+		$scope.setSelected = function(activity){
+			// console.log(activity);
+			$scope.selectedActivity = activity;
 		}
 
 		// $scope.tryUpdate = function(){
@@ -347,7 +377,7 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 
 		// }
 
-		socket.on('plow-finished', function(data){
+		$rootScope.socket.on('plow-finished', function(data){
 			console.log(data.message);
 			console.log(data.coordinates);
 			$http({
