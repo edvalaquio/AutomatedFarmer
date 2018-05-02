@@ -99,8 +99,10 @@ module.exports = function(app, con, env){
 		var query = "";
 		if(activity.type == 'plow'){
 			query = "SELECT plow.label FROM plow INNER JOIN template ON plow.template_id=template.id WHERE template.grid='" + JSON.stringify(req.body.template.grid) + "'";
-		} else{
-			query = "SELECT * FROM " + activity.type + " INNER JOIN template ON " + activity.type + ".template_id=template.id"
+		} else if(activity.type == 'seed'){
+			query = "SELECT * FROM seed INNER JOIN template ON seed.template_id=template.id WHERE seed.lot_id=" + activity.lot_id;
+		} else if(activity.type == 'harvest'){
+			query = "SELECT * FROM harvest INNER JOIN template ON harvest.template_id=template.id WHERE harvest.lot_id=" + activity.lot_id;
 		}
 		// var query = "";
 		// 

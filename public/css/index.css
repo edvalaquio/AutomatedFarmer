@@ -10,7 +10,7 @@
 }
 
 body{
-    background-color: #F7F8FA;
+    background-color: #fff;
     height: 100vh;
 	font-family: 'Roboto', Helvetica, Arial, sans-serif;
     font-size: 15px;
@@ -127,4 +127,12 @@ nav{
 
 .btn, .form-control{
 	border-radius: 0;
+}
+
+.btn-success{
+	background-color: #5CB85C;
+}
+
+.btn-success:hover{
+	background-color: #5CB83C;
 }

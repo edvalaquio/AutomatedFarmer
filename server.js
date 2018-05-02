@@ -10,11 +10,7 @@ var con = mysql.createConnection({
 	host     	: 'localhost',
 	user     	: 'root',
 	password 	: '',
-<<<<<<< HEAD
-	database	: 'automated_farmer' 	
-=======
-	database	: 'automated_farmer1'
->>>>>>> b5c7468cff264894e97b88f6e0b71732f58fa393
+	database	: 'automated_farmer'
 });
  
 con.connect(function(err) {
