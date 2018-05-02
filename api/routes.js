@@ -99,10 +99,8 @@ module.exports = function(app, con, env){
 		var query = "";
 		if(activity.type == 'plow'){
 			query = "SELECT plow.label FROM plow INNER JOIN template ON plow.template_id=template.id WHERE template.grid='" + JSON.stringify(req.body.template.grid) + "'";
-		} else if(activity.type == 'seed'){
-			query = "SELECT * FROM seed INNER JOIN template ON seed.template_id=template.id WHERE seed.lot_id=" + activity.lot_id;
-		} else if(activity.type == 'harvest'){
-			query = "SELECT * FROM harvest INNER JOIN template ON harvest.template_id=template.id WHERE harvest.lot_id=" + activity.lot_id;
+		} else{
+			query = "SELECT * FROM " + activity.type + " INNER JOIN template ON " + activity.type + ".template_id=template.id"
 		}
 		// var query = "";
 		// 
@@ -174,6 +172,41 @@ module.exports = function(app, con, env){
 			}
 			res.send(result);
 		})
+	});
+
+	app.post('/addActivity', function(req, res){
+		// console.log(req.body);
+		console.log(activityDetails);
+		var activityDetails = _.map(req.body);
+		activityDetails.push('ongoing');
+		var query = "INSERT INTO activity (lot_id, type, type_id, status) VALUES ?";
+		con.query(query, [[activityDetails]], function(err, result){
+			if(err){
+				console.log(err);
+				res.send("Error");
+				return;
+			}
+			console.log("Successfully inserted into activity.");
+			res.send({
+				activityID 	: result.insertId
+			});
+		});
+
+	});
+
+	app.put('/updateActivity', function(req, res){
+
+		console.log(req.body);
+		var query = "UPDATE activity SET status='" + req.body.status + "', end_time=CURRENT_TIME() WHERE activity.id=" + req.body.activity_id;
+		con.query(query, function(err, result){
+			if(err){
+				console.log(err);
+				return;
+			}
+			res.send("Successfully updated!");
+		});
+
+
 	});
 
 	// app.post('/addActivity', function(req, res){

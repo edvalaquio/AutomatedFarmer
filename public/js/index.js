@@ -9,7 +9,7 @@ angular.module("indexApp",
 	function($routeProvider, $locationProvider){
 		$routeProvider
 		.when("/", {
-			templateUrl: 	"/partials/home.html",
+			templateUrl: 	"/partials/activityPage.html",
 			controller:     "indexCtrl"
 		})
 		.when("/manual", {

@@ -27,6 +27,7 @@ var geolib = require('geolib');
 var Path = function(input){
 	this.path = input;
 	this.directions = this.getDirections(input);
+	this.testCoordinates = this.getTestGPS();
 }
 
 Path.prototype.getDirections = function(input){
@@ -80,7 +81,7 @@ Path.prototype.getTestGPS = function(){
 
 }
 
-Path.prototype.getFromTo = function(face, currentPoint){
+Path.prototype.getDistanceFromTo = function(face, currentPoint){
 
 	var bearing = 0;
 	if(face == 'North'){
@@ -96,20 +97,27 @@ Path.prototype.getFromTo = function(face, currentPoint){
 
 }
 
+
+var stopper = function(name){
+	clearInterval(name);
+}
+
 module.exports = function(socket, con){
 	socket.on('generate-dummy-data', function(data){
-		console.log(data);
+
+		var currentLocation = {latitude: 51.516272, longitude: 0.45425};
+		var coordinates = [];
+		coordinates.push(currentLocation);
+		var numPushed = 1;
+
 		if(data.type == 'plow'){
 			var path = new Path(data.path);
-			
-			var currentLocation = {latitude: 51.516272, longitude: 0.45425};
-			var coordinates = [];
-			coordinates.push(currentLocation);
-			var numPushed = 1;
-			var query = "INSERT INTO plow_coordinates (plow_id, latitude, longitude) VALUES ?";
-			for(var i = 0; i < path.directions.length; i++){
-				
-				var coordinateData = [data.id, currentLocation.latitude, currentLocation.longitude];
+			var counter = 0;
+			console.log(data.path.length);
+			var interval = setInterval(function(){
+				console.log("Tractor is moving: ", path.directions[counter]);
+				var coordinateData = [data.activity, currentLocation.latitude, currentLocation.longitude];
+				var query = "INSERT INTO coordinates (activity_id, latitude, longitude) VALUES ?";
 				con.query(query, [[coordinateData]], function (err, result) {
 					if(err){
 						console.log(err);
@@ -117,23 +125,25 @@ module.exports = function(socket, con){
 					}
 					numPushed++;
 					console.log(numPushed);
-					console.log(data.path.length);
-					if(numPushed == data.path.length){
+					if(numPushed > data.path.length){
 						var socketData = {
-							message 	: "Tractor has finished plowing",
-							coordinates : coordinates
+							message 	: "Tractor has finished " + data.type,
+							coordinates : coordinates,
+							activity_id	: data.activity
 						}
 						socket.emit('plow-finished', socketData);
+						stopper(interval);
+						return;
 					}	
 				});
+				coordinates.push(currentLocation = path.getDistanceFromTo(path.directions[counter], currentLocation));
+				counter++;
+			}, 1000)
 
-				currentLocation = path.getFromTo(path.directions[i], currentLocation);
-				coordinates.push(currentLocation);
-				console.log("Tractor is moving: ", path.directions[i]);
-			}	
 
 		} else {
-			// do something
+
 		}
+		
 	})	
 }
