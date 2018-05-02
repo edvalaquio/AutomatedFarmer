@@ -111,20 +111,6 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 			$scope.startPoint = activity.path[0];
 		}
 
-		// $scope.setPreviousActivity = function(activity){
-		// 	if(!activity){
-		// 		return;
-		// 	}
-		// 	console.log(activity);
-			
-		// 	$rootScope.activity.template = activity.template_id;
-		// 	$rootScope.template.path = activity.path;
-		// 	$rootScope.template.grid = activity.grid;
-			
-		// 	$scope.startPoint = activity.path[0];
-		// 	// console.log($rootScope.template.grid);
-		// }
-
 		$scope.toggleSelectAll = function(flag){
 			$scope.hasPath = flag;
 			$rootScope.template.path = [];
@@ -264,9 +250,6 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 		}
 
 		$add.submitActivity = function($ctrl){
-			// console.log($rootScope.activity);
-			// console.log($rootScope.template);
-			// $rootScope.activity.date = new Date();
 			$http({
 				method	: 'POST', 
 				url		: '/addTemplate',
@@ -314,8 +297,6 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 		
 		console.log("Here in autoPilotCtrl");
 
-		
-
 		if($window.localStorage.getItem('activity') == null || $window.localStorage.getItem('template') == null){
 			$window.location.href = "#!/automated/";
 			return;
@@ -324,19 +305,64 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 		if(!$rootScope.activity || !$rootScope.template){
 			$rootScope.activity = JSON.parse($window.localStorage.getItem('activity'));
 			$rootScope.template = JSON.parse($window.localStorage.getItem('template'));
+			console.log($rootScope.activity);
+			console.log($rootScope.template);
 		}
 
 		var socket = io('http://' + $rootScope.hostAddress + ':3000');
-		$scope.sample = function(){
-			var data = $scope.activity;
-			data.path = $rootScope.template.path;
-			data.grid = $rootScope.template.grid;
-			socket.emit('generate-dummy-data', data);
+		$scope.startActivity = function(){
+			$scope.isExecuting = true;
+			$http({
+				method	: 'POST', 
+				url		: '/addActivity',
+				data 	: _.omit($rootScope.activity, ['path', 'grid', 'label', 'template'])
+			}).then(function(res){
+				// console.log(res);
+				var data = $scope.activity;
+				data.path = $rootScope.template.path;
+				data.grid = $rootScope.template.grid;
+				data.activity = res.data.activityID;
+				socket.emit('generate-dummy-data', data);
+			}, function(error){
+				console.log(error);
+			});
+
 		}
+
+		// $scope.tryUpdate = function(){
+		// 	// console.log($rootScope.activity);
+		// 	var data = {
+		// 		activity_id	: 11,
+		// 		status 		: 'success'
+		// 	}
+		// 	$http({
+		// 		method	: 'PUT', 
+		// 		url		: '/updateActivity',
+		// 		data 	: data
+		// 	}).then(function(res){
+		// 		console.log(res);
+		// 	}, function(error){
+		// 		console.log(error);
+		// 	});
+
+		// }
 
 		socket.on('plow-finished', function(data){
 			console.log(data.message);
 			console.log(data.coordinates);
+			$http({
+				method	: 'PUT', 
+				url		: '/updateActivity',
+				data 	: {
+					activity_id 	: data.activity_id,
+					status 			: "success"
+				}
+			}).then(function(res){
+				console.log(res);
+			}, function(error){
+				console.log(error);
+			});
+			$scope.isExecuting = false;
 		})
 
 
