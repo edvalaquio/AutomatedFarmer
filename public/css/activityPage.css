@@ -1,7 +1,10 @@
 .panel{
 	border-radius: 0;
+	border: 1px solid #ddd;
+	height: 70vh;
+	overflow-y: scroll;
 }
 
-.panel-title, .activity-page-table th, .activity-page-table td{
+.panel-title, .activity-page-table-output th, .activity-page-table-output td{
 	text-align: center;
 }

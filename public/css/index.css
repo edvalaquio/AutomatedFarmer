@@ -1,137 +1,138 @@
 @font-face{
-    font-family: 'Roboto';
-    src: url(fonts/Roboto-Regular.ttf);
+	font-family: 'Roboto';
+	src: url(fonts/Roboto-Regular.ttf);
 }
 
 @font-face{
-    font-family: 'Raleway';
-    src: url(fonts/Raleway-Regular.ttf);
+	font-family: 'Raleway';
+	src: url(fonts/Raleway-Regular.ttf);
 }
 
 body{
     background-color: #fff;
     height: 100vh;
-    font-family: 'Roboto', Helvetica, Arial, sans-serif;
+	font-family: 'Roboto', Helvetica, Arial, sans-serif;
     font-size: 15px;
     padding: 20px;
 }
 
 a{
-    text-decoration: none;
-    color: #333;
+
+	text-decoration: none;
+	color: #333;
 }
 
 a:hover, a:focus, a:active{
-    text-decoration: none;
-    color: #333;
+	text-decoration: none;
+	color: #333;
 }
 
 nav{
-    height: 8%;
+	height: 8%;
 }
 
 .nav-sidebar, .extend-bar{
-    height: 97%;
-    padding-top: 30px;
-    position: fixed;
+	height: 97%;
+	padding-top: 30px;
+	position: fixed;
 }
 
 .navbar{
-    margin: 0;
-    border-radius: 0;
+	margin: 0;
+	border-radius: 0;
 }
 
 .navbar-automated-farming{
-    background-color: #5CB85C;
-    border: none;
-    position: fixed;
-    width: 100%;
-    /*height: 15vh;*/
+	background-color: #5CB85C;
+	border: none;
+	position: fixed;
+	width: 100%;
+	/*height: 15vh;*/
 }
 
 .navbar-brand{
-    font-family: 'Raleway', Arial,sans-serif;
+	font-family: 'Raleway', Arial,sans-serif;
 }
 
 .navbar-brand-a{
-    color: #fff;
+	color: #fff;
 }
 
 .navbar-brand-a:focus, .navbar-brand-a:hover{
-    color: #ececec;
-    cursor: pointer;
+	color: #ececec;
+	cursor: pointer;
 }
 
 .navbar-brand-name{
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .glyphicon-menu-hamburger{
-    font-weight: lighter;
+	font-weight: lighter;
 }
 
 .nav-sidebar{
-    opacity: 1;
-    z-index: 1;
-    display: flex;
-    flex-direction: row;
-    transition: all linear 0.1s;
-    left: -32vh;
+	opacity: 1;
+	z-index: 1;
+	display: flex;
+	flex-direction: row;
+	transition: all linear 0.1s;
+	left: -32vh;
 }
 
 .nav-sidebar-container{
-    width: 32vh;
-    background-color: #fff;
-    border-right: solid #bdbdbd 0.25px;
+	width: 32vh;
+	background-color: #fff;
+	border-right: solid #bdbdbd 0.25px;
 }
 
 .nav-sidebar-container a{
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
 }
 
 .nav-sidebar-container a:hover{
-    background-color: #F2F1EF;
-    color: #333;
-    cursor: pointer;
+	background-color: #F2F1EF;
+	color: #333;
+	cursor: pointer;
 }
 
 .nav-sidebar-active, .nav-sidebar-active:visited{
-    background-color: #dedfe1;
-    color: #333;
+	background-color: #dedfe1;
+	color: #333;
 }
 
 .show-bar{
-    left: 0vh;
+	left: 0vh;
 }
 
 .extend-bar{
-    width: 100%;
-    background-color: rgb(0,0,0);
-    /*position: absolute;*/
-    opacity: 0.1;
-    z-index: 1;
+	width: 100%;
+	background-color: rgb(0,0,0);
+	/*position: absolute;*/
+	opacity: 0.1;
+	z-index: 1;
 }
 
 .user-view-section{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    /*margin-top: 10px;*/
-    /*position: absolute;*/
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	/*margin-top: 10px;*/
+	/*position: absolute;*/
 }
 
 .btn, .form-control{
-    border-radius: 0;
+	border-radius: 0;
 }
 
 .btn-success{
-    background-color: #5CB85C;
+	background-color: #5CB85C;
 }
 
 .btn-success:hover{
-    background-color: #5CB83C;
+	background-color: #5CB83C;
 }
