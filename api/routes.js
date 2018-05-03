@@ -1,4 +1,4 @@
-var _ = require('lodash');
+_ = require('lodash');
 
 module.exports = function(app, con, env){
 
@@ -100,7 +100,7 @@ module.exports = function(app, con, env){
 		if(activity.type == 'plow'){
 			query = "SELECT plow.label FROM plow INNER JOIN template ON plow.template_id=template.id WHERE template.grid='" + JSON.stringify(req.body.template.grid) + "'";
 		} else{
-			query = "SELECT * FROM " + activity.type + " INNER JOIN template ON " + activity.type + ".template_id=template.id"
+			query = "SELECT * FROM " + activity.type + " INNER JOIN template ON " + activity.type + ".template_id=template.id WHERE template.id=" + activity.template;
 		}
 		// var query = "";
 		// 
@@ -178,9 +178,28 @@ module.exports = function(app, con, env){
 		var queryForRiceAge = "";
 	});
 
+	app.get('/getLotActivities/:lotid/:type/:template', function(req, res){
+		console.log(req.params);
+		// SELECT activity.id, plow.label, activity.start_time, activity.end_time FROM plow JOIN activity ON activity.type_id=plow.id WHERE activity.status='success' AND activity.lot_id=0 AND plow.id=(SELECT plow.id FROM plow JOIN template ON plow.template_id=template.id WHERE template.id=21)
+		var innerQuery = "SELECT type.id FROM " + req.params.type + " AS type JOIN template ON type.template_id=template.id WHERE template.id=" + req.params.template;
+		var outerQuery = "SELECT activity.id, type.label, activity.start_time, activity.end_time FROM " + req.params.type + " AS type JOIN activity ON activity.type_id=type.id WHERE activity.status='success' AND activity.lot_id=" + req.params.lotid + " AND type.id=(" + innerQuery + ")";
+		console.log(outerQuery);
+		con.query(outerQuery, function(err, result){
+			if(err){
+				console.log(err);
+				return;
+			}
+			console.log("Retreived rows!");
+			res.send(result)
+		})
+		// var select = "SELECT activity.id, " + req.params.type + ".label, activity.start_time, activity.end_time ";
+		// var table = "FROM " + req.params.type + " JOIN activity ON activity.type_id=" + req.params.template
+
+	});
+
 	app.post('/addActivity', function(req, res){
 		// console.log(req.body);
-		console.log(activityDetails);
+		// console.log(activityDetails);
 		var activityDetails = _.map(req.body);
 		activityDetails.push('ongoing');
 		var query = "INSERT INTO activity (lot_id, type, type_id, status) VALUES ?";

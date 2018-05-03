@@ -108,10 +108,10 @@ module.exports = function(socket, con){
 		var currentLocation = {latitude: 51.516272, longitude: 0.45425};
 		var coordinates = [];
 		coordinates.push(currentLocation);
-		var numPushed = 1;
 
 		if(data.type == 'plow'){
 			var path = new Path(data.path);
+			var numPushed = 1;
 			var counter = 0;
 			console.log(data.path.length);
 			var interval = setInterval(function(){
@@ -141,8 +141,44 @@ module.exports = function(socket, con){
 			}, 1000)
 
 
-		} else {
+		} else if(data.type == 'seed') {
+			console.log(data);
+			var query = "SELECT coordinates.latitude, coordinates.longitude FROM activity JOIN coordinates ON activity.id=coordinates.activity_id WHERE activity.id=" + data.selected.id;
+			console.log(query);
+			con.query(query, function(err, result){
+				if(err){
+					console.log(err);
+					return;
+				}
+				var coordinates = []
+				coordinates = result;
+				counter = 0;
+				var numPushed = 0;
+				var interval = setInterval(function(){
+					var currentLocation = coordinates[counter];
+					var coordinateData = [data.activity, currentLocation.latitude, currentLocation.longitude]
+					query = "INSERT INTO coordinates (activity_id, latitude, longitude) VALUES ?";
+					con.query(query, [[coordinateData]], function(err, result){
+						if(err){
+							console.log(err);
+						}
 
+						numPushed++;
+						if(numPushed == coordinates.length){
+							var socketData = {
+								message 	: "Tractor has finished " + data.type,
+								coordinates : coordinates,
+								activity_id	: data.activity
+							}
+							socket.emit('plow-finished', socketData);
+							stopper(interval);
+							return;
+						}
+					});
+					counter++;
+				}, 1000);
+			});
+			// var query = "SELECT coordinates.latitude, coordinates.longitude FROM activity JOIN coordinates JOIN plow ON activity.id=coordinates.activity_id AND plow.id=activity.type_id WHERE activity.id=11 AND plow.template_id=21 "
 		}
 		
 	})	
