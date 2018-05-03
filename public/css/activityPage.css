@@ -8,3 +8,8 @@
 .panel-title, .activity-page-table-output th, .activity-page-table-output td{
 	text-align: center;
 }
+
+.panel-heading{
+	background-color: #DADFE1;
+	border-radius: 0;
+}

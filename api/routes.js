@@ -174,6 +174,10 @@ module.exports = function(app, con, env){
 		})
 	});
 
+	app.post('/addRiceAge', function(req, res){
+		var queryForRiceAge = "";
+	});
+
 	app.post('/addActivity', function(req, res){
 		// console.log(req.body);
 		console.log(activityDetails);

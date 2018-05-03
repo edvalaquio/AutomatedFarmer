@@ -55,6 +55,8 @@ angular.module("indexApp",
 		}, function(error){
 			console.log(error);
 		});
+
+		
 	}	
 ]);
 
