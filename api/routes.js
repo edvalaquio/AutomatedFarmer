@@ -1,32 +1,5 @@
 _ = require('lodash');
-
-var ServerFunctions = function(con){
-	this.con = con;
-}
-
-ServerFunctions.prototype.serverSender = function(res, data, message){
-	res.send({
-		data: data.insertId,
-		message: message 
-	});
-};
-
-ServerFunctions.prototype.serverInserter = function(res, tableName, columns, data){
-	var sf = this;
-
-	columns = columns.join(', ');
-	var query = "INSERT INTO " + tableName + " (" + columns + ") VALUES ?"
-	sf.con.query(query, [[data]], function(err, result){
-		if(err){
-			console.log(err);
-			sf.serverSender(res, err, "Error in inserting to: " + tableName);
-			return;
-		}
-		console.log(result);
-		sf.serverSender(res, result, "Successfully inserted into: " + tableName);
-		return;
-	});
-};
+ServerFunctions = require('./server-functions.js')
 
 module.exports = function(app, con, env){
 
@@ -49,33 +22,22 @@ module.exports = function(app, con, env){
 	});
 
 	app.get('/getLots', function(req, res){
-		var query = "SELECT id, name, province, town, brgy FROM lot;";
-		con.query(query, function (err, result, fields) {
-			if (err){
-				res.send(err);
-				return;
-			};
-			var data = [];
-			result.forEach(function(item){
-				data.push({
-					'id' 		: item.id,
-					'name'		: item.name,
-					'address' 	: item.brgy + ", " + item.town + ", " + item.province
-				})
-			})
-			res.send(data);
-		});
+		var filter = function(values){
+			var temp = [];
+			values.forEach(function(item){
+				item.address = item.brgy + ", " + item.town + ", " + item.province;
+				temp.push(_.omit(item, ['brgy', 'town', 'province']));
+			});
+			return temp;
+		}
+
+		var columns = ["id", "name", "province", "town", "brgy"];
+		sf.serverSelector(res, "lot", columns, '', '', filter);
 	});
 
-	app.get('/getLot/:lotid', function(req, res){
-		var query = "SELECT * FROM lot WHERE id=" + req.params.lotid + ";";
-		con.query(query, function (err, result, fields){
-			if (err){
-				res.send(err);
-				return;
-			};
-			res.send(result[0]);
-		});
+	app.get('/getLot/:lot_id', function(req, res){
+		var where = " WHERE id=" + req.params.lot_id
+		sf.serverSelector(res, "lot", ['*'], '', where, _.head);
 	});
 
 	// ==============================================================
@@ -94,46 +56,90 @@ module.exports = function(app, con, env){
 
 	});
 
-	app.get('/getEvents/', function(req, res){
+	app.get('/getEvents', function(req, res){
 		// event status, lot name, activity type, start_time, expected_end_time, actual_end_time, 
 		// var query = "SELECT * FROM event AS e JOIN activity AS a ON e.event_id="
-		var columns = "lot.name, a.type, e.start_time, e.expected_end_time, e.actual_end_time, e.status";
-		var query = "SELECT " + columns + " FROM event AS e JOIN activity AS a JOIN lot ON e.activity_id=a.id AND e.lot_id=lot.id";
-		con.query(query, function(err, result){
-			if(err){
+		// serverSelector = function(res, tableName, columns, on, where, filter, flag)
+		var tableName = " event AS e JOIN activity AS a JOIN lot ";
+		var columns = ["lot.name", "a.type", "e.start_time", "e.expected_end_time", "e.actual_end_time", "e.status"];
+		var on = " ON e.activity_id=a.id AND e.lot_id=lot.id ";
 
-			}
-		});
+		sf.serverSelector(res, tableName, columns, on, '');
 	});
+
+	app.put('/updateEvent', function(req, res){
+
+	})
 
 	// ==============================================================
 	//ROUTES FOR ACTIVITY
 	app.post('/addActivity', function(req, res){
 		// Expected data:
 		// > label, type, template_id, lot_id
+		console.log(req.body);
 		var activityDetails = _.map(req.body);
-		var columns = ["label", "type", "template_id", "lot_id"];
+		var columns = ["label", "template_id", "lot_id", "type"];
 		sf.serverInserter(res, "activity", columns, activityDetails);
 
 	});
 
 	app.get('/getActivities/:lot_id/:type', function(req, res){
-		
+		var tableName = " activity AS a JOIN template AS t ";
+		var columns = ["a.id", "a.label", "a.type", "a.template_id", "t.path", "t.grid", "a.lot_id"];
+		var on = " ON a.template_id=t.id ";
+		var where = " WHERE a.lot_id=" + req.params.lot_id + " AND a.type='" + req.params.type + "'";
+
+		var filter = function(values){
+			var temp = []
+			values.forEach(function(item){
+				item.path = JSON.parse(item.path);
+				item.grid = JSON.parse(item.grid);
+				temp.push(item);
+			})
+			return temp;
+		}
+		sf.serverSelector(res, tableName, columns, on, where, filter);
 	});
 
-	app.get('/getActivities/:lot_id/:type', function(req, res){
-
+	app.get('/getActivities/:lot_id', function(req, res){
+		var tableName = " activity JOIN template ";
+		var columns = ["activity.id", "activity.label", "activity.type", "activity.template_id", "template.path", "template.grid", "activity.lot_id"];
+		var on = " activity.template_id=template.id ";
+		sf.serverSelector(res, tableName, columns, on, '');
 	});
+
+	// app.get('/getActivityTemplate/:lot_id/')
 
 	// ==============================================================
 	//ROUTES FOR TEMPLATE
+
 	app.post('/addTemplate', function(req, res){
 		// Expected data:
-		// > label, type, template_id, lot_id
-		var activityDetails = _.map(req.body);
-		var columns = ["label", "type", "template_id", "lot_id"];
-		sf.serverInserter(res, "activity", columns, activityDetails);
+		var templateDetails = _.map(req.body);
+		var columns = ["grid", "path", "lot_id"];
+		// console.log(templateDetails);
+		sf.serverInserter(res, "template", columns, templateDetails);
+	});
 
+	app.get('/getTemplate/:template_id', function(req, res){
+		var where = " WHERE id=" + req.params.template_id;
+		sf.serverSelector(res, 'template', ['*'], '', where);
+	});
+
+	app.post('/getTemplateByPath', function(req, res){
+		var template = req.body.template;
+		var activity = req.body.activity;
+
+		var columns = ["activity.label"];
+		var table = " activity JOIN template ";
+		var on = " ON activity.template_id=template.id "
+		var where = " WHERE template.path LIKE '" + JSON.stringify(template.path) + "' AND activity.type='" + activity.type + "'";
+
+		// var filter = function(values){
+			// return values[0]['COUNT(*)'];
+		// }
+
+		sf.serverSelector(res, table, columns, on, where);
 	});
 
 

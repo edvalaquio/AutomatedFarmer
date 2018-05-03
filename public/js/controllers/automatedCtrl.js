@@ -11,7 +11,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				url		: '/getLots'
 			}).then(function(res){
 				console.log(res.data);
-				$rootScope.towns = res.data;
+				$rootScope.towns = res.data.data;
 				$scope.isLoading = false;
 			}, function(error){
 				console.log(error);
@@ -33,7 +33,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				}
 
 				$scope.option = 'create'
-				$rootScope.towns = res.data;
+				$rootScope.towns = res.data.data;
 				for(var i = 0; i < $rootScope.towns.length; i++){
 					$rootScope.template.grid[i] = [];
 					for(var j = 0; j < $rootScope.towns.width; j++){
@@ -65,10 +65,10 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				$rootScope.templateList = []
 				$http({
 					method	: 'GET', 
-					url		: '/getTemplateActivity/' + $routeParams.lotid + '/' + type
+					url		: '/getActivities/' + $routeParams.lotid + '/' + type
 				}).then(function(res){
 					console.log(res);
-					$rootScope.templateList = res.data;
+					$rootScope.templateList = res.data.data;
 					console.log($rootScope.templateList);
 				}, function(error){
 					console.log(error);
@@ -83,10 +83,10 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				$scope.activityList = []
 				$http({
 					method	: 'GET', 
-					url		: '/getTemplateActivity/' + $routeParams.lotid + '/' + $rootScope.activity.type
+					url		: '/getActivities/' + $routeParams.lotid + '/' + $rootScope.activity.type
 				}).then(function(res){
 					console.log(res);
-					$scope.activityList = res.data
+					$scope.activityList = res.data.data
 				}, function(error){
 					console.log(error);
 				});
@@ -103,7 +103,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				$rootScope.activity.id = activity.id;
 				$rootScope.activity.label = activity.label
 			}
-			
+			console.log(activity);
 			$rootScope.activity.template = activity.template_id;
 			$rootScope.template.path = activity.path;
 			$rootScope.template.grid = activity.grid;
@@ -213,7 +213,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 				url		: '/addLot',
 				data 	: data
 			}).then(function(res){
-        		$window.location.href = "#!/automated/" + res.data.lotid
+        		$window.location.href = "#!/automated/" + res.data.data
 				console.log(res);
 				$ctrl.ok();
 			}, function(error){
@@ -224,17 +224,18 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 		$add.validateTemplate = function($ctrl){
 			$http({
 				method	: 'POST', 
-				url		: '/getTemplates',
+				url		: '/getTemplateByPath',
 				data 	: {
 					activity 	: $rootScope.activity,
 					template 	: $rootScope.template 
 				}
 			}).then(function(res){
-				console.log(res.data);
-				if(res.data.length == 0){
-					$ctrl.open('addActivityModal', false);
+				var existTemplate = res.data.data;
+
+				if(existTemplate.length != 0){
+					console.log("Template already exists as: " + existTemplate[0].label);
 				} else {
-					console.log("Template already exists as: " + res.data[0].label);
+					$ctrl.open('addActivityModal', false);
 				}
 				$ctrl.ok();
 			}, function(error){
@@ -250,20 +251,38 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 		}
 
 		$add.submitActivity = function($ctrl){
-			$http({
-				method	: 'POST', 
-				url		: '/addTemplate',
-				data 	: {
-					activity 	: $rootScope.activity,
-					template 	: $rootScope.template 
-				}
-			}).then(function(res){
-				$ctrl.ok();
-				$window.localStorage.setItem('activity', JSON.stringify($add.activity));
-        		$window.location.href = "#!/automated/autoPilot";
-			}, function(error){
-				console.log(error);
-			});
+			var lot_id = $rootScope.activity.lot_id;
+			var tempPath = $rootScope.template.path;
+			var tempGrid = $rootScope.template.grid;
+			var postActivity = function(activity){
+				$http({
+					method 	: 'POST',
+					url 	: '/addActivity',
+					data 	: activity
+				}).then(function(res){
+					$ctrl.ok();
+					$rootScope.activity.id = res.data.data;
+					$window.localStorage.setItem('activity', JSON.stringify($rootScope.activity));
+	        		$window.location.href = "#!/automated/autoPilot";
+				}, function(error){
+					console.log(error);
+				});
+			}
+
+			if($rootScope.activity.type == 'plow'){
+				$http({
+					method	: 'POST', 
+					url		: '/addTemplate',
+					data 	: [JSON.stringify(tempGrid), JSON.stringify(tempPath), lot_id]
+				}).then(function(res){
+					$rootScope.activity.template = res.data.data;
+					postActivity($rootScope.activity);
+				}, function(error){
+					console.log(error);
+				});
+			} else {
+				postActivity($rootScope.activity);
+			}
 		}
 
 		$add.useActivity = function($ctrl){
@@ -318,39 +337,39 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 				type = 'seed';
 			}
 
-			$http({
-				method 	: 'GET',
-				url 	: '/getLotActivities/' + activity.lot_id + '/' + type + '/' + activity.template
-			}).then(function(res){
-				console.log(res);
-				$scope.activityList = res.data;
-				console.log($scope.activityList);
-			}, function(error){
-				console.log(error);
-			});
+			// $http({
+			// 	method 	: 'GET',
+			// 	url 	: '/getLotActivities/' + activity.lot_id + '/' + type + '/' + activity.template
+			// }).then(function(res){
+			// 	console.log(res);
+			// 	$scope.activityList = res.data;
+			// 	console.log($scope.activityList);
+			// }, function(error){
+			// 	console.log(error);
+			// });
 		}
 
 		$scope.startActivity = function(){
 
 			$scope.isExecuting = true;
 			// console.log($scope.selectedActivity);
-			$http({
-				method	: 'POST', 
-				url		: '/addActivity',
-				data 	: _.omit($rootScope.activity, ['path', 'grid', 'label', 'template'])
-			}).then(function(res){
-				console.log($scope.selectedActivity);
-				var data = $rootScope.activity;
-				data.path = $rootScope.template.path;
-				data.grid = $rootScope.template.grid;
-				data.activity = res.data.activityID;
-				if($scope.selectedActivity){
-					data.selected = $scope.selectedActivity; 
-				}
-				$rootScope.socket.emit('generate-dummy-data', data);
-			}, function(error){
-				console.log(error);
-			});
+			// $http({
+			// 	method	: 'POST', 
+			// 	url		: '/addActivity',
+			// 	data 	: _.omit($rootScope.activity, ['path', 'grid', 'label', 'template'])
+			// }).then(function(res){
+			// 	console.log($scope.selectedActivity);
+			// 	var data = $rootScope.activity;
+			// 	data.path = $rootScope.template.path;
+			// 	data.grid = $rootScope.template.grid;
+			// 	data.activity = res.data.activityID;
+			// 	if($scope.selectedActivity){
+			// 		data.selected = $scope.selectedActivity; 
+			// 	}
+			// 	$rootScope.socket.emit('generate-dummy-data', data);
+			// }, function(error){
+			// 	console.log(error);
+			// });
 
 		}
 
@@ -380,18 +399,18 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 		$rootScope.socket.on('plow-finished', function(data){
 			console.log(data.message);
 			console.log(data.coordinates);
-			$http({
-				method	: 'PUT', 
-				url		: '/updateActivity',
-				data 	: {
-					activity_id 	: data.activity_id,
-					status 			: "success"
-				}
-			}).then(function(res){
-				console.log(res);
-			}, function(error){
-				console.log(error);
-			});
+			// $http({
+			// 	method	: 'PUT', 
+			// 	url		: '/updateActivity',
+			// 	data 	: {
+			// 		activity_id 	: data.activity_id,
+			// 		status 			: "success"
+			// 	}
+			// }).then(function(res){
+			// 	console.log(res);
+			// }, function(error){
+			// 	console.log(error);
+			// });
 			$scope.isExecuting = false;
 		})
 
