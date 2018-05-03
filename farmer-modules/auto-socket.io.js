@@ -175,6 +175,7 @@ module.exports = function(socket, con){
 							return;
 						}
 					});
+					console.log(numPushed);
 					counter++;
 				}, 1000);
 			});
