@@ -22,7 +22,7 @@
 	<!-- <div ng-if="activity.type" class="automated-form-output"> -->
 	<div class="automated-form-output">
 		<div ng-if="option == 'create'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
-			<input type="text" placeholder="momol mo ako" ng-model="activity.label" class="col-xs-10 col-md-11 form-control"/>
+			<input type="text" placeholder="Template Name" ng-model="activity.label" class="col-xs-10 col-md-11 form-control"/>
 			<button ng-disabled="template.path.length == 0 || hasInvalid" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('validateTemplateModal', false)"><span class="glyphicon glyphicon-ok"></span></button>
 		</div>
 		<div ng-if="option == 'choose'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
