@@ -1,6 +1,6 @@
 <div class="row col-md-6 col-xs-12 automated-control">
 	<h1 class="page-header">Automated Control</h1>
-	<p>Choose whether to create an activity or to choose from existing activity.</p>
+<!-- 	<p>Choose whether to create an activity or to choose from existing activity.</p>
 	<div class="automated-control-option form-group">
 		<label>Select activity type:</label>
 		<select class="form-control" ng-model="activity.type" ng-change="setActivity()">
@@ -8,17 +8,21 @@
 			<option value="seed">Seed</option>
 			<option value="harvest">Harvest</option>
 		</select>
-	</div>
-	<div ng-if="activity.type" class="form-group">
+	</div> -->
+	<!-- <div ng-if="activity.type" class="form-group"> -->
+	<div class="form-group">
 		<ul class="nav nav-tabs" >
+			<li role="presentation" ng-class="{'active': (option == 'choose')}" ng-click="toggleOption('choose')"><a href="">Choose</a></li>
+			<li role="presentation" ng-class="{'active': (option == 'create')}" ng-click="toggleOption('create')"><a href="">Create</a></li>
+			<!-- 
 			<li role="presentation" ng-class="{'active': (activity.type && option == 'create')}" ng-click="toggleOption('create')"><a href="">Create</a></li>
-			<li role="presentation" ng-class="{'active': (activity.type && option == 'choose')}" ng-click="toggleOption('choose')"><a href="">Choose</a></li>
+			<li role="presentation" ng-class="{'active': (activity.type && option == 'choose')}" ng-click="toggleOption('choose')"><a href="">Choose</a></li> -->
 		</ul>
 	</div>
-	<div ng-if="activity.type" class="automated-form-output">
+	<!-- <div ng-if="activity.type" class="automated-form-output"> -->
+	<div class="automated-form-output">
 		<div ng-if="option == 'create'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
 			<input type="text" placeholder="momol mo ako" ng-model="activity.label" class="col-xs-10 col-md-11 form-control"/>
-			<!-- <button ng-disabled="template.path.length == 0 || hasInvalid" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('addActivityModal', {activity: activity, template: template})"><span class="glyphicon glyphicon-ok"></span></button> -->
 			<button ng-disabled="template.path.length == 0 || hasInvalid" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('validateTemplateModal', false)"><span class="glyphicon glyphicon-ok"></span></button>
 		</div>
 		<div ng-if="option == 'choose'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">

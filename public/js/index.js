@@ -23,16 +23,16 @@ angular.module("indexApp",
 			templateUrl: 	"/partials/autoChoosePage.html",
 			controller: 	"autoCtrl"
 		})
-		.when("/automated/:lotid", {
+		.when("/automated/schedule/:lotid", {
+			templateUrl: 	"/partials/autoSchedulePage.html",
+			controller: 	"autoCtrl"
+		})
+		.when("/automated/activity/:lotid", {
 			templateUrl: 	"/partials/autoControlPage.html",
 			controller: 	"autoCtrl"
 		})
 		.when("/activities", {
 			templateUrl: 	"/partials/activityPage.html"
-		})
-		.when("/createSchedule", {
-			templateUrl: 	"/partials/createSchedule.html",
-			controller: 	"indexCtrl"
 		})
 }])
 .controller("indexCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",

@@ -131,8 +131,11 @@ nav{
 
 .btn-success{
 	background-color: #5CB85C;
+	opacity: 1;
+	border: none;
 }
 
 .btn-success:hover{
-	background-color: #5CB83C;
+	opacity: 0.7;
+	border: none;
 }
