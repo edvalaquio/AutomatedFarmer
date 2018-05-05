@@ -16,19 +16,23 @@ angular.module("indexApp",
 			controller: 	"manualCtrl"
 		})
 		.when("/automated/autoPilot", {
-			templateUrl: "/partials/autoPilotPage.html",
+			templateUrl: 	"/partials/autoPilotPage.html",
 			controller: 	"autoPilotCtrl"
 		})
 		.when("/automated", {
-			templateUrl: "/partials/autoChoosePage.html",
+			templateUrl: 	"/partials/autoChoosePage.html",
 			controller: 	"autoCtrl"
 		})
 		.when("/automated/:lotid", {
-			templateUrl: "/partials/autoControlPage.html",
+			templateUrl: 	"/partials/autoControlPage.html",
 			controller: 	"autoCtrl"
 		})
 		.when("/activities", {
-			templateUrl: "/partials/activityPage.html"
+			templateUrl: 	"/partials/activityPage.html"
+		})
+		.when("/createSchedule", {
+			templateUrl: 	"/partials/createSchedule.html",
+			controller: 	"indexCtrl"
 		})
 }])
 .controller("indexCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",

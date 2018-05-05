@@ -148,6 +148,7 @@
 	border-bottom: 3px solid #ccc;
 	transition: 0.5s;
     outline: none;
+    background-color: transparent;
 }
 
 .automated-modal-input:focus{

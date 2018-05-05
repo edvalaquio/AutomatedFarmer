@@ -1,0 +1,14 @@
+.create-sched-input{
+	/*width: 100%;*/
+	padding: 15px;
+	border: none;
+	border-bottom: 3px solid #ccc;
+	transition: 0.5s;
+    outline: none;
+    background-color: transparent;
+}
+
+.create-sched-input:focus{
+	border: none;
+	border-bottom: 3px solid #566573;
+}
