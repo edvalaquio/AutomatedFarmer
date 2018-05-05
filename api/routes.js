@@ -60,15 +60,21 @@ module.exports = function(app, con, env){
 		// event status, lot name, activity type, start_time, expected_end_time, actual_end_time, 
 		// var query = "SELECT * FROM event AS e JOIN activity AS a ON e.event_id="
 		// serverSelector = function(res, tableName, columns, on, where, filter, flag)
-		var tableName = " event AS e JOIN activity AS a JOIN lot ";
-		var columns = ["lot.name", "a.type", "e.start_time", "e.expected_end_time", "e.actual_end_time", "e.status"];
-		var on = " ON e.activity_id=a.id AND e.lot_id=lot.id ";
+		// var tableName = " event AS e JOIN activity AS a JOIN lot ";
+		// var columns = ["lot.name", "a.type", "e.start_time", "e.expected_end_time", "e.actual_end_time", "e.status"];
+		// var on = " ON e.activity_id=a.id AND e.lot_id=lot.id ";
+
+		var tableName = " event AS e JOIN sequence AS s JOIN activity AS a ";
+		var columns = ['e.id', 'e.start_time', 'e.estimated_end_time', 'e.actual_end_time', 'e.status', 'a.lot_name', 'a.type'];
+		var on = " ON e.id=s.event_id AND a.id=s.activity_id"
 
 		sf.serverSelector(res, tableName, columns, on, '');
 	});
 
 	app.put('/updateEvent', function(req, res){
-
+		var tableName = "event";
+		var column = "";
+		// function(res, tableName, columns, where, data)
 	})
 
 	// ==============================================================
@@ -108,6 +114,13 @@ module.exports = function(app, con, env){
 		sf.serverSelector(res, tableName, columns, on, '');
 	});
 
+	app.get('/getActivitiesWithCoordinates/:lot_id', function(req, res){
+		var tableName = " activity JOIN template ";
+		var columns = ["activity.id", "activity.label", "activity.type", "activity.template_id", "template.path", "template.grid", "activity.lot_id"];
+		var on = " activity.template_id=template.id ";
+		sf.serverSelector(res, tableName, columns, on, '');
+	});
+
 	// app.get('/getActivityTemplate/:lot_id/')
 
 	// ==============================================================
@@ -135,10 +148,15 @@ module.exports = function(app, con, env){
 		var on = " ON activity.template_id=template.id "
 		var where = " WHERE template.path LIKE '" + JSON.stringify(template.path) + "' AND activity.type='" + activity.type + "'";
 
-		// var filter = function(values){
-			// return values[0]['COUNT(*)'];
-		// }
-
 		sf.serverSelector(res, table, columns, on, where);
 	});
+
+	// ==============================================================
+	//ROUTES FOR COORDINATES
+
+	app.get('/getActivityCoordinates/:event_id/:activity_id', function(req, res){
+		var where = " WHERE id=" + req.params.event_id;
+		sf.serverSelector(res, 'coordinates', ['*'], '', where);
+	});
+
 }

@@ -46,4 +46,30 @@ ServerFunctions.prototype.serverSelector = function(res, tableName, columns, on,
 	});
 };
 
+ServerFunctions.prototype.serverUpdater = function(res, tableName, columns, where, data){
+	var sf = this;
+
+	var set = function(columns, data){
+		var temp = ""
+		var i = 0;
+		while(true){
+			temp += columns[i] + "=" + data[i];
+			if(i == columns.length){return temp;}
+			temp += ",";
+			i++;
+		}
+	}
+
+	var query = "UPDATE " + tableName + " SET " + set(columns, data) + where;
+	sf.con.query(query, function(err, result){
+		if(err){
+			console.log(err);
+			sf.serverSender(res, err, "Error in updating: " + tableName);
+			return;
+		}
+		sf.serverSender(res, result, "Successfully updated: " + tableName);
+	});
+
+};
+
 module.exports = ServerFunctions;

@@ -32,7 +32,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 					path 	: 	[]
 				}
 
-				$scope.option = 'choose'
+				$scope.option = 'create'
 				$rootScope.towns = res.data.data;
 				for(var i = 0; i < $rootScope.towns.length; i++){
 					$rootScope.template.grid[i] = [];
