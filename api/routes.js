@@ -174,9 +174,10 @@ module.exports = function(app, con, env){
 		})
 	});
 
-	app.post('/addRiceAge', function(req, res){
-		var queryForRiceAge = "";
-	});
+	// app.post('/addRiceAge', function(req, res){
+	// 	var recentEndTime = "SELECT * FROM activity WHERE activity.end_time IS NOT NULL ORDER BY activity.end_time LIMIT 1";
+	// 	var 
+	// });
 
 	app.get('/getLotActivities/:lotid/:type/:template', function(req, res){
 		console.log(req.params);
