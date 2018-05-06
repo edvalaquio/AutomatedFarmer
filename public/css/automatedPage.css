@@ -74,8 +74,8 @@
     margin-top: 10px;
     padding: 0;
     height: 55vh;
-  width: 100%;
-  overflow: auto;
+    width: 100%;
+    overflow: auto;
 }
 
 .automated-choose-select a{
@@ -114,11 +114,11 @@
 }
 
 .btn.automated-choose-options{
-  background-color: #f5f5f5;
+  background-color: #f5f6fa;
 }
 
 .btn.automated-choose-options:hover{
-  background-color: #ececec;
+  background-color: #ecf0f1;
 }
 
 .modal-content{
