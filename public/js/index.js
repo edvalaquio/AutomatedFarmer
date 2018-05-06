@@ -4,7 +4,8 @@ angular.module("indexApp",
 	["ngRoute",
 	"autoFarm.controllers.manualCtrl",
 	"autoFarm.controllers.autoCtrl",
-	"controllers.modalController"])
+	"controllers.modalController",
+	"angularjs-datetime-picker"])
 .config(["$routeProvider", "$locationProvider",
 	function($routeProvider, $locationProvider){
 		$routeProvider
@@ -33,6 +34,9 @@ angular.module("indexApp",
 		})
 		.when("/activities", {
 			templateUrl: 	"/partials/activityPage.html"
+		})
+		.otherwise({
+			template: "<h1>Page does not exist</h1>"
 		})
 }])
 .controller("indexCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
@@ -67,4 +71,26 @@ angular.module("indexApp",
 	}	
 ]);
 
-// Add this directive where you keep your directive
+// angular.service('crumbs', function(){
+// 	var links = [];
+
+// 	var addCrumb = function(key, value){
+// 		links.push({
+
+// 		})
+// 	};
+
+// 	var getCrumb = function(key){
+// 		return links[key];
+// 	};
+
+// 	var getCrumbs = function(){
+// 		return links;
+// 	};
+
+// 	return{
+// 		addCrumb: addCrumb,
+// 		getCrumb: getCrumb,
+// 		getCrumbs: getCrumbs,
+// 	};
+// });

@@ -1,5 +1,6 @@
 var numUsers = 0;
 var geolib = require('geolib');
+var moment = require('moment');
 // var stepper = require('./manual-socket.js');
 // var motor = new stepper(pin numbers);
 
@@ -191,5 +192,43 @@ module.exports = function(socket, con){
 		// 	// var query = "SELECT coordinates.latitude, coordinates.longitude FROM activity JOIN coordinates JOIN plow ON activity.id=coordinates.activity_id AND plow.id=activity.type_id WHERE activity.id=11 AND plow.template_id=21 "
 		// }
 		
+	});
+
+	var minPerMsq = 0.006;
+	var speedKmPerHr = 1;
+	socket.on('get-event-data', function(data){
+
+
+		var event = data.event;
+		var path = data.path;
+
+
+		console.log(data);
+		// console.log(speed);
+		// console.log(dateString);
+
+		var distance = path.length;
+		var speed = speedKmPerHr * (1000/3600);
+		var time = distance / speed;
+		console.log(time);
+		var startTime = moment(new Date(data.event.start));
+		var expectedEndTime = moment(new Date(data.event.start)).add(time, 'seconds');
+		console.log(expectedEndTime);
+
+		// }
+		// console.log(dateString);
+		// console.log("Time to finish plowing (min): ", distance / speed);
+		// var dateString = data.event.start.split(' ');
+		// var calendar = dateString[0].split('/');
+		// var time = dateString[1].
+		// console.log(dateString[0].split('/'));
+		// var d = new Date(data.event.start);
+		var socketData = {
+			startTime	: startTime,
+			expectedEndTime	: expectedEndTime,
+			expectedDuration: time
+		}
+		socket.emit('returned-event-data', socketData);
+
 	})	
 }
