@@ -212,21 +212,12 @@ module.exports = function(socket, con){
 		var time = distance / speed;
 		console.log(time);
 		var startTime = moment(new Date(data.event.start));
-		var expectedEndTime = moment(new Date(data.event.start)).add(time, 'seconds');
-		console.log(expectedEndTime);
+		var estimatedEndTime = moment(new Date(data.event.start)).add(time, 'seconds');
 
-		// }
-		// console.log(dateString);
-		// console.log("Time to finish plowing (min): ", distance / speed);
-		// var dateString = data.event.start.split(' ');
-		// var calendar = dateString[0].split('/');
-		// var time = dateString[1].
-		// console.log(dateString[0].split('/'));
-		// var d = new Date(data.event.start);
 		var socketData = {
-			startTime	: startTime,
-			expectedEndTime	: expectedEndTime,
-			expectedDuration: time
+			startTime			: startTime.format(),
+			estimatedEndTime	: estimatedEndTime.format() ,
+			estimatedDuration	: time
 		}
 		socket.emit('returned-event-data', socketData);
 

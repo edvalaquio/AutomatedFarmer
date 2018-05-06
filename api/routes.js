@@ -49,9 +49,12 @@ module.exports = function(app, con, env){
 		// > estimated_end_time	====> Computed server-side, sent to user, then sent back by user.
 		// > status = 'pending'
 		// > lot_id
-		// > activity_id
-		var eventDetails = _.map(req.body);
-		var columns = ["start_time", "estimated_end_time", "status", "lot_id", "activity_id"];
+		var eventDetails = _.map(_.omit(req.body, ['end', 'estimatedDuration']));
+		console.log(req.body);
+		eventDetails.push("pending");
+		console.log(eventDetails);
+
+		var columns = ["start_time", "lot_id", "estimated_end_time", "status"];
 		sf.serverInserter(res, "event", columns, eventDetails);
 
 	});
