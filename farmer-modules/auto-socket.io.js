@@ -65,7 +65,8 @@ Path.prototype.getTestGPS = function(){
 
 }
 
-Path.prototype.getDistanceFromTo = function(face, currentPoint){
+// Path.prototype.getDestinationPoint = function(face, currentPoint, inc){
+Path.prototype.getDestinationPoint = function(currentPoint, inc, face){
 
 	var bearing = 0;
 	if(face == 'North'){
@@ -77,7 +78,7 @@ Path.prototype.getDistanceFromTo = function(face, currentPoint){
 	} else if(face == 'West'){
 		bearing = 270;
 	}
-	return geolib.computeDestinationPoint(currentPoint, 1, bearing);
+	return geolib.computeDestinationPoint(currentPoint, inc, bearing);
 
 }
 
@@ -89,33 +90,45 @@ var stopper = function(name){
 module.exports = function(socket, con){
 	var currentLocation = {latitude: 51.516272, longitude: 0.45425};
 	var coordinates = [];
-	socket.on('generate-dummy-data', function(data){
+	socket.on('start-event', function(data){
 
 		var interval;
-		if(data.type == 'plow'){
+		var activity = data.activity, event = data.event, path1 = data.path;
+
+		if(activity.type == 'plow'){
 			// expected data are chosen template.path
-			var pathTemplate = new Path(data.path);
-			// var directions = pathTemplate.getDirections();
+			var pathTemplate = new Path(path1);
+			var directions = pathTemplate.getDirections();
+			console.log(directions);
 			// var previousLocation = currentLocation;
 			// coordinates.push(currentLocation);
-			// var counter = 0;
-			while(counter != directions.length){
+			var counter = 0;
+			var inc = 0.5;
 
-				
+			coordinates.push(currentLocation);
+			interval = setInterval(function(){
+				if(counter == directions.length){
+					stopper(interval);
+					socket.emit('finished', coordinates);
+					return;
+				}
+				console.log("Tractor is moving: ", directions[counter]);
 
-			}
-			// interval = setInterval(function(){
-			// 	console.log("Tractor is moving: " + directions[counter]);
-			// 	if(geolib.getDistance(previousLocation, currentLocation) >= 1){
-			// 		previousLocation = currentLocation
-			// 	}
+				var tempLocation = pathTemplate.getDestinationPoint(currentLocation, 0.5, directions[counter]);
+				var distance = geolib.getDistanceSimple(currentLocation, tempLocation);
+				console.log(distance);
+				console.log(tempLocation);
+				console.log(currentLocation);
+				if(distance >= 1){
+					counter++;
+					coordinates.push(currentLocation);
+				}
+				currentLocation = tempLocation
+			}, 1000);
 
-
-			// }, 0.6);
-
-		} else if(data.type == 'seed'){
+		} else if(activity.type == 'seed'){
 			// expected data are coordinates from chosen plow cycle
-		} else if(data.type == 'harvest'){
+		} else if(activity.type == 'harvest'){
 			// expected data are coordinates from chosen seed cycle
 		}
 
@@ -204,8 +217,6 @@ module.exports = function(socket, con){
 
 
 		console.log(data);
-		// console.log(speed);
-		// console.log(dateString);
 
 		var distance = path.length;
 		var speed = speedKmPerHr * (1000/3600);

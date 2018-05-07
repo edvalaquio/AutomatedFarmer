@@ -384,10 +384,10 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 		if(!$rootScope.activity || !$rootScope.template || !$rootScope.event){
 			$rootScope.activity = JSON.parse($window.localStorage.getItem('activity'));
 			$rootScope.template = JSON.parse($window.localStorage.getItem('template'));
-			$rootScope.template = JSON.parse($window.localStorage.getItem('event'));
-			console.log($rootScope.activity);
-			console.log($rootScope.template);
-			console.log($rootScope.event);
+			$rootScope.event = JSON.parse($window.localStorage.getItem('event'));
+			// console.log($rootScope.activity);
+			// console.log($rootScope.template);
+			// console.log($rootScope.event);
 		}
 
 		if($rootScope.activity.type != 'plow'){
@@ -436,10 +436,14 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 				// }, function(err){
 
 				// });
-
+				$rootScope.socket.emit('start-event', {
+					path 	: $rootScope.template.path,
+					activity: $rootScope.activity,
+					event 	: $rootScope.event
+				});
 
 			}, function(err){
-
+				console.log(err);
 			});
 
 		}
@@ -467,9 +471,9 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 
 		// }
 
-		$rootScope.socket.on('plow-finished', function(data){
-			console.log(data.message);
-			console.log(data.coordinates);
+		$rootScope.socket.on('finished', function(data){
+			// console.log(data.message);
+			console.log(data);
 			// $http({
 			// 	method	: 'PUT', 
 			// 	url		: '/updateActivity',
