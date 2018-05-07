@@ -1,36 +1,48 @@
 <div class="row col-md-6 col-xs-12 create-sched-wrapper">
 	<h1 class="page-header">Schedule</h1>
-	<form class="form-horizontal">
+	<div class="automated-crumbs">
+		<a href="">Lots</a>
+		<a href="">Schedule</a>
+	</div>
+	<div class="form-horizontal">
+		<div class="form-group">
+			<label class="col-xs-5 col-md-4 control-label">Start</label>
+			<input datetime-picker ng-model="event.start" class="col-xs-12 col-md-6 create-sched-input"	/>
+		</div><!-- 
 		<div class="form-group">
 			<label class="col-xs-5 col-md-4 control-label">Start Date</label>
-			<input class="col-xs-7 col-md-6 create-sched-input" type="date" />
+			<input ng-model="event.startDate" class="col-xs-7 col-md-6 create-sched-input" type="date" />
 		</div>
 		<div class="form-group">
 			<label class="col-xs-5 col-md-4 control-label">Start Time</label>
-			<input class="col-xs-7 col-md-6 create-sched-input" type="time" />
-		</div>
+			<input ng-model="event.startTime" class="col-xs-7 col-md-6 create-sched-input" type="time" />
+		</div> -->
+		<!-- <div class="form-group">
+			<label class="col-xs-5 col-md-4 control-label">End</label>
+			<input datetime-picker ng-model="event.end" class="col-xs-12 col-md-6 create-sched-input" future-only/>
+		</div> --><!-- 
 		<div class="form-group">
 			<label class="col-xs-5 col-md-4 control-label">End Date</label>
-			<input class="col-xs-7 col-md-6 create-sched-input" type="date" />
+			<input ng-model="event.endDate" class="col-xs-7 col-md-6 create-sched-input" type="date" />
 		</div>
 		<div class="form-group">
 			<label class="col-xs-5 col-md-4 control-label">End Time</label>
-			<input class="col-xs-7 col-md-6 create-sched-input" type="time" />
-		</div>
+			<input ng-model="event.endTime" class="col-xs-7 col-md-6 create-sched-input" type="time" />
+		</div> -->
 		<div class="form-group">
-			<label class="col-xs-5 col-md-4 control-label">Type of Activity</label>
-			<div class="col-xs-7 col-md-6">
-				<select class="form-control">
-					<option>Plow</option>
-					<option>Seed</option>
-					<option>Harvest</option>
+			<label class="col-xs-12 col-md-4 control-label">Type of Activity</label>
+			<!-- <div class="col-xs-12 col-md-6"> -->
+				<select ng-model="activity.type" class="form-control col-xs-12 col-md-6">
+					<option value="plow">Plow</option>
+					<option value="seed">Seed</option>
+					<option value="harvest">Harvest</option>
 				</select>
-			</div>
+			<!-- </div> -->
 		</div>
 		<div class="form-group">
 			<div class="col-xs-offset-10 col-xs-2">
-				<a class="btn btn-success glyphicon glyphicon-menu-right" href="/#!/automated/activity/"></a>
+				<button class="btn btn-success glyphicon glyphicon-menu-right" ng-disabled="!event.start || !activity.type" ng-click="setEvent()"></button>
 			</div>
 		</div>
-	</form>
+	</div>
 </div>

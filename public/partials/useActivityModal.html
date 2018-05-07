@@ -1,9 +1,18 @@
 <div class="modal-content" ng-controller="autoModalCtrl as $add">
-	<!-- <div ng-init="$add.activity = $ctrl.items"></div> -->
-    <div class="modal-body">
+	<div ng-init="$add.getComputations()"></div>
+	<div ng-if="isLoading">
+		<p>Please wait...</p>
+	</div>
+    <div ng-if="!isLoading" class="modal-body">
+    	<p>Deisred start time: </p>
+    	<p>{{event.start}} </p>
+    	<p>Expected end time: </p>
+    	<p>{{event.estimatedEndTime}} </p>
+    	<p>Expected duration: </p>
+    	<p>{{event.estimatedDuration}} seconds</p>
     	<p>Are you sure you wish to proceed with this activity?</p>
     </div>
-    <div class="modal-footer">
+    <div ng-if="!isLoading" class="modal-footer">
         <button class="btn btn-success" type="button" ng-click="$add.useActivity($ctrl)">Submit</button>
         <button type="button" class="btn btn-danger" ng-click="$ctrl.cancel()">Cancel</button>
     </div>

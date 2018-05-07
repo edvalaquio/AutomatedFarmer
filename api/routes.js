@@ -49,21 +49,17 @@ module.exports = function(app, con, env){
 		// > estimated_end_time	====> Computed server-side, sent to user, then sent back by user.
 		// > status = 'pending'
 		// > lot_id
-		// > activity_id
-		var eventDetails = _.map(req.body);
-		var columns = ["start_time", "estimated_end_time", "status", "lot_id", "activity_id"];
+		var eventDetails = _.map(_.omit(req.body, ['end', 'estimatedDuration', 'id']));
+		console.log(req.body);
+		eventDetails.push("pending");
+		console.log(eventDetails);
+
+		var columns = ["start_time", "lot_id", "estimated_end_time", "status"];
 		sf.serverInserter(res, "event", columns, eventDetails);
 
 	});
 
 	app.get('/getEvents', function(req, res){
-		// event status, lot name, activity type, start_time, expected_end_time, actual_end_time, 
-		// var query = "SELECT * FROM event AS e JOIN activity AS a ON e.event_id="
-		// serverSelector = function(res, tableName, columns, on, where, filter, flag)
-		// var tableName = " event AS e JOIN activity AS a JOIN lot ";
-		// var columns = ["lot.name", "a.type", "e.start_time", "e.expected_end_time", "e.actual_end_time", "e.status"];
-		// var on = " ON e.activity_id=a.id AND e.lot_id=lot.id ";
-
 		var tableName = " event AS e JOIN sequence AS s JOIN activity AS a ";
 		var columns = ['e.id', 'e.start_time', 'e.estimated_end_time', 'e.actual_end_time', 'e.status', 'a.lot_name', 'a.type'];
 		var on = " ON e.id=s.event_id AND a.id=s.activity_id"
