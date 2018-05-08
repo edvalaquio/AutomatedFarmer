@@ -60,7 +60,8 @@ angular.module("indexApp",
 			$location.url() == '/'){
 			$http({
 				method	: 'GET',
-				url 	: '/getLotActivities'
+				// url 	: '/getLotActivities'
+				url 	: '/getEvents'
 			}).then(function(res){
 				$scope.lotActivities = res.data;
 				console.log(res.data);
