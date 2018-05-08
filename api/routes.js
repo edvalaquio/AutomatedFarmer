@@ -47,6 +47,15 @@ module.exports = function(app, con, env){
 
 	// ==============================================================
 	//ROUTES FOR EVENT
+	app.post('/addSequence', function(req, res){
+		var columns = _.keysIn(req.body);
+		var sequenceDetails = _.map(req.body);
+		sf.serverInserter(res, 'sequence', columns, sequenceDetails);
+	});
+
+
+	// ==============================================================
+	//ROUTES FOR EVENT
 
 	app.post('/addEvent', function(req, res){
 		// Expected data:

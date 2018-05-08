@@ -83,6 +83,7 @@ module.exports = function(socket, con){
 		var where = " WHERE a.id=" + activity.id + " AND a.type='" + activity.type + "'";
 		sf.selectWithPromise(tableName, columns, on, where).then(function(rows){
 			var results = rows.data;
+			console.log(results);
 			if(results.length){
 				// reuse coordinates
 				return;

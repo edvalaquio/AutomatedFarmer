@@ -434,22 +434,22 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 			}).then(function(res){
 				console.log(res);
 				$rootScope.event.id = res.data.data;
-				// $http({
-				// 	method 	: 'POST',
-				// 	url 	: '/addSequence',
-				// 	data 	: {
-				// 		activity_id : $rootScope.activity.id,
-				// 		event_id 	: $rootScope.
-				// 	}
-				// }).then(function(res){
+				$http({
+					method 	: 'POST',
+					url 	: '/addSequence',
+					data 	: {
+						activity_id : $rootScope.activity.id,
+						event_id 	: $rootScope.event.id
+					}
+				}).then(function(res){	
+					// console.log(res);			
+					$rootScope.socket.emit('start-event', {
+						path 	: $rootScope.template.path,
+						activity: $rootScope.activity,
+						event 	: $rootScope.event
+					});
+				}, function(err){
 
-				// }, function(err){
-
-				// });
-				$rootScope.socket.emit('start-event', {
-					path 	: $rootScope.template.path,
-					activity: $rootScope.activity,
-					event 	: $rootScope.event
 				});
 
 			}, function(err){
