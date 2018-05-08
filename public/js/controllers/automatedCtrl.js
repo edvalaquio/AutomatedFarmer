@@ -26,14 +26,23 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				
 			$rootScope.activity = {
 				label 		: "",
-				template 	: "",
+				template_id	: "",
 				type 		: "",
 				lot_id		: $routeParams.lotid
 			};
-			$scope.isLoading = false;
+
+			// $http({
+			// 	method	: 'GET', 
+			// 	url		: '/getLotTypes/' + $routeParams.lotid
+			// }).then(function(res){
+
+			// 	$scope.isLoading = false;
+			// }, function(error){
+
+			// });
+
 		} else {
 
-			
 			var data = JSON.parse($window.localStorage.getItem('data'));
 			if((data == null) || $rootScope.activity && $rootScope.activity.lot_id != $routeParams.lotid){
 				$window.location.href = '/#!/automated';
@@ -89,7 +98,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 
 		$scope.setActivity = function(){
 			$scope.toggleSelectAll(false);
-			console.log($rootScope.activity);
+			// console.log($rootScope.activity);
 			$rootScope.activity.label = "";
 			if($rootScope.activity.type != 'plow'){
 				var type = "";
@@ -143,7 +152,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				$rootScope.activity.label = activity.label
 			}
 			console.log(activity);
-			$rootScope.activity.template = activity.template_id;
+			$rootScope.activity.template_id = activity.template_id;
 			$rootScope.template.path = activity.path;
 			$rootScope.template.grid = activity.grid;
 			
@@ -254,7 +263,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 				url		: '/addLot',
 				data 	: data
 			}).then(function(res){
-        		$window.location.href = "#!/automated/" + res.data.data
+        		$window.location.href = "#!/automated/schedule/" + res.data.data
 				console.log(res);
 				$ctrl.ok();
 			}, function(error){
@@ -292,7 +301,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 			}
 		}
 
-		$add.submitActivity = function($ctrl){
+		$add.addActivity = function($ctrl){
 			var lot_id = $rootScope.activity.lot_id;
 			var tempPath = $rootScope.template.path;
 			var tempGrid = $rootScope.template.grid;
@@ -304,7 +313,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 				}).then(function(res){
 					$ctrl.ok();
 					$rootScope.activity.id = res.data.data;
-					$add.useActivity();
+					$ctrl.open('useActivityModal', $rootScope.activity);
 				}, function(error){
 					console.log(error);
 				});
@@ -316,7 +325,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 					url		: '/addTemplate',
 					data 	: [JSON.stringify(tempGrid), JSON.stringify(tempPath), lot_id]
 				}).then(function(res){
-					$rootScope.activity.template = res.data.data;
+					$rootScope.activity.template_id = res.data.data;
 					postActivity($rootScope.activity);
 				}, function(error){
 					console.log(error);
@@ -340,6 +349,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 				path 	: $rootScope.template.path, 
 				event 	: $rootScope.event
 			}
+			console.log("Getting event data...");
 			$rootScope.socket.emit('get-event-data', socketData);
 			$rootScope.socket.on('returned-event-data', function(data){
 				console.log(data);
@@ -448,27 +458,9 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 
 		}
 
-		$scope.setSelected = function(activity){
-			// console.log(activity);
-			$scope.selectedActivity = activity;
-		}
-
-		// $scope.tryUpdate = function(){
-		// 	// console.log($rootScope.activity);
-		// 	var data = {
-		// 		activity_id	: 11,
-		// 		status 		: 'success'
-		// 	}
-		// 	$http({
-		// 		method	: 'PUT', 
-		// 		url		: '/updateActivity',
-		// 		data 	: data
-		// 	}).then(function(res){
-		// 		console.log(res);
-		// 	}, function(error){
-		// 		console.log(error);
-		// 	});
-
+		// $scope.setSelected = function(activity){
+		// 	// console.log(activity);
+		// 	$scope.selectedActivity = activity;
 		// }
 
 		$rootScope.socket.on('finished', function(data){

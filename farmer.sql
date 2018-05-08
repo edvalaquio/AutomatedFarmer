@@ -1,0 +1,1 @@
+ALTER TABLE `activity` ADD FOREIGN KEY (`template_id`) REFERENCES `template`(`id`) ON DELETE CASCADE ON UPDATE CASCADE

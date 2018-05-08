@@ -43,7 +43,7 @@ modalModule.controller('modalController', function ($uibModal, $log, $document, 
 // It is not the same as the $uibModal service used above.
 modalModule.controller('modalInstanceController', function ($uibModalInstance, items) {
 	var $ctrl = this;
-	console.log(items);
+	// console.log(items);
 	$ctrl.open = items;
 
 	$ctrl.ok = function () {
