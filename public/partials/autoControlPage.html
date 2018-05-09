@@ -1,11 +1,12 @@
 <div class="row col-md-6 col-xs-12 automated-control">
-	<h1 class="page-header">Automated Control</h1>
+	<h1>Automated Control</h1>
 	<div class="automated-crumbs">
 		<a href="">Lots</a>
 		<a href="">Schedule</a>
 		<a href="">Activity</a>
 	</div>
-	<p>Choose whether to create an activity or to choose from existing activity.</p>
+	<p>Choose from existing activities or create a new activity.</p>
+	<p class="automated-paragraph-info">Note: The Choose option will be disabled if there are no activities on the lot. Create an activity first.</p>
 	<div ng-if="activity.type" class="form-group">
 		<ul class="nav nav-tabs" >
 			<li role="presentation" ng-class="{'active': (option == 'choose')}" ng-click="toggleOption('choose')"><a href="">Choose</a></li>
@@ -13,23 +14,23 @@
 		</ul>
 	</div>
 	<div ng-if="activity.type" class="automated-form-output">
-		<div ng-if="option == 'create'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
-			<input type="text" placeholder="Enter activity label (optional)" ng-model="activity.label" class="col-xs-10 col-md-11 form-control"/>
-			<button ng-disabled="template.path.length == 0 || hasInvalid" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('validateTemplateModal', false)"><span class="glyphicon glyphicon-ok"></span></button>
-		</div>
 		<div ng-if="option == 'choose'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
-			<select class="col-xs-10 col-md-11 form-control" ng-change="setTemplate(value, true)" ng-model="value">
+			<select class="col-xs-10 col-md-11 form-control" ng-change="setTemplate(value, true)" ng-model="value" ng-disabled="!activityList.length">
 				<option ng-repeat="item in activityList" ng-value="item">{{item.label}}</option>
 			</select>
 			<button ng-disabled="template.path.length == 0" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('useActivityModal', activity)"><span class="glyphicon glyphicon-ok"></span></button>
+		</div>
+		<div ng-if="option == 'create'" class="col-xs-12 automated-controls-panel" ng-controller="modalController as $ctrl">
+			<input type="text" placeholder="Enter activity label (optional)" ng-model="activity.label" class="col-xs-10 col-md-11 form-control"/>
+			<button ng-disabled="template.path.length == 0 || hasInvalid" class="col-xs-2 col-md-1 btn btn-success" ng-click="$ctrl.open('validateTemplateModal', false)"><span class="glyphicon glyphicon-ok"></span></button>
 		</div>
 		<div ng-if="option == 'create' && activity.type == 'plow'" class="col-xs-12 automated-controls-select">
 			<button class="btn btn-select-all" ng-click="toggleSelectAll(true)" ng-disabled="hasInvalid">Select All</button>
 			<button class="btn btn-deselect-all" ng-disabled="template.path.length == 0" ng-click="toggleSelectAll(false)">Deselect All</button>
 		</div>
 		<div ng-if="option == 'create' && (activity.type == 'seed' || activity.type == 'harvest')" class="col-xs-12 automated-controls-select">
-			<select class="form-control" ng-model="template" ng-change="setTemplate(template, false)">
-				<option ng-repeat="item in templateList" ng-value="item">{{item.label}}</option>
+			<select class="form-control" ng-model="template" ng-change="setTemplate(template, false)" ng-disabled="template.path.length == 0">
+				<option ng-repeat="item in templateList" ng-value="item">{{ item.label }}</option>
 			</select>
 		</div>
 		<div class="col-xs-12 automated-table" ng-if="towns.length.length > 0 && towns.width.length > 0">

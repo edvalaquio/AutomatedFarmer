@@ -129,7 +129,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 					}).then(function(res){
 						console.log(res);
 						$scope.activityList = [];
-						$scope.activityList = res.data.data
+						$scope.activityList = res.data.data;
 					}, function(error){
 						console.log(error);
 					});
