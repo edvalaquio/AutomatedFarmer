@@ -109,10 +109,8 @@ module.exports = function(app, con, env){
 		var columns = _.keysIn(req.body)
 		console.log(columns);
 		var activityDetails = _.map(req.body);
-<<<<<<< HEAD
 		var columns = ["label", "template_id", "type", "lot_id"];
-=======
->>>>>>> 0a3a531f8977ced3161a55213b6275065ae54306
+		
 		sf.serverInserter(res, "activity", columns, activityDetails);
 
 	});
