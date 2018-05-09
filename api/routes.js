@@ -49,9 +49,23 @@ module.exports = function(app, con, env){
 	});
 
 	app.get('/getLot/:lot_id', function(req, res){
-		var where = " WHERE id=" + req.params.lot_id
+		var where = " WHERE id=" + req.params.lot_id;
 		sf.serverSelector(res, "lot", ['*'], '', where, _.head);
 	});
+
+	app.get('/getLotTypes/:lot_id', function(req, res){
+		var where=" WHERE id=" + req.params.lot_id;
+		sf.serverSelector(res, "lot", ['COUNT(*)'], '', where);
+	});
+
+	// ==============================================================
+	//ROUTES FOR EVENT
+	app.post('/addSequence', function(req, res){
+		var columns = _.keysIn(req.body);
+		var sequenceDetails = _.map(req.body);
+		sf.serverInserter(res, 'sequence', columns, sequenceDetails);
+	});
+
 
 	// ==============================================================
 	//ROUTES FOR EVENT
@@ -92,8 +106,13 @@ module.exports = function(app, con, env){
 		// Expected data:
 		// > label, type, template_id, lot_id
 		console.log(req.body);
+		var columns = _.keysIn(req.body)
+		console.log(columns);
 		var activityDetails = _.map(req.body);
+<<<<<<< HEAD
 		var columns = ["label", "template_id", "type", "lot_id"];
+=======
+>>>>>>> 0a3a531f8977ced3161a55213b6275065ae54306
 		sf.serverInserter(res, "activity", columns, activityDetails);
 
 	});

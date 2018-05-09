@@ -2,77 +2,82 @@
 
 var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"])
 autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams",
-	function($rootScope, $scope, $window, $location, $http, $routeParams){
-		// var socket;
+	function($rootScope, $scope, $window, $location, $http, $routeParams, ngToast){
+
 		$scope.isLoading = true;
 
-		if($location.url() == '/automated'){
-			$http({
-				method	: 'GET', 
-				url		: '/getLots'
-			}).then(function(res){
-				console.log(res.data);
-				$rootScope.towns = res.data.data;
-				$scope.isLoading = false;
-			}, function(error){
-				console.log(error);
-			});
-		}else if($location.url().includes('/schedule')){
-			$rootScope.event = {
-				start 	: "",
-				end 	: "",
-				lot_id	: $routeParams.lotid
-			}
-				
-			$rootScope.activity = {
-				label 		: "",
-				template 	: "",
-				type 		: "",
-				lot_id		: $routeParams.lotid
-			};
-			$scope.isLoading = false;
-		} else {
-
-			
-			var data = JSON.parse($window.localStorage.getItem('data'));
-			if((data == null) || $rootScope.activity && $rootScope.activity.lot_id != $routeParams.lotid){
-				$window.location.href = '/#!/automated';
-				// Needs Notif;
-				console.log("Lot_id does not match!");
-				return;
+		var initialize = function(){
+			if($location.url() == '/automated'){
+				$http({
+					method	: 'GET', 
+					url		: '/getLots'
+				}).then(function(res){
+					console.log(res.data);
+					$rootScope.towns = res.data.data;
+					$scope.isLoading = false;
+				}, function(error){
+					console.log(error);
+				});
+			} else if($location.url().includes('/schedule')){
+				$rootScope.event = {
+					start 	: "",
+					end 	: "",
+					lot_id	: $routeParams.lotid
+				}
+				$rootScope.activity = {
+					label 		: "",
+					template_id	: "",
+					type 		: "",
+					lot_id		: $routeParams.lotid
+				};
 			} else {
-				$rootScope.activity = data.activity;
-				$rootScope.event = data.event;
-			}
-
-			$http({
-				method	: 'GET', 
-				url		: '/getLot/' + $routeParams.lotid
-			}).then(function(res){
-
-				$rootScope.template = {
-					grid 	: 	[[]],
-					path 	: 	[]
+				var data = JSON.parse($window.localStorage.getItem('data'));
+				if((data == null) || $rootScope.activity && $rootScope.activity.lot_id != $routeParams.lotid){
+					$window.location.href = '/#!/automated';
+					// Needs Notif;
+					console.log("Lot_id does not match!");
+					return;
+				} else {
+					$rootScope.activity = data.activity;
+					$rootScope.event = data.event;
 				}
-
-				$rootScope.towns = res.data.data;
-				for(var i = 0; i < $rootScope.towns.length; i++){
-					$rootScope.template.grid[i] = [];
-					for(var j = 0; j < $rootScope.towns.width; j++){
-						$rootScope.template.grid[i][j] = false;
+				$http({
+					method	: 'GET', 
+					url		: '/getLot/' + $routeParams.lotid
+				}).then(function(res){
+					$rootScope.template = {
+						grid 	: 	[[]],
+						path 	: 	[]
 					}
-				}
-				$rootScope.towns.length = computeRange($rootScope.towns.length);
-				$rootScope.towns.width = computeRange($rootScope.towns.width);
-				$scope.toggleOption('choose');
-				$scope.setActivity();
-				$scope.isLoading = false;
+					$rootScope.towns = res.data.data;
+					for(var i = 0; i < $rootScope.towns.length; i++){
+						$rootScope.template.grid[i] = [];
+						for(var j = 0; j < $rootScope.towns.width; j++){
+							$rootScope.template.grid[i][j] = false;
+						}
+					}
 
-			}, function(error){
-				console.log(error);
-			});
+					$rootScope.towns.length = computeRange($rootScope.towns.length);
+					$rootScope.towns.width = computeRange($rootScope.towns.width);
+					$scope.toggleOption('choose');
+					$scope.setActivity();
+					$scope.isLoading = false;
 
+				}, function(error){
+					console.log(error);
+				});
+			}
+			return;
 		}
+
+		$rootScope.socket.emit('event-ongoing');
+		$rootScope.socket.on('is-ongoing', function(data){
+			if(data){
+				$window.location.href="/";
+				return;
+			}
+			initialize();
+		});
 
 		console.log("Here in autoCtrl");
 
@@ -89,7 +94,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 
 		$scope.setActivity = function(){
 			$scope.toggleSelectAll(false);
-			console.log($rootScope.activity);
+			// console.log($rootScope.activity);
 			$rootScope.activity.label = "";
 			if($rootScope.activity.type != 'plow'){
 				var type = "";
@@ -143,7 +148,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				$rootScope.activity.label = activity.label
 			}
 			console.log(activity);
-			$rootScope.activity.template = activity.template_id;
+			$rootScope.activity.template_id = activity.template_id;
 			$rootScope.template.path = activity.path;
 			$rootScope.template.grid = activity.grid;
 			
@@ -292,7 +297,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 			}
 		}
 
-		$add.submitActivity = function($ctrl){
+		$add.addActivity = function($ctrl){
 			var lot_id = $rootScope.activity.lot_id;
 			var tempPath = $rootScope.template.path;
 			var tempGrid = $rootScope.template.grid;
@@ -304,7 +309,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 				}).then(function(res){
 					$ctrl.ok();
 					$rootScope.activity.id = res.data.data;
-					$add.useActivity($ctrl);
+					$ctrl.open('useActivityModal', $rootScope.activity);
 				}, function(error){
 					console.log(error);
 				});
@@ -316,7 +321,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 					url		: '/addTemplate',
 					data 	: [JSON.stringify(tempGrid), JSON.stringify(tempPath), lot_id]
 				}).then(function(res){
-					$rootScope.activity.template = res.data.data;
+					$rootScope.activity.template_id = res.data.data;
 					postActivity($rootScope.activity);
 				}, function(error){
 					console.log(error);
@@ -340,6 +345,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 				path 	: $rootScope.template.path, 
 				event 	: $rootScope.event
 			}
+			console.log("Getting event data...");
 			$rootScope.socket.emit('get-event-data', socketData);
 			$rootScope.socket.on('returned-event-data', function(data){
 				console.log(data);
@@ -424,22 +430,22 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 			}).then(function(res){
 				console.log(res);
 				$rootScope.event.id = res.data.data;
-				// $http({
-				// 	method 	: 'POST',
-				// 	url 	: '/addSequence',
-				// 	data 	: {
-				// 		activity_id : $rootScope.activity.id,
-				// 		event_id 	: $rootScope.
-				// 	}
-				// }).then(function(res){
+				$http({
+					method 	: 'POST',
+					url 	: '/addSequence',
+					data 	: {
+						activity_id : $rootScope.activity.id,
+						event_id 	: $rootScope.event.id
+					}
+				}).then(function(res){	
+					// console.log(res);			
+					$rootScope.socket.emit('start-event', {
+						path 	: $rootScope.template.path,
+						activity: $rootScope.activity,
+						event 	: $rootScope.event
+					});
+				}, function(err){
 
-				// }, function(err){
-
-				// });
-				$rootScope.socket.emit('start-event', {
-					path 	: $rootScope.template.path,
-					activity: $rootScope.activity,
-					event 	: $rootScope.event
 				});
 
 			}, function(err){
@@ -448,27 +454,9 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 
 		}
 
-		$scope.setSelected = function(activity){
-			// console.log(activity);
-			$scope.selectedActivity = activity;
-		}
-
-		// $scope.tryUpdate = function(){
-		// 	// console.log($rootScope.activity);
-		// 	var data = {
-		// 		activity_id	: 11,
-		// 		status 		: 'success'
-		// 	}
-		// 	$http({
-		// 		method	: 'PUT', 
-		// 		url		: '/updateActivity',
-		// 		data 	: data
-		// 	}).then(function(res){
-		// 		console.log(res);
-		// 	}, function(error){
-		// 		console.log(error);
-		// 	});
-
+		// $scope.setSelected = function(activity){
+		// 	// console.log(activity);
+		// 	$scope.selectedActivity = activity;
 		// }
 
 		$rootScope.socket.on('finished', function(data){

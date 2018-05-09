@@ -1,10 +1,16 @@
 <div class="row col-md-6 col-xs-12">
 	<h1 class="page-header">Auto Pilot</h1>
-	<button ng-if="activity.type == 'plow'" class="btn btn-primary" ng-click="startActivity()" ng-disabled="isExecuting">Click Me</button>	
-	<button ng-if="activity.type == 'seed' && selectedActivity" class="btn btn-primary" ng-click="startActivity()" ng-disabled="isExecuting">Click Me</button>	
+	<button class="btn btn-primary" ng-click="startActivity()" ng-disabled="isExecuting">Begin Activity</button>
+	<div class="automated-pilot-log">
+		<p> {{}} </p>
+		<p> {{}} </p>
+		<p> {{}} </p>
+	</div>	
+	<!-- <button ng-if="activity.type == 'plow'" class="btn btn-primary" ng-click="startActivity()" ng-disabled="isExecuting">Click Me</button>	 -->
+	<!-- <button ng-if="activity.type == 'seed'" class="btn btn-primary" ng-click="startActivity()" ng-disabled="isExecuting">Click Me</button>	 -->
 
 
-	<div ng-if="activity.type=='seed' || activity.type=='harvest'" class="table-responsive">
+	<!-- <div ng-if="activity.type=='seed' || activity.type=='harvest'" class="table-responsive">
 		<table class="table table-striped activity-page-table table-hover">
 			<thead>
 				<tr>
@@ -22,5 +28,5 @@
 			</tbody>
 		</table>
 	</div>
-
+ -->
 </div>
