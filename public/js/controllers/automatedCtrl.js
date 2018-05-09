@@ -30,7 +30,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 					type 		: "",
 					lot_id		: $routeParams.lotid
 				};
-			} else {
+			} else if($location.url().includes('/activity')){
 				var data = JSON.parse($window.localStorage.getItem('data'));
 				if((data == null) || $rootScope.activity && $rootScope.activity.lot_id != $routeParams.lotid){
 					$window.location.href = '/#!/automated';
@@ -72,6 +72,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 
 		$rootScope.socket.emit('event-ongoing');
 		$rootScope.socket.on('is-ongoing', function(data){
+			console.log('ongoing', data);
 			if(data){
 				$window.location.href="/";
 				return;
@@ -360,15 +361,11 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 		$scope.validateForm = function(){
 			console.log("Validating...");
 			if($scope.lot){
-				// console.log($scope.lot);
 				if($scope.lot.name && $scope.lot.province && $scope.lot.length1 && $scope.lot.width){
 					return true;
 				} else {
 					return false;
 				}
-				// if(!isNaN(parseInt($scope.lot.length1)) || !isNaN(parseInt($scope.lot.width))){
-				// 	return true;
-				// }
 			}
 		}
 
@@ -383,6 +380,7 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 		if($window.localStorage.getItem('activity') == null || 
 			$window.localStorage.getItem('template') == null ||
 			$window.localStorage.getItem('event') == null){
+			console.log("Hello");
 			$window.location.href = "#!/automated/";
 			return;
 		}
@@ -391,9 +389,6 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 			$rootScope.activity = JSON.parse($window.localStorage.getItem('activity'));
 			$rootScope.template = JSON.parse($window.localStorage.getItem('template'));
 			$rootScope.event = JSON.parse($window.localStorage.getItem('event'));
-			// console.log($rootScope.activity);
-			// console.log($rootScope.template);
-			// console.log($rootScope.event);
 		}
 
 		if($rootScope.activity.type != 'plow'){
@@ -404,25 +399,32 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 			} else {
 				type = 'seed';
 			}
-
-			// $http({
-			// 	method 	: 'GET',
-			// 	url 	: '/getLotActivities/' + activity.lot_id + '/' + type + '/' + activity.template
-			// }).then(function(res){
-			// 	console.log(res);
-			// 	$scope.activityList = res.data;
-			// 	console.log($scope.activityList);
-			// }, function(error){
-			// 	console.log(error);
-			// });
+		}
+		$scope.pilotData = {
+			status	 		: '',
+			currentLocation : '',
+			currentActivity	: ''
 		}
 
+		$rootScope.socket.emit('get-tractor-details');
+		$rootScope.socket.on('tractor-details', function(data){
+			if(data.status){
+				$scope.pilotData = data;
+			}
+			$scope.$apply();
+		});
+
+		$rootScope.socket.on('finished', function(data){
+			console.log(data);
+			$scope.pilotData.status = "Finished";
+			$scope.pilotData.currentActivity = "";
+			$scope.pilotData.currentLocation = "";
+			$scope.$apply();
+		});
+
+
 		$scope.startActivity = function(){
-
-			// $scope.isExecuting = true;
-			console.log($rootScope.activity);
-			console.log($rootScope.event);
-
+			$scope.pilotData.status = "Ongoing";
 			$http({
 				method	: 'POST',
 				url 	: '/addEvent',
@@ -453,30 +455,6 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 			});
 
 		}
-
-		// $scope.setSelected = function(activity){
-		// 	// console.log(activity);
-		// 	$scope.selectedActivity = activity;
-		// }
-
-		$rootScope.socket.on('finished', function(data){
-			// console.log(data.message);
-			console.log(data);
-			// $http({
-			// 	method	: 'PUT', 
-			// 	url		: '/updateActivity',
-			// 	data 	: {
-			// 		activity_id 	: data.activity_id,
-			// 		status 			: "success"
-			// 	}
-			// }).then(function(res){
-			// 	console.log(res);
-			// }, function(error){
-			// 	console.log(error);
-			// });
-			$scope.isExecuting = false;
-		})
-
 
 	}
 ]);

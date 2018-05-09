@@ -25,7 +25,7 @@ con.connect(function(err) {
 	io.on('connection', function(socket){
 		console.log("A user has connected");
 		require('./farmer-modules/manual-socket.io')(socket);
-		require('./farmer-modules/auto-socket.io')(socket, con);
+		require('./farmer-modules/auto-socket.io')(io, socket, con);
 
 		socket.on('disconnect', function(){
 			console.log('User disconnected.');

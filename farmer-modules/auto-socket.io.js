@@ -7,86 +7,102 @@ var _ = require('lodash');
 // var stepper = require('./manual-socket.js');
 // var motor = new stepper(pin numbers);
 
-var updateEvent = function(event, sf, status){
-	var where = " WHERE event.id=" + event.id;
-	sf.updateWithPromise('event', ['status'], where, [status]);
-}
+module.exports = function(io, socket, con){
+	// console.log(io);
+	var isOngoing = false;
+	var activity, event, path;
+	var sf = new ServerFunction(con);
 
-var reuseCoordinates = function(activity, event, path, coordinates, sf, socket){
-	var pathTemplate = new Path(path);
-	var directions = pathTemplate.getDirections();
-	var counter = 0;
-	// console.log(coordinates[0].latitude);
-	var interval = setInterval(function(){
-		if(counter == coordinates.length-1){
-			clearInterval(interval);
-			updateEvent(event, sf, "'success'");
-			isOngoing = false;
-			socket.emit('finished', coordinates);
-		}
+	var updateEvent = function(status){
+		var where = " WHERE event.id=" + event.id;
+		sf.updateWithPromise('event', ['status'], where, [status]);
+	}
 
-		console.log(directions[counter]);
-		console.log(coordinates[counter]);
-		counter++;
-	}, 1000);
-}
+	var reuseCoordinates = function(coordinates){
+		var pathTemplate = new Path(path);
+		var directions = pathTemplate.getDirections();
+		var counter = 0;
+		// console.log(coordinates[0].latitude);
+		var interval = setInterval(function(){
+			if(counter == coordinates.length-1){
+				clearInterval(interval);
+				updateEvent("'success'");
+				isOngoing = false;
+				io.emit('finished', coordinates);
+				return;
+			}
 
-var generateCoordinates = function(activity, event, path, currentLocation, sf, socket){
-	var pathTemplate = new Path(path);
-	var directions = pathTemplate.getDirections();
-	var coordinates = [], counter = 0, inc = 0.5;
-
-	coordinates.push(currentLocation);
-	var interval = setInterval(function(){
-		if(counter == directions.length){
-			clearInterval(interval);
-			console.log(event);
-			updateEvent(event, sf, "'success'");
-			isOngoing = false;
-			socket.emit('finished', coordinates);
-			return;
-		}
-		console.log("Tractor is moving: ", directions[counter]);
-
-		var tempLocation = pathTemplate.getDestinationPoint(currentLocation, 0.5, directions[counter]);
-		var distance = geolib.getDistanceSimple(currentLocation, tempLocation);
-		console.log(distance);;
-		if(distance >= 1){
-			counter++;
-			coordinates.push(currentLocation);
-			var tableName = "coordinates";
-			var columns = ['latitude', 'longitude', 'activity_id'];
-			var insertData = [currentLocation.latitude, currentLocation.longitude, activity.id];
-			sf.insertWithPromise(tableName, columns, insertData).then(function(rows){
-				console.log(rows.data);
-				console.log(rows.message);
+			console.log(directions[counter]);
+			console.log(coordinates[counter]);
+			io.emit('tractor-details', {
+				currentLocation : coordinates[counter],
+				status			: isOngoing,
+				currentActivity : activity.type
 			});
-		}
-		currentLocation = tempLocation
-	}, 1000);
 
-	return coordinates;
-}
+			counter++;
+		}, 1000);
+	}
 
+	var generateCoordinates = function(currentLocation){
+		var pathTemplate = new Path(path);
+		var directions = pathTemplate.getDirections();
+		var coordinates = [], counter = 0, inc = 0.5;
 
-var isOngoing = false;
-module.exports = function(socket, con){
+		coordinates.push(currentLocation);
+		var interval = setInterval(function(){
+			if(counter == directions.length){
+				clearInterval(interval);
+				console.log(event);
+				updateEvent("'success'");
+				isOngoing = false;
+				io.emit('finished', coordinates);
+				return;
+			}
+			console.log("Tractor is moving: ", directions[counter]);
 
-	socket.on('event-ongoing', function(){
-		socket.emit('is-ongoing', isOngoing);
+			var tempLocation = pathTemplate.getDestinationPoint(currentLocation, 0.5, directions[counter]);
+			var distance = geolib.getDistanceSimple(currentLocation, tempLocation);
+			console.log(distance);;
+			if(distance >= 1){
+				counter++;
+				coordinates.push(currentLocation);
+				var tableName = "coordinates";
+				var columns = ['latitude', 'longitude', 'activity_id'];
+				var insertData = [currentLocation.latitude, currentLocation.longitude, activity.id];
+				sf.insertWithPromise(tableName, columns, insertData).then(function(rows){
+					console.log(rows.data);
+					console.log(rows.message);
+				});
+			}
+			currentLocation = tempLocation
+			io.emit('tractor-details', {
+				currentLocation : coordinates[counter],
+				status			: isOngoing,
+				currentActivity : activity.type
+			});
+		}, 1000);
+
+		return coordinates;
+	}
+
+	socket.on('get-tractor-details', function(){
+		io.emit('tractor-details', {
+			currentLocation : "Calculating...",
+			status			: isOngoing,
+			currentActivity : "Checking..."
+		});
 	})
 
 	socket.on('start-event', function(data){
-		console.log("start event");
-		var sf = new ServerFunction(con);
-		var currentLocation = {latitude: 51.516272, longitude: 0.45425};
-		var activity = data.activity, event = data.event, path1 = data.path;
 
-		updateEvent(event, sf, "'ongoing'");
-		isOngoing = true;
+		activity = data.activity;
+		event = data.event;
+		path = data.path;
 
-		console.log("Performing: " + activity.type);
-		// if(activity.type == 'plow'){
+		updateEvent("'ongoing'");
+		isOngoing = "Ongoing";
+
 		var tableName = 'coordinates AS c JOIN activity AS a';
 		var columns = ['c.latitude', 'c.longitude'];
 		var on = " ON c.activity_id=a.id ";
@@ -97,12 +113,12 @@ module.exports = function(socket, con){
 			if(results.length){
 				console.log(results);
 				coordinates = results
-				reuseCoordinates(activity, event, path1, results, sf, socket);
+				reuseCoordinates(results);
 				return;
 			}
 			if(activity.type == 'plow'){
-				// console.log(data.path);
-				generateCoordinates(activity, event, path1, currentLocation, sf, socket);
+				var currentLocation = {latitude: 51.516272, longitude: 0.45425};
+				generateCoordinates(currentLocation);
 			} else {
 				console.log(activity);
 				var tempType = "";
@@ -114,9 +130,7 @@ module.exports = function(socket, con){
 
 				where = " WHERE a.template_id=" + activity.template_id + " AND a.type='" + tempType + "'";
 				sf.selectWithPromise(tableName, columns, on, where).then(function(rows){
-					console.log(rows.data);
-					var coordinates = rows.data;
-					reuseCoordinates(activity, event, path1, coordinates, sf, socket);
+					reuseCoordinates(rows.data);
 				});
 			}
 		});
@@ -128,9 +142,6 @@ module.exports = function(socket, con){
 
 		var event = data.event;
 		var path = data.path;
-
-
-		console.log(data);
 
 		var distance = path.length;
 		var speed = speedKmPerHr * (1000/3600);
@@ -144,7 +155,7 @@ module.exports = function(socket, con){
 			estimatedEndTime	: estimatedEndTime.format() ,
 			estimatedDuration	: time
 		}
-		socket.emit('returned-event-data', socketData);
+		io.emit('returned-event-data', socketData);
 
 	})	
 }
