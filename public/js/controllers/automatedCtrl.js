@@ -70,10 +70,10 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 			return;
 		}
 
-		$rootScope.socket.emit('event-ongoing');
-		$rootScope.socket.on('is-ongoing', function(data){
+		$rootScope.socket.emit('get-tractor-details');
+		$rootScope.socket.on('tractor-details', function(data){
 			console.log('ongoing', data);
-			if(data){
+			if(data.status){
 				$window.location.href="/";
 				return;
 			}

@@ -4,21 +4,21 @@
 		<a href="">Lots</a>
 		<a href="">Schedule</a>
 	</div>
-	<div class="form-horizontal">
-		<div class="form-group">
-			<label class="col-xs-4 col-md-3 control-label">Start Date</label>
-			<input datetime-picker ng-model="event.start" class="col-xs-8 col-md-9 create-sched-input"	/>
+	<div class="form-horizontal"> 
+		<div class="form-group col-xs-12">
+			<label class="control-label">Start Date</label>
+			<input datetime-picker ng-model="event.start" class="create-sched-input"	/>
 		</div>
-		<div class="form-group">
-			<label class="col-xs-4 col-md-3 control-label">Type of Activity</label>
-			<select ng-model="activity.type" class="create-sched-input col-xs-8 col-md-9">
+		<div class="form-group col-xs-12">
+			<label class="control-label">Type of Activity</label>
+			<select ng-model="activity.type" class="create-sched-input">
 				<option value="plow">Plow</option>
 				<option value="seed">Seed</option>
 				<option value="harvest">Harvest</option>
 			</select>
 		</div>
-		<div class="form-group">
-			<div class="col-xs-offset-10 col-xs-2">
+		<div class="form-group col-xs-12">
+			<div class="pull-right">
 				<button class="btn btn-success glyphicon glyphicon-menu-right" ng-disabled="!event.start || !activity.type" ng-click="setEvent()"></button>
 			</div>
 		</div>
