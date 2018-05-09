@@ -74,9 +74,9 @@ module.exports = function(app, con, env){
 	});
 
 	app.get('/getEvents', function(req, res){
-		var tableName = " event AS e JOIN sequence AS s JOIN activity AS a ";
-		var columns = ['e.id', 'e.start_time', 'e.estimated_end_time', 'e.actual_end_time', 'e.status', 'a.lot_name', 'a.type'];
-		var on = " ON e.id=s.event_id AND a.id=s.activity_id"
+		var tableName = " event AS e JOIN sequence AS s JOIN activity AS a  JOIN lot AS l";
+		var columns = ['e.id', 'e.start_time', 'e.estimated_end_time', 'e.actual_end_time', 'e.status', 'l.name', 'a.type'];
+		var on = " ON e.id=s.event_id AND a.id=s.activity_id AND e.lot_id=l.id"
 
 		sf.serverSelector(res, tableName, columns, on, '');
 	});

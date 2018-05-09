@@ -42,12 +42,12 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="lotActivity in lotActivities">
-							<td>{{ lotActivity.start_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
-							<td>{{ lotActivity.end_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
-							<td>{{ lotActivity.name }}</td>
-							<td>{{ lotActivity.type }}</td>
-							<td>{{ lotActivity.status }}</td>
+						<tr ng-repeat="lot in lotActivities">
+							<td>{{ lot.start_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
+							<td>{{ lot.estimated_end_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
+							<td>{{ lot.name }}</td>
+							<td>{{ lot.type }}</td>
+							<td>{{ lot.status }}</td>
 						</tr>
 					</tbody>
 				</table>

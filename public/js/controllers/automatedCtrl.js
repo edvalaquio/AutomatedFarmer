@@ -2,86 +2,82 @@
 
 var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"])
 autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams",
-	function($rootScope, $scope, $window, $location, $http, $routeParams){
-		// var socket;
+	function($rootScope, $scope, $window, $location, $http, $routeParams, ngToast){
+
 		$scope.isLoading = true;
 
-		if($location.url() == '/automated'){
-			$http({
-				method	: 'GET', 
-				url		: '/getLots'
-			}).then(function(res){
-				console.log(res.data);
-				$rootScope.towns = res.data.data;
-				$scope.isLoading = false;
-			}, function(error){
-				console.log(error);
-			});
-		}else if($location.url().includes('/schedule')){
-			$rootScope.event = {
-				start 	: "",
-				end 	: "",
-				lot_id	: $routeParams.lotid
-			}
-				
-			$rootScope.activity = {
-				label 		: "",
-				template_id	: "",
-				type 		: "",
-				lot_id		: $routeParams.lotid
-			};
-
-			// $http({
-			// 	method	: 'GET', 
-			// 	url		: '/getLotTypes/' + $routeParams.lotid
-			// }).then(function(res){
-
-			// 	$scope.isLoading = false;
-			// }, function(error){
-
-			// });
-
-		} else {
-
-			var data = JSON.parse($window.localStorage.getItem('data'));
-			if((data == null) || $rootScope.activity && $rootScope.activity.lot_id != $routeParams.lotid){
-				$window.location.href = '/#!/automated';
-				// Needs Notif;
-				console.log("Lot_id does not match!");
-				return;
+		var initialize = function(){
+			if($location.url() == '/automated'){
+				$http({
+					method	: 'GET', 
+					url		: '/getLots'
+				}).then(function(res){
+					console.log(res.data);
+					$rootScope.towns = res.data.data;
+					$scope.isLoading = false;
+				}, function(error){
+					console.log(error);
+				});
+			} else if($location.url().includes('/schedule')){
+				$rootScope.event = {
+					start 	: "",
+					end 	: "",
+					lot_id	: $routeParams.lotid
+				}
+				$rootScope.activity = {
+					label 		: "",
+					template_id	: "",
+					type 		: "",
+					lot_id		: $routeParams.lotid
+				};
 			} else {
-				$rootScope.activity = data.activity;
-				$rootScope.event = data.event;
-			}
-
-			$http({
-				method	: 'GET', 
-				url		: '/getLot/' + $routeParams.lotid
-			}).then(function(res){
-
-				$rootScope.template = {
-					grid 	: 	[[]],
-					path 	: 	[]
+				var data = JSON.parse($window.localStorage.getItem('data'));
+				if((data == null) || $rootScope.activity && $rootScope.activity.lot_id != $routeParams.lotid){
+					$window.location.href = '/#!/automated';
+					// Needs Notif;
+					console.log("Lot_id does not match!");
+					return;
+				} else {
+					$rootScope.activity = data.activity;
+					$rootScope.event = data.event;
 				}
-
-				$rootScope.towns = res.data.data;
-				for(var i = 0; i < $rootScope.towns.length; i++){
-					$rootScope.template.grid[i] = [];
-					for(var j = 0; j < $rootScope.towns.width; j++){
-						$rootScope.template.grid[i][j] = false;
+				$http({
+					method	: 'GET', 
+					url		: '/getLot/' + $routeParams.lotid
+				}).then(function(res){
+					$rootScope.template = {
+						grid 	: 	[[]],
+						path 	: 	[]
 					}
-				}
-				$rootScope.towns.length = computeRange($rootScope.towns.length);
-				$rootScope.towns.width = computeRange($rootScope.towns.width);
-				$scope.toggleOption('choose');
-				$scope.setActivity();
-				$scope.isLoading = false;
+					$rootScope.towns = res.data.data;
+					for(var i = 0; i < $rootScope.towns.length; i++){
+						$rootScope.template.grid[i] = [];
+						for(var j = 0; j < $rootScope.towns.width; j++){
+							$rootScope.template.grid[i][j] = false;
+						}
+					}
 
-			}, function(error){
-				console.log(error);
-			});
+					$rootScope.towns.length = computeRange($rootScope.towns.length);
+					$rootScope.towns.width = computeRange($rootScope.towns.width);
+					$scope.toggleOption('choose');
+					$scope.setActivity();
+					$scope.isLoading = false;
 
+				}, function(error){
+					console.log(error);
+				});
+			}
+			return;
 		}
+
+		$rootScope.socket.emit('event-ongoing');
+		$rootScope.socket.on('is-ongoing', function(data){
+			if(data){
+				$window.location.href="/";
+				return;
+			}
+			initialize();
+		});
 
 		console.log("Here in autoCtrl");
 

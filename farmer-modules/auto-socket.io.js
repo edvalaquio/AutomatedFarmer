@@ -7,25 +7,27 @@ var _ = require('lodash');
 // var stepper = require('./manual-socket.js');
 // var motor = new stepper(pin numbers);
 
+var updateEvent = function(event, sf, status){
+	var where = " WHERE event.id=" + event.id;
+	sf.updateWithPromise('event', ['status'], where, [status]);
+}
 
-
-var reuseCoordinates = function(activity, path, coordinates, sf, socket){
-	var pathTemplate = newPath(path);
+var reuseCoordinates = function(activity, event, path, coordinates, sf, socket){
+	var pathTemplate = new Path(path);
 	var directions = pathTemplate.getDirections();
 	var counter = 0;
-
-	// var currentLocation = coordinates.pop();
+	// console.log(coordinates[0].latitude);
 	var interval = setInterval(function(){
-		if(counter == coordinates.length){
+		if(counter == coordinates.length-1){
 			clearInterval(interval);
-			// var socketData = {
-			// 	data 	: coordinates,
-			// 	time 	: new Date(),
-			// 	status 	: "success",
-			// 	message : "Successfully finished plowing!"
-			// }
-			// socket.emit('finished', coordinates);
+			updateEvent(event, sf, "'success'");
+			isOngoing = false;
+			socket.emit('finished', coordinates);
 		}
+
+		console.log(directions[counter]);
+		console.log(coordinates[counter]);
+		counter++;
 	}, 1000);
 }
 
@@ -38,12 +40,11 @@ var generateCoordinates = function(activity, event, path, currentLocation, sf, s
 	var interval = setInterval(function(){
 		if(counter == directions.length){
 			clearInterval(interval);
-
-			// sf.updateWithPromise('event');
-
-
-			// socket.emit('finished', coordinates);
-			// return;
+			console.log(event);
+			updateEvent(event, sf, "'success'");
+			isOngoing = false;
+			socket.emit('finished', coordinates);
+			return;
 		}
 		console.log("Tractor is moving: ", directions[counter]);
 
@@ -67,29 +68,41 @@ var generateCoordinates = function(activity, event, path, currentLocation, sf, s
 	return coordinates;
 }
 
+
+var isOngoing = false;
 module.exports = function(socket, con){
-	
+
+	socket.on('event-ongoing', function(){
+		socket.emit('is-ongoing', isOngoing);
+	})
+
 	socket.on('start-event', function(data){
+		console.log("start event");
 		var sf = new ServerFunction(con);
 		var currentLocation = {latitude: 51.516272, longitude: 0.45425};
-		var coordinates = [];
-
 		var activity = data.activity, event = data.event, path1 = data.path;
+
+		updateEvent(event, sf, "'ongoing'");
+		isOngoing = true;
+
 		console.log("Performing: " + activity.type);
 		// if(activity.type == 'plow'){
 		var tableName = 'coordinates AS c JOIN activity AS a';
 		var columns = ['c.latitude', 'c.longitude'];
 		var on = " ON c.activity_id=a.id ";
 		var where = " WHERE a.id=" + activity.id + " AND a.type='" + activity.type + "'";
+		console.log(where);
 		sf.selectWithPromise(tableName, columns, on, where).then(function(rows){
 			var results = rows.data;
-			console.log(results);
 			if(results.length){
-				// reuse coordinates
+				console.log(results);
+				coordinates = results
+				reuseCoordinates(activity, event, path1, results, sf, socket);
 				return;
 			}
 			if(activity.type == 'plow'){
-				generateCoordinates(activity, data.path, currentLocation, sf, socket);
+				// console.log(data.path);
+				generateCoordinates(activity, event, path1, currentLocation, sf, socket);
 			} else {
 				console.log(activity);
 				var tempType = "";
@@ -99,10 +112,11 @@ module.exports = function(socket, con){
 					tempType = "harvest";
 				}
 
-				where = " WHERE a.template_id=" + activity.template + " AND a.type='" + tempType + "'";
-				// console.log(where);
+				where = " WHERE a.template_id=" + activity.template_id + " AND a.type='" + tempType + "'";
 				sf.selectWithPromise(tableName, columns, on, where).then(function(rows){
-					console.log(rows);
+					console.log(rows.data);
+					var coordinates = rows.data;
+					reuseCoordinates(activity, event, path1, coordinates, sf, socket);
 				});
 			}
 		});

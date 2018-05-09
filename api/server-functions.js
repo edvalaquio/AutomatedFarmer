@@ -100,6 +100,7 @@ ServerFunctions.prototype.selectWithPromise = function(tableName, columns, on, w
 
 	columns = columns.join(', ');
 	var query = "SELECT " + columns + " FROM " + tableName + on + where;
+	console.log(query);
 	return new Promise(function(resolve, reject){
 		sf.con.query(query, function(err, result){
 			if(err){ return reject(err); }
@@ -111,19 +112,24 @@ ServerFunctions.prototype.selectWithPromise = function(tableName, columns, on, w
 	});
 }
 
-ServerFunctions.prototype.updateWithPromise = function(tableName, column, where, data){
+ServerFunctions.prototype.updateWithPromise = function(tableName, columns, where, data){
 	var sf = this;
+	console.log(tableName);
+	console.log(columns);
+	console.log(where);
+	console.log(data);
 	var set = function(columns, data){
 		var temp = ""
 		var i = 0;
 		while(true){
 			temp += columns[i] + "=" + data[i];
-			if(i == columns.length){return temp;}
+			if(i == columns.length-1){return temp;}
 			temp += ",";
 			i++;
 		}
 	}
 	var query = "UPDATE " + tableName + " SET " + set(columns, data) + where;
+	console.log(query);
 	return new Promise(function(resolve, reject){
 		sf.con.query(query, function(err, result){
 			if(err){return reject(err)};
