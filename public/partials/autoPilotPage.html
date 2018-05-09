@@ -1,32 +1,15 @@
 <div class="row col-md-6 col-xs-12">
 	<h1 class="page-header">Auto Pilot</h1>
-	<button class="btn btn-primary" ng-click="startActivity()" ng-disabled="isExecuting">Begin Activity</button>
-	<div class="automated-pilot-log">
-		<p> {{}} </p>
-		<p> {{}} </p>
-		<p> {{}} </p>
-	</div>	
-	<!-- <button ng-if="activity.type == 'plow'" class="btn btn-primary" ng-click="startActivity()" ng-disabled="isExecuting">Click Me</button>	 -->
-	<!-- <button ng-if="activity.type == 'seed'" class="btn btn-primary" ng-click="startActivity()" ng-disabled="isExecuting">Click Me</button>	 -->
-
-
-	<!-- <div ng-if="activity.type=='seed' || activity.type=='harvest'" class="table-responsive">
-		<table class="table table-striped activity-page-table table-hover">
-			<thead>
-				<tr>
-					<th>Start Time</th>
-					<th>End Time</th>
-					<th>Label</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="activity in activityList" ng-click="setSelected(activity)">
-					<td> {{activity.start_time}} </td>
-					<td> {{activity.end_time}} </td>
-					<td> {{activity.label}} </td>
-				</tr>
-			</tbody>
-		</table>
+	<button class="btn btn-primary" ng-click="startActivity(); disableButton = true" ng-disabled="pilotData.status == 'Ongoing'">Begin Activity</button>
+	
+	<div ng-if="pilotData.status">
+		<h2>Status: {{pilotData.status}}</h2>
 	</div>
- -->
+	<div ng-if="pilotData.currentActivity">
+		<h2>Activity: {{pilotData.currentActivity}}</h2>
+	</div>
+	<div ng-if="pilotData.currentLocation">
+		<h2>Location:</h2>
+		<p>{{pilotData.currentLocation}}</p>
+	</div>
 </div>
