@@ -1,4 +1,5 @@
-_ = require('lodash');
+var _ = require('lodash');
+var moment = require('moment');
 ServerFunctions = require('./server-functions.js')
 
 module.exports = function(app, con, env){
@@ -18,8 +19,27 @@ module.exports = function(app, con, env){
 		var columns = ['a.label', 'l.name', 'e.estimated_end_time'];
 		var on = " ON a.lot_id = l.id AND s.event_id = e.id AND s.activity_id = a.id ";
 		var where = " WHERE a.type = 'seed' ";
+
+		var computeRiceAge = function(result){
+			console.log(result);
+
+			var temp = [];
+			result.forEach(function(item){
+				var currentDate = moment(new Date());
+				var endDate = moment(item.estimated_end_time);
+				var difference = currentDate.diff(endDate, 'days');
+				console.log(difference);
+				temp.push({ 
+					label: 		item.label,
+					name: 		item.name,
+					daysOld: 	difference
+				})
+			});
+
+			return temp;
+		}
 		
-		sf.serverSelector(res, tableName, columns, on, where);
+		sf.serverSelector(res, tableName, columns, on, where, computeRiceAge);
 	});
 
 	// ==============================================================
@@ -110,7 +130,7 @@ module.exports = function(app, con, env){
 		console.log(columns);
 		var activityDetails = _.map(req.body);
 		var columns = ["label", "template_id", "type", "lot_id"];
-		
+
 		sf.serverInserter(res, "activity", columns, activityDetails);
 
 	});

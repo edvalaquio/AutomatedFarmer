@@ -4,8 +4,7 @@ angular.module("autoFarm.controllers.activityCtrl", [])
 .controller("activityCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
 	function($rootScope, $scope, $window, $location, $http){
 		// var socket;
-		if($location.url() == '/activities' || 
-			$location.url() == '/'){
+		if($location.url() == '/activities' || $location.url() == '/'){
 			$http({
 				method	: 'GET',
 				url 	: '/getEvents'
@@ -23,7 +22,7 @@ angular.module("autoFarm.controllers.activityCtrl", [])
 				url 	: '/getRiceAge'
 			}).then(function(res){
 				$scope.riceAge = res.data.data;
-				console.log(res.data.data);
+				console.log($scope.riceAge);
 			}, function(error){
 				console.log(error);
 			});
