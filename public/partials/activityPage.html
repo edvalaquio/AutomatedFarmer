@@ -10,15 +10,15 @@
 					<thead>
 						<tr>
 							<th>Rice</th>
-							<th>Lot</th>
-							<th>Age</th>
+							<th>Lot Name</th>
+							<th>Days Old</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
+						<tr ng-repeat="x in riceAge">
+							<td>{{ x.label }}</td>
+							<td>{{ x.name }}</td>
+							<td>{{ x.estimated_end_time }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -35,19 +35,21 @@
 					<thead>
 						<tr>
 							<th>Start Time</th>
-							<th>End Time</th>
-							<th>Lot</th>
+							<th>Estimated End Time</th>
+							<th>Actual End Time</th>
+							<th>Activity Name</th>
 							<th>Type</th>
 							<th>Status</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="lotActivity in lotActivities">
-							<td>{{ lotActivity.start_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
-							<td>{{ lotActivity.end_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
-							<td>{{ lotActivity.name }}</td>
-							<td>{{ lotActivity.type }}</td>
-							<td>{{ lotActivity.status }}</td>
+						<tr ng-repeat="x in lotEvents">
+							<td>{{ x.start_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
+							<td>{{ x.estimated_end_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
+							<td>{{ x.actual_end_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
+							<td>{{ x.label }}</td>
+							<td>{{ x.type }}</td>
+							<td>{{ x.status }}</td>
 						</tr>
 					</tbody>
 				</table>

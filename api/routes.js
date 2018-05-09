@@ -10,6 +10,19 @@ module.exports = function(app, con, env){
 	});
 
 	// ==============================================================
+	//ROUTES FOR Rice Age
+
+	app.get('/getRiceAge', function(req, res){
+		console.log(req.body);
+		var tableName = " activity AS a JOIN lot AS l JOIN event AS e JOIN sequence AS s ";
+		var columns = ['a.label', 'l.name', 'e.estimated_end_time'];
+		var on = " ON a.lot_id = l.id AND s.event_id = e.id AND s.activity_id = a.id ";
+		var where = " WHERE a.type = 'seed' ";
+		
+		sf.serverSelector(res, tableName, columns, on, where);
+	});
+
+	// ==============================================================
 	//ROUTES FOR LOTS 
 
 	app.post('/addLot', function(req, res){
@@ -61,7 +74,7 @@ module.exports = function(app, con, env){
 
 	app.get('/getEvents', function(req, res){
 		var tableName = " event AS e JOIN sequence AS s JOIN activity AS a ";
-		var columns = ['e.id', 'e.start_time', 'e.estimated_end_time', 'e.actual_end_time', 'e.status', 'a.lot_name', 'a.type'];
+		var columns = ['e.id', 'e.start_time', 'e.estimated_end_time', 'e.actual_end_time', 'e.status', 'a.label', 'a.type'];
 		var on = " ON e.id=s.event_id AND a.id=s.activity_id"
 
 		sf.serverSelector(res, tableName, columns, on, '');
@@ -80,7 +93,7 @@ module.exports = function(app, con, env){
 		// > label, type, template_id, lot_id
 		console.log(req.body);
 		var activityDetails = _.map(req.body);
-		var columns = ["label", "template_id", "lot_id", "type"];
+		var columns = ["label", "template_id", "type", "lot_id"];
 		sf.serverInserter(res, "activity", columns, activityDetails);
 
 	});

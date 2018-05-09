@@ -60,11 +60,22 @@ angular.module("indexApp",
 			$location.url() == '/'){
 			$http({
 				method	: 'GET',
-				// url 	: '/getLotActivities'
 				url 	: '/getEvents'
 			}).then(function(res){
-				$scope.lotActivities = res.data;
-				console.log(res.data);
+				$scope.lotEvents = res.data.data;
+				console.log(res.data.data);
+			}, function(error){
+				console.log(error);
+			});
+		}
+
+		if($location.url() == 'activities' || $location.url() == '/'){
+			$http({
+				method 	: 'GET',
+				url 	: '/getRiceAge'
+			}).then(function(res){
+				$scope.riceAge = res.data.data;
+				console.log(res.data.data);
 			}, function(error){
 				console.log(error);
 			});

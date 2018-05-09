@@ -254,7 +254,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 				url		: '/addLot',
 				data 	: data
 			}).then(function(res){
-        		$window.location.href = "#!/automated/" + res.data.data
+        		$window.location.href = "#!/automated/schedule/" + res.data.data
 				console.log(res);
 				$ctrl.ok();
 			}, function(error){
@@ -304,7 +304,7 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 				}).then(function(res){
 					$ctrl.ok();
 					$rootScope.activity.id = res.data.data;
-					$add.useActivity();
+					$add.useActivity($ctrl);
 				}, function(error){
 					console.log(error);
 				});
