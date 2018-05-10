@@ -44,6 +44,7 @@
 .table-responsive{
   overflow: auto;
 }
+
 .checkbox-big{
   width: 30px;
   height: 30px;
@@ -69,7 +70,7 @@
 }
 
 .automated-choose-select{
-    border: 1px solid #ccc;
+    border: 1px solid #ddd;
     border-radius: 1px;
     margin-top: 10px;
     padding: 0;
@@ -81,7 +82,7 @@
 .automated-choose-select a{
   border: 0;
   border-radius: 0;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #ddd;
   min-height: 30%;
   width: 100%;
   padding: 10px;
@@ -113,13 +114,21 @@
   height: 35px;
 }
 
+.automated-choose-paragraph{
+  color: #558b2f;
+}
+
 .btn.automated-choose-options{
-  background-color: #f5fffa;
+  background-color: #F9FAFA;
+  color: #111;
+  opacity: 0.8;
 }
 
 .btn.automated-choose-options:hover{
   background-color: #ecf0f1;
+  opacity: 1;
 }
+
 
 .modal-content{
   border-radius: 0;
@@ -127,17 +136,17 @@
 }
 
 .automated-modal-header{
-  background-color: #dadfe1;
-  color: #333;
+  background-color: #7cb342;
+  color: #fff;
 }
 
 .automated-modal-close{
-  color: #333;
+  color: #fff;
   opacity: 0.7;
 }
 
 .automated-modal-close:hover, .automated-modal-close:focus{
-  color: #333;
+  color: #fff;
   opacity: 1;
 }
 
@@ -147,8 +156,8 @@
   border: none;
   border-bottom: 3px solid #ccc;
   transition: 0.5s;
-    outline: none;
-    background-color: transparent;
+  outline: none;
+  background-color: transparent;
 }
 
 .automated-modal-input:focus{
@@ -174,4 +183,24 @@
 .btn-deselect-all:hover, .btn-deselect-all:focus{
   background-color: #c0392b;
   color: #fff;
+}
+
+.automated-paragraph-info{
+  font-size: 15px;
+  color: #092930;
+}
+
+.create-sched-input{
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 3px solid #ccc;
+  transition: 0.5s;
+  outline: none;
+  background-color: transparent;
+}
+
+.create-sched-input:focus{
+  border: none;
+  border-bottom: 3px solid #566573;
 }

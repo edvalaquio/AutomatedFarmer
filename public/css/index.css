@@ -9,14 +9,18 @@
 }
 
 body{
-    background-color: #fff;
+    background-color: #F9FAFA;
     height: 100vh;
 	font-family: 'Roboto', Helvetica, Arial, sans-serif;
-    font-size: 15px;
+    font-size: 17px;
     padding: 20px;
 }
 
 .toast{
+	margin-top: 50px;
+}
+
+h1{
 	margin-top: 50px;
 }
 
@@ -77,7 +81,7 @@ a:hover, a:focus, a:active{
 
 .nav-sidebar-container{
 	width: 32vh;
-	background-color: #fff;
+	background-color: #F9FAFA;
 	border-right: solid #bdbdbd 0.25px;
 }
 
@@ -122,9 +126,17 @@ a:hover, a:focus, a:active{
 }
 
 .btn-success{
-	background-color: #5CB85C;
+	background-color: #558b2f;
+	opacity: 1;
+	border: none;
 }
 
-.btn-success:hover{
-	background-color: #5CB83C;
+.btn-success:hover, .btn-success.disabled.focus,
+.btn-success.disabled:focus, .btn-success.disabled:hover,
+.btn-success[disabled].focus, .btn-success[disabled]:focus,
+.btn-success[disabled]:hover, fieldset[disabled] .btn-success.focus,
+fieldset[disabled] .btn-success:focus,
+fieldset[disabled] .btn-success:hover{
+	background-color: #558b2f;
+	opacity: 0.9;
 }

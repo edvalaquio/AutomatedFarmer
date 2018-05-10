@@ -1,7 +1,7 @@
 
 <div ng-if="!isLoading" class="row col-md-6 col-xs-12 automated-choose">
 	<div growl></div>
-	<h1 class="page-header">Automated Control</h1>
+	<h1>Automated Control</h1>
 	<div class="automated-crumbs">
 		<a href="">Lots</a>
 	</div>
@@ -13,7 +13,7 @@
 		<div class="automated-choose-select">
 			<a ng-repeat="town in towns" ng-click="" class="btn automated-choose-options" ng-href="/#!/automated/schedule/{{town.id}}">
 				<h3>{{town.name}}</h3>
-				<p>{{town.address.split(',')[2]}}</p>
+				<p class="automated-choose-paragraph">{{town.address.split(',')[2]}}</p>
 			</a>
 		</div>
 	</div>

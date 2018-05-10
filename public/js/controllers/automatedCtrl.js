@@ -71,10 +71,9 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 
 		$rootScope.socket.emit('get-tractor-details');
 		$rootScope.socket.on('tractor-details', function(data){
-			// console.log(data);
-			// console.log('ongoing', data);
+			console.log('ongoing', data);
 			if(data.status){
-				$window.location.href="/automated/autoPilot";
+				$window.location.href="/";
 				return;
 			}
 			initialize();
@@ -130,7 +129,7 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 					}).then(function(res){
 						console.log(res);
 						$scope.activityList = [];
-						$scope.activityList = res.data.data
+						$scope.activityList = res.data.data;
 					}, function(error){
 						console.log(error);
 					});
