@@ -1,11 +1,10 @@
 'use strict';
 
-var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"])
-autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams",
-	function($rootScope, $scope, $window, $location, $http, $routeParams, ngToast){
-
+var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap", "angular-growl"])
+autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams", "growl",
+	function($rootScope, $scope, $window, $location, $http, $routeParams, growl){
+		// growl.info('hello');
 		$scope.isLoading = true;
-
 		var initialize = function(){
 			if($location.url() == '/automated'){
 				$http({
@@ -70,11 +69,12 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 			return;
 		}
 
-		$rootScope.socket.emit('event-ongoing');
-		$rootScope.socket.on('is-ongoing', function(data){
-			console.log('ongoing', data);
-			if(data){
-				$window.location.href="/";
+		$rootScope.socket.emit('get-tractor-details');
+		$rootScope.socket.on('tractor-details', function(data){
+			// console.log(data);
+			// console.log('ongoing', data);
+			if(data.status){
+				$window.location.href="/automated/autoPilot";
 				return;
 			}
 			initialize();
@@ -440,7 +440,6 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 						event_id 	: $rootScope.event.id
 					}
 				}).then(function(res){	
-					// console.log(res);			
 					$rootScope.socket.emit('start-event', {
 						path 	: $rootScope.template.path,
 						activity: $rootScope.activity,
