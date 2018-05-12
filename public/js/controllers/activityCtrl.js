@@ -16,7 +16,7 @@ angular.module("autoFarm.controllers.activityCtrl", [])
 			});
 		}
 
-		if($location.url() == 'activities' || $location.url() == '/'){
+		if($location.url() == '/activities' || $location.url() == '/'){
 			$http({
 				method 	: 'GET',
 				url 	: '/getRiceAge'
