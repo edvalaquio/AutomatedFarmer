@@ -15,7 +15,7 @@ module.exports = function(io, socket, con){
 
 	var updateEvent = function(status){
 		var where = " WHERE event.id=" + event.id;
-		sf.updateWithPromise('event', ['status'], where, [status]);
+		sf.updateWithPromise('event', ['status', 'actual_end_time'], where, [status, 'NOW()']);
 	}
 
 	var reuseCoordinates = function(coordinates){
@@ -95,7 +95,6 @@ module.exports = function(io, socket, con){
 	})
 
 	socket.on('start-event', function(data){
-
 		activity = data.activity;
 		event = data.event;
 		path = data.path;
@@ -116,6 +115,7 @@ module.exports = function(io, socket, con){
 				reuseCoordinates(results);
 				return;
 			}
+			
 			if(activity.type == 'plow'){
 				var currentLocation = {latitude: 51.516272, longitude: 0.45425};
 				generateCoordinates(currentLocation);

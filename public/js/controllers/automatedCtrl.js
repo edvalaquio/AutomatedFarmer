@@ -1,11 +1,10 @@
 'use strict';
 
-var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap"])
-autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams",
-	function($rootScope, $scope, $window, $location, $http, $routeParams, ngToast){
-
+var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap", "angular-growl"])
+autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams", "growl",
+	function($rootScope, $scope, $window, $location, $http, $routeParams, growl){
+		// growl.info('hello');
 		$scope.isLoading = true;
-
 		var initialize = function(){
 			if($location.url() == '/automated'){
 				$http({
@@ -440,7 +439,6 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 						event_id 	: $rootScope.event.id
 					}
 				}).then(function(res){	
-					// console.log(res);			
 					$rootScope.socket.emit('start-event', {
 						path 	: $rootScope.template.path,
 						activity: $rootScope.activity,
