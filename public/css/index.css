@@ -140,3 +140,7 @@ fieldset[disabled] .btn-success:hover{
 	background-color: #558b2f;
 	opacity: 0.9;
 }
+
+.growl-container{
+	margin-top: 50px;
+}
