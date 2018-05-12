@@ -1,9 +1,14 @@
 'use strict';
 
-var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap", "angular-growl"])
+var autoModule = angular.module("autoFarm.controllers.autoCtrl", ["ui.bootstrap","angular-growl"]);
+
+autoModule.config(['growlProvider', function(growlProvider) {
+	growlProvider.globalTimeToLive(3000);
+}]);
+
 autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "$routeParams", "growl",
 	function($rootScope, $scope, $window, $location, $http, $routeParams, growl){
-		// growl.info('hello');
+		growl.info('hello');
 		$scope.isLoading = true;
 		var initialize = function(){
 			if($location.url() == '/automated'){
@@ -11,7 +16,8 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 					method	: 'GET', 
 					url		: '/getLots'
 				}).then(function(res){
-					console.log(res.data);
+					growl.info("Hello, Farmer!")
+					// console.log(res);
 					$rootScope.towns = res.data.data;
 					$scope.isLoading = false;
 				}, function(error){
@@ -34,12 +40,13 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 				if((data == null) || $rootScope.activity && $rootScope.activity.lot_id != $routeParams.lotid){
 					$window.location.href = '/#!/automated';
 					// Needs Notif;
+					growl.error("Lot and activities do not match!");
 					console.log("Lot_id does not match!");
 					return;
-				} else {
-					$rootScope.activity = data.activity;
-					$rootScope.event = data.event;
 				}
+
+				$rootScope.activity = data.activity;
+				$rootScope.event = data.event;
 				$http({
 					method	: 'GET', 
 					url		: '/getLot/' + $routeParams.lotid
@@ -71,9 +78,9 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 
 		$rootScope.socket.emit('get-tractor-details');
 		$rootScope.socket.on('tractor-details', function(data){
-			console.log('ongoing', data);
 			if(data.status){
-				$window.location.href="/";
+				console.log("Hello");
+				$window.location.href="/#!/automated/autoPilot";
 				return;
 			}
 			initialize();
@@ -371,8 +378,8 @@ autoModule.controller("autoModalCtrl", ["$rootScope", "$scope", "$window", "$htt
 	}
 ]);
 
-autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
-	function($rootScope, $scope, $window, $location, $http){
+autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$location", "$http", "growl",
+	function($rootScope, $scope, $window, $location, $http, growl){
 		
 		console.log("Here in autoPilotCtrl");
 
@@ -414,7 +421,7 @@ autoModule.controller("autoPilotCtrl", ["$rootScope", "$scope", "$window", "$loc
 		});
 
 		$rootScope.socket.on('finished', function(data){
-			console.log(data);
+			growl.success("Activity has completed!");
 			$scope.pilotData.status = "Finished";
 			$scope.pilotData.currentActivity = "";
 			$scope.pilotData.currentLocation = "";

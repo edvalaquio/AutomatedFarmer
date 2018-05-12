@@ -9,8 +9,10 @@ angular.module("indexApp",
 	"angularjs-datetime-picker"])
 .config(["$routeProvider", "$locationProvider",
 	function($routeProvider, $locationProvider){
-		$routeProvider
-		.when("/", {
+		
+		// growlProvider.totalTimeToLive(3000);
+		
+		$routeProvider.when("/", {
 			templateUrl	: "/partials/activityPage.html",
 			controller 	: "activityCtrl"
 		})
@@ -40,8 +42,9 @@ angular.module("indexApp",
 		})
 		.otherwise({
 			template 	: "<h1>Page does not exist</h1>"
-		})
-}])
+		});
+	}
+])
 .controller("indexCtrl", ["$rootScope", "$scope", "$window", "$location", "$http",
 	function($rootScope, $scope, $window, $location, $http){
 		$scope.active = $location.url();
