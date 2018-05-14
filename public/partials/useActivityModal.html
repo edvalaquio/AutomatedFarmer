@@ -3,17 +3,23 @@
 	<div ng-if="isLoading">
 		<p>Please wait...</p>
 	</div>
-    <div ng-if="!isLoading" class="modal-body">
-    	<p>Deisred start time: </p>
-    	<p>{{event.start}} </p>
-    	<p>Expected end time: </p>
-    	<p>{{event.estimatedEndTime}} </p>
-    	<p>Expected duration: </p>
-    	<p>{{event.estimatedDuration}} seconds</p>
+    <div ng-if="!isLoading" class="modal-body activity-modal-body">
+    	<div class="form-group">
+            <h4 class="control-label">Desired start time: </h4>
+        	<p>{{ event.start }}</p>
+        </div>
+        <div class="form-group">
+            <h4 class="control-label">Expected end time: </h4>
+        	<p>{{ event.estimatedEndTime }}</p>
+        </div>
+        <div class="form-group">
+        	<h4 class="control-label">Expected duration: </h4>
+        	<p>{{ event.estimatedDuration }} seconds</p>
+        </div>
     	<p>Are you sure you wish to proceed with this activity?</p>
     </div>
     <div ng-if="!isLoading" class="modal-footer">
-        <button class="btn btn-success" type="button" ng-click="$add.useActivity($ctrl)">Submit</button>
-        <button type="button" class="btn btn-danger" ng-click="$ctrl.cancel()">Cancel</button>
+        <button class="btn btn-success" type="button" ng-click="$add.useActivity($ctrl)">Yes</button>
+        <button type="button" class="btn btn-danger" ng-click="$ctrl.cancel()">No</button>
     </div>
 </div>
