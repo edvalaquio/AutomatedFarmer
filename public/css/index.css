@@ -1,0 +1,146 @@
+@font-face{
+	font-family: 'Roboto';
+	src: url(fonts/Roboto-Regular.ttf);
+}
+
+@font-face{
+	font-family: 'Raleway';
+	src: url(fonts/Raleway-Regular.ttf);
+}
+
+body{
+    background-color: #F9FAFA;
+    height: 100vh;
+	font-family: 'Roboto', Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    padding: 20px;
+}
+
+.toast{
+	margin-top: 50px;
+}
+
+h1{
+	margin-top: 50px;
+}
+
+a{
+
+	text-decoration: none;
+	color: #333;
+}
+
+a:hover, a:focus, a:active{
+	text-decoration: none;
+	color: #333;
+}
+
+.nav-sidebar, .extend-bar{
+	height: 97%;
+	padding-top: 30px;
+	position: fixed;
+}
+
+.navbar-automated-farming{
+	height: 8%;
+	margin: 0;
+	border-radius: 0;
+	background-color: #5CB85C;
+	border: none;
+	position: fixed;
+	width: 100%;
+	/*height: 15vh;*/
+}
+
+.navbar-brand{
+	font-family: 'Raleway', Arial,sans-serif;
+}
+
+.navbar-brand-a{
+	color: #fff;
+	font-weight: bold;
+}
+
+.navbar-brand-a:focus, .navbar-brand-a:hover{
+	color: #ececec;
+	cursor: pointer;
+}
+
+.glyphicon-menu-hamburger{
+	font-weight: lighter;
+}
+
+.nav-sidebar{
+	opacity: 1;
+	z-index: 1;
+	display: flex;
+	flex-direction: row;
+	transition: all linear 0.1s;
+	left: -32vh;
+}
+
+.nav-sidebar-container{
+	width: 32vh;
+	background-color: #F9FAFA;
+	border-right: solid #bdbdbd 0.25px;
+}
+
+.nav-sidebar-container a{
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+}
+
+.nav-sidebar-container a:hover{
+	background-color: #F2F1EF;
+	color: #333;
+	cursor: pointer;
+}
+
+.nav-sidebar-active, .nav-sidebar-active:visited{
+	background-color: #dedfe1;
+	color: #333;
+}
+
+.show-bar{
+	left: 0vh;
+}
+
+.extend-bar{
+	width: 100%;
+	background-color: rgb(0,0,0);
+	opacity: 0.1;
+	z-index: 1;
+}
+
+.user-view-section{
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+.btn, .form-control{
+	border-radius: 0;
+}
+
+.btn-success{
+	background-color: #558b2f;
+	opacity: 1;
+	border: none;
+}
+
+.btn-success:hover, .btn-success.disabled.focus,
+.btn-success.disabled:focus, .btn-success.disabled:hover,
+.btn-success[disabled].focus, .btn-success[disabled]:focus,
+.btn-success[disabled]:hover, fieldset[disabled] .btn-success.focus,
+fieldset[disabled] .btn-success:focus,
+fieldset[disabled] .btn-success:hover{
+	background-color: #558b2f;
+	opacity: 0.9;
+}
+
+.growl-container{
+	margin-top: 50px;
+}

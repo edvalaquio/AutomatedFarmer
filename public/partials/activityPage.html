@@ -1,0 +1,60 @@
+<div class="row col-md-12 col-xs-12 activity-page-wrapper">
+	<h1 class="text-center">Activity Log</h1>
+	<div class="col-md-6">
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 class="panel-title">Rice</h3>
+			</div>
+			<div class="activity-page-table table-responsive">
+				<table class="table table-striped activity-page-table-output">
+					<thead>
+						<tr>
+							<th>Rice</th>
+							<th>Lot Name</th>
+							<th>Days Old</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="rice in riceAge">
+							<td>{{ rice.label }}</td>
+							<td>{{ rice.name }}</td>
+							<td>{{ rice.daysOld }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6">
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 class="panel-title">Activity Log</h3>
+			</div>
+			<div class="activty-page-table table-responsive">
+				<table class="table table-striped activity-page-table-output">
+					<thead>
+						<tr>
+							<th>Start Time</th>
+							<th>Estimated End Time</th>
+							<th>Actual End Time</th>
+							<th>Activity Name</th>
+							<th>Type</th>
+							<th>Status</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="event in lotEvents">
+							<td>{{ event.start_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
+							<td>{{ event.estimated_end_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
+							<td>{{ event.actual_end_time | date: 'MMM d, yyyy / hh:mm a' }}</td>
+							<td>{{ event.label }}</td>
+							<td>{{ event.type }}</td>
+							<td>{{ event.status }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+</div>

@@ -1,0 +1,23 @@
+AUTOMATED CONTROL PAGE
+> Add lot
+	- Ilalagay sa modal when "Add Lot" button is clicked
+	1.	Input lot name
+	2.	Input lot address
+	3.	Input lot dimensions (length, width)
+> Select lot
+	1.	Choose from already existing lots (Modal?)
+	2.	Display table depending on length and width of lot
+> Add activity template
+	1.	Create activity to be performed on lot.
+	2. 	Depending on activity...
+		2.1	Plow 	- Display blank table.
+		2.2	Seed	- Display mapping coming from existing 				plow activity stored in db
+		2.3	Harvest - Display mapping coming from existing 				harvest activity stored in db
+	* Note: Cannot use template created from previous other lots to prevent conlicts
+> Choose activity template (reuse already performed activity)
+	1.	Choose activity to be performed on lot.
+	2.	Actions depending on lot:
+		2.1	Plow
+		2.2	Seed
+		2.3	Harvest
+	* Note: Cannot use template created from previous other lots to prevent conlicts

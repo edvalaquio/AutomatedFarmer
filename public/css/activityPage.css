@@ -1,0 +1,16 @@
+.panel{
+	border-radius: 0;
+	border: 1px solid #ddd;
+	max-height: 70vh;
+	/*overflow-y: auto;*/
+	background-color: #F9FAFA;
+}
+
+.panel-title, .activity-page-table-output th, .activity-page-table-output td{
+	text-align: center;
+}
+
+.panel-heading{
+	background-color: #DADFE1;
+	border-radius: 0;
+}

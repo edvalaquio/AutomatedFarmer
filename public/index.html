@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="indexApp">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Automated Farming</title>
+	<link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="/bower_components/angularjs-datetime-picker/angularjs-datetime-picker.css" />
+	<link rel="stylesheet" href="/bower_components/angular-growl-v2/build/angular-growl.min.css" />
+	<link rel="stylesheet" type="text/css" href="/css/index.css" />
+	<link rel="stylesheet" type="text/css" href="/css/manualPage.css" />
+	<link rel="stylesheet" type="text/css" href="/css/automatedPage.css" />
+	<link rel="stylesheet" type="text/css" href="/css/activityPage.css" />
+</head>
+<body ng-controller="indexCtrl">
+	<nav class="navbar navbar-automated-farming navbar-fixed-top">
+		<div class="navbar-header">
+			<span class="navbar-brand">
+				<a class="glyphicon glyphicon-menu-hamburger navbar-brand-a" ng-click="sideBar = !sideBar"></a>
+				<a class="navbar-brand-a" href="/">AUTOMATED FARMING</a>
+			</span>
+		</div>
+	</nav>
+	<div class="extend-bar" ng-show="sideBar" ng-click="sideBar = false"></div>
+	<div class="nav-sidebar" ng-class="{'show-bar': sideBar}">
+		<div class="nav-sidebar-container">
+			<a ng-click="active = '/'" ng-class="{'nav-sidebar-active': active == '/'}" href="/">Welcome</a>
+			<a ng-click="active = '/manual'" ng-class="{'nav-sidebar-active': active == '/manual'}" href="/#!/manual">Manual Control</a>
+			<a ng-click="active = '/automated'" ng-class="{'nav-sidebar-active': active.includes('/automated')}" href="/#!/automated">Automated Control</a>
+			<a ng-click="active = '/activities'" ng-class="{'nav-sidebar-active': active == '/activities'}" href="/#!/activities">Activity</a>
+		</div>
+
+	</div>
+	<div growl></div>
+	<section class="user-view-section" ng-view></section>
+	
+	<script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/bower_components/lodash/dist/lodash.min.js"></script>
+	<script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+	<script type="text/javascript" src="/bower_components/angular-route/angular-route.min.js"></script>
+	<script type="text/javascript" src="/bower_components/angular-long-press/dist/angular-long-press.min.js"></script>
+	<script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+	<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+	<script type="text/javascript" src="/bower_components/angular-animate/angular-animate.min.js"></script>
+	<script src="/bower_components/angularjs-datetime-picker/angularjs-datetime-picker.js"></script>
+	<script src="/bower_components/angular-growl-v2/build/angular-growl.min.js"></script>
+	<script src="/bower_components/moment/moment.js"></script>
+	<script type="text/javascript" src="/js/index.js"></script>
+	<script type="text/javascript" src="/js/controllers/manualCtrl.js"></script>
+	<script type="text/javascript" src="/js/controllers/automatedCtrl.js"></script>
+	<script type="text/javascript" src="/js/controllers/activityCtrl.js"></script>
+	<script type="text/javascript" src="/js/controllers/modalCtrl.js"></script>
+</body>
+</html>

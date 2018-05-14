@@ -1,0 +1,43 @@
+{
+  "name": "automated-farmer",
+  "version": "1.0.0",
+  "description": "Controller for the raspberryRaspberry Pi",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "Farmer",
+    "Automated",
+    "Raspberry",
+    "Pi"
+  ],
+  "author": "Marba Valaquio",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "bower": "^1.8.2",
+    "cors": "^2.8.4",
+    "crypto-js": "^3.1.9-1",
+    "express": "^4.16.2",
+    "geolib": "^2.0.24",
+    "lodash": "^4.17.4",
+    "moment": "^2.20.1",
+    "mysql": "^2.15.0",
+    "node-dev": "^3.1.3",
+    "onoff": "^1.1.8",
+    "path": "^0.12.7",
+    "sleep": "^5.1.1",
+    "socket.io": "^2.0.4"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LasingNaJedi69/AutomatedFarmer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/LasingNaJedi69/AutomatedFarmer/issues"
+  },
+  "homepage": "https://github.com/LasingNaJedi69/AutomatedFarmer#readme"
+}

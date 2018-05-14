@@ -1,0 +1,20 @@
+.manual-button-wrapper div{
+	text-align: center;
+}
+
+.btn.btn-manual{
+	border: none;
+	background-color: #e0e0e0;
+	color: #333;
+	border-radius: 50%;
+	padding: 10px 14px;
+	width: 60px;
+	height: 60px;
+}
+
+.btn.btn-manual:hover{
+	border: none;
+	color: #212121;
+	background-color: #D2D7D3;
+	box-shadow: 2px 2px 2px #999;
+}
