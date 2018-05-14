@@ -66,7 +66,6 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 					$rootScope.towns.length = computeRange($rootScope.towns.length);
 					$rootScope.towns.width = computeRange($rootScope.towns.width);
 					$scope.toggleOption('choose');
-					$scope.setActivity();
 					$scope.isLoading = false;
 
 				}, function(error){
@@ -100,29 +99,6 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 		}
 
 		$scope.setActivity = function(){
-			$scope.toggleSelectAll(false);
-			// console.log($rootScope.activity);
-			$rootScope.activity.label = "";
-			if($rootScope.activity.type != 'plow'){
-				var type = "";
-				if($rootScope.activity.type == 'seed'){
-					type = 'plow';
-				} else {
-					type = 'seed';
-				}
-
-				$scope.templateList = []
-				$http({
-					method	: 'GET', 
-					url		: '/getActivities/' + $routeParams.lotid + '/' + type
-				}).then(function(res){
-					console.log(res);
-					$scope.templateList = res.data.data;
-					console.log($scope.templateList);
-				}, function(error){
-					console.log(error);
-				});
-			}
 		}
 
 		$scope.toggleOption = function(flag){
@@ -137,6 +113,28 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 						console.log(res);
 						$scope.activityList = [];
 						$scope.activityList = res.data.data;
+					}, function(error){
+						console.log(error);
+					});
+				}
+			} else {
+				$rootScope.activity.label = "";
+				if($rootScope.activity.type != 'plow'){
+					var type = "";
+					if($rootScope.activity.type == 'seed'){
+						type = 'plow';
+					} else {
+						type = 'seed';
+					}
+
+					$scope.templateList = []
+					$http({
+						method	: 'GET', 
+						url		: '/getActivitiesWithCoordinates/' + $routeParams.lotid + '/' + type
+					}).then(function(res){
+						console.log(res);
+						$scope.templateList = res.data.data;
+						console.log($scope.templateList);
 					}, function(error){
 						console.log(error);
 					});

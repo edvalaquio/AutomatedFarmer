@@ -86,7 +86,6 @@ module.exports = function(app, con, env){
 		sf.serverInserter(res, 'sequence', columns, sequenceDetails);
 	});
 
-
 	// ==============================================================
 	//ROUTES FOR EVENT
 
@@ -140,6 +139,8 @@ module.exports = function(app, con, env){
 		var columns = ["a.id", "a.label", "a.type", "a.template_id", "t.path", "t.grid", "a.lot_id"];
 		var on = " ON a.template_id=t.id ";
 		var where = " WHERE a.lot_id=" + req.params.lot_id + " AND a.type='" + req.params.type + "'";
+		// var w1 = " AND (SELECT COUNT(id) FROM coordinates WHERE coordinates.activity_id=a.id) > 0 "
+		// where += w1;
 
 		var filter = function(values){
 			var temp = []
@@ -160,11 +161,24 @@ module.exports = function(app, con, env){
 		sf.serverSelector(res, tableName, columns, on, '');
 	});
 
-	app.get('/getActivitiesWithCoordinates/:lot_id', function(req, res){
-		var tableName = " activity JOIN template ";
-		var columns = ["activity.id", "activity.label", "activity.type", "activity.template_id", "template.path", "template.grid", "activity.lot_id"];
-		var on = " activity.template_id=template.id ";
-		sf.serverSelector(res, tableName, columns, on, '');
+	app.get('/getActivitiesWithCoordinates/:lot_id/:type', function(req, res){
+		var tableName = " activity AS a JOIN template AS t ";
+		var columns = ["a.id", "a.label", "a.type", "a.template_id", "t.path", "t.grid", "a.lot_id"];
+		var on = " ON a.template_id=t.id ";
+		var where = " WHERE a.lot_id=" + req.params.lot_id + " AND a.type='" + req.params.type + "'";
+		var w1 = " AND (SELECT COUNT(id) FROM coordinates WHERE coordinates.activity_id=a.id) > 0 "
+		where += w1;
+
+		var filter = function(values){
+			var temp = []
+			values.forEach(function(item){
+				item.path = JSON.parse(item.path);
+				item.grid = JSON.parse(item.grid);
+				temp.push(item);
+			})
+			return temp;
+		}
+		sf.serverSelector(res, tableName, columns, on, where, filter);
 	});
 
 	// app.get('/getActivityTemplate/:lot_id/')
