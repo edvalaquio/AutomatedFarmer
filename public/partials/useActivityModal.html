@@ -6,11 +6,11 @@
     <div ng-if="!isLoading" class="modal-body">
     	<div class="form-group">
             <label class="control-label">Desired start time: </label>
-        	<p>{{ event.start }}</p>
+        	<p>{{ event.start | date: 'MMM d, yyyy / hh:mm a' }}</p>
         </div>
         <div class="form-group">
             <label class="control-label">Expected end time: </label>
-        	<p>{{ event.estimatedEndTime }}</p>
+        	<p>{{ event.estimatedEndTime | date: 'MMM d, yyyy / hh:mm a' }}</p>
         </div>
         <div class="form-group">
         	<label class="control-label">Expected duration: </label>
