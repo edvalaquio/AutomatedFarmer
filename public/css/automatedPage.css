@@ -208,5 +208,6 @@
 /*****************Autopilot Page**********************/
 
 .autopilot-button{
-  
+  display: flex;
+  justify-content: center;
 }
