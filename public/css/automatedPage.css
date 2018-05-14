@@ -204,3 +204,10 @@
   border: none;
   border-bottom: 3px solid #566573;
 }
+
+/*****************Autopilot Page**********************/
+
+.autopilot-button{
+  display: flex;
+  justify-content: center;
+}

@@ -24,10 +24,10 @@
 	<div class="extend-bar" ng-show="sideBar" ng-click="sideBar = false"></div>
 	<div class="nav-sidebar" ng-class="{'show-bar': sideBar}">
 		<div class="nav-sidebar-container">
-			<a ng-click="active = '/'" ng-class="{'nav-sidebar-active': active == '/'}" href="/">Welcome</a>
+			<a ng-click="active = '/'" ng-class="{'nav-sidebar-active': active == '/'}" href="/">Dashboard</a>
 			<a ng-click="active = '/manual'" ng-class="{'nav-sidebar-active': active == '/manual'}" href="/#!/manual">Manual Control</a>
 			<a ng-click="active = '/automated'" ng-class="{'nav-sidebar-active': active.includes('/automated')}" href="/#!/automated">Automated Control</a>
-			<a ng-click="active = '/activities'" ng-class="{'nav-sidebar-active': active == '/activities'}" href="/#!/activities">Activity</a>
+			<!-- <a ng-click="active = '/activities'" ng-class="{'nav-sidebar-active': active == '/activities'}" href="/#!/activities">Activity</a> -->
 		</div>
 
 	</div>

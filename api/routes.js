@@ -16,7 +16,7 @@ module.exports = function(app, con, env){
 	app.get('/getRiceAge', function(req, res){
 		console.log(req.body);
 		var tableName = " activity AS a JOIN lot AS l JOIN event AS e JOIN sequence AS s ";
-		var columns = ['a.label', 'l.name', 'e.estimated_end_time'];
+		var columns = ['a.label', 'l.name', 'e.estimated_end_time', 'e.lot_id'];
 		var on = " ON a.lot_id = l.id AND s.event_id = e.id AND s.activity_id = a.id ";
 		var where = " WHERE a.type = 'seed' ";
 
@@ -30,9 +30,9 @@ module.exports = function(app, con, env){
 				var difference = currentDate.diff(endDate, 'days');
 				console.log(difference);
 				temp.push({ 
-					label: 		item.label,
-					name: 		item.name,
-					daysOld: 	difference
+					label: 				item.label,
+					name: 				item.name,
+					daysOld: 			difference
 				})
 			});
 
