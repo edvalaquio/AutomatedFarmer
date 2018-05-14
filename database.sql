@@ -39,14 +39,6 @@ CREATE TABLE `activity` (
 --
 -- Dumping data for table `activity`
 --
-
-INSERT INTO `activity` (`id`, `label`, `type`, `template_id`, `lot_id`) VALUES
-(1, 'plow_89o242', 'plow', 11, 9),
-(2, 'plow_217kjc', 'plow', 12, 9),
-(3, 'seed_5y8tdl', 'seed', 13, 9),
-(4, 'seed_ds6b6q', 'seed', 11, 9),
-(5, 'harvest_xzm41f', 'harvest', 13, 9);
-
 -- --------------------------------------------------------
 
 --
@@ -79,10 +71,6 @@ CREATE TABLE `event` (
 --
 -- Dumping data for table `event`
 --
-
-INSERT INTO `event` (`id`, `start_time`, `estimated_end_time`, `actual_end_time`, `status`, `lot_id`) VALUES
-(1, '2018-05-07 06:25:00', '2018-05-07 06:25:21', NULL, 'pending', 9);
-
 -- --------------------------------------------------------
 
 --
@@ -102,18 +90,6 @@ CREATE TABLE `lot` (
 --
 -- Dumping data for table `lot`
 --
-
-INSERT INTO `lot` (`id`, `name`, `province`, `town`, `brgy`, `length`, `width`) VALUES
-(0, 'MiagaoFarmland', 'Mat-y', 'Miagao', 'Iloilo', 4, 4),
-(2, 'MiagaoFarmland2', 'Kirayan', 'Miagao', 'Iloilo', 6, 6),
-(3, 'Sample', 'Iloilo', NULL, NULL, 5, 5),
-(4, 'Sampel', 'Iloilo', 'Miagao', 'Mat-k', 10, 10),
-(5, 'Sampel', 'Iloilo', 'Miagao', 'Mat-k', 10, 10),
-(6, 'Sampel', 'Iloilo', 'Miagao', 'Mat-k', 10, 10),
-(7, 'Sampel', 'Iloilo', 'Miagao', 'Mat-k', 10, 10),
-(8, 'Somewhere', 'Mat-y', 'Miagao', 'Iloilo', 4, 4),
-(9, 'New Add', 'Jkj', 'jkj', 'JKj', 6, 6);
-
 -- --------------------------------------------------------
 
 --
@@ -142,12 +118,6 @@ CREATE TABLE `template` (
 --
 -- Dumping data for table `template`
 --
-
-INSERT INTO `template` (`id`, `grid`, `path`, `lot_id`) VALUES
-(11, '[[true,true,true,false,false,false],[false,false,false,false,false,false],[false,false,false,false,false,false],[false,false,false,false,false,false],[false,false,false,false,false,false],[false,false,false,false,false,false]]', '[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2}]', 9),
-(12, '[[true,true,true,false,false,false],[true,true,true,false,false,false],[false,false,false,false,false,false],[false,false,false,false,false,false],[false,false,false,false,false,false],[false,false,false,false,false,false]]', '[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2},{\"x\":1,\"y\":2},{\"x\":1,\"y\":1},{\"x\":1,\"y\":0}]', 9),
-(13, '[[true,true,true,false,false,false],[true,true,true,false,false,false],[false,false,false,false,false,false],[false,false,false,false,false,false],[false,false,false,false,false,false],[false,false,false,false,false,false]]', '[{\"x\":0,\"y\":0},{\"x\":0,\"y\":1},{\"x\":0,\"y\":2},{\"x\":1,\"y\":2},{\"x\":1,\"y\":1},{\"x\":1,\"y\":0}]', 9);
-
 --
 -- Indexes for dumped tables
 --
