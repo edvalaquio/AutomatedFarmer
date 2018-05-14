@@ -18,7 +18,17 @@ module.exports = function(io, socket, con){
 		sf.updateWithPromise('event', ['status', 'actual_end_time'], where, [status, 'NOW()']);
 	}
 
-	var reuseCoordinates = function(coordinates){
+	var storeCoordinates = function(data){
+		var tableName = "coordinates";
+		var columns = ['latitude', 'longitude', 'activity_id'];
+		var insertData = [data.latitude, data.longitude, activity.id];
+		sf.insertWithPromise(tableName, columns, insertData).then(function(rows){
+			console.log(rows.data);
+			console.log(rows.message);
+		});
+	}
+
+	var reuseCoordinates = function(coordinates, flag){
 		var pathTemplate = new Path(path);
 		var directions = pathTemplate.getDirections();
 		var counter = 0;
@@ -32,8 +42,9 @@ module.exports = function(io, socket, con){
 				return;
 			}
 
-			console.log(directions[counter]);
-			console.log(coordinates[counter]);
+			if(flag){
+				storeCoordinates(coordinates[counter])
+			}
 			io.emit('tractor-details', {
 				currentLocation : coordinates[counter],
 				status			: isOngoing,
@@ -67,13 +78,7 @@ module.exports = function(io, socket, con){
 			if(distance >= 1){
 				counter++;
 				coordinates.push(currentLocation);
-				var tableName = "coordinates";
-				var columns = ['latitude', 'longitude', 'activity_id'];
-				var insertData = [currentLocation.latitude, currentLocation.longitude, activity.id];
-				sf.insertWithPromise(tableName, columns, insertData).then(function(rows){
-					console.log(rows.data);
-					console.log(rows.message);
-				});
+				storeCoordinates(currentLocation);
 			}
 			currentLocation = tempLocation
 			io.emit('tractor-details', {
@@ -85,14 +90,6 @@ module.exports = function(io, socket, con){
 
 		return coordinates;
 	}
-
-	socket.on('get-tractor-details', function(){
-		io.emit('tractor-details', {
-			currentLocation : "Calculating...",
-			status			: isOngoing,
-			currentActivity : "Checking..."
-		});
-	})
 
 	socket.on('start-event', function(data){
 		activity = data.activity;
@@ -112,7 +109,7 @@ module.exports = function(io, socket, con){
 			if(results.length){
 				console.log(results);
 				coordinates = results
-				reuseCoordinates(results);
+				reuseCoordinates(results, false);
 				return;
 			}
 			
@@ -125,16 +122,24 @@ module.exports = function(io, socket, con){
 				if(activity.type == 'seed'){
 					tempType = "plow";
 				} else {
-					tempType = "harvest";
+					tempType = "seed";
 				}
 
 				where = " WHERE a.template_id=" + activity.template_id + " AND a.type='" + tempType + "'";
 				sf.selectWithPromise(tableName, columns, on, where).then(function(rows){
-					reuseCoordinates(rows.data);
+					reuseCoordinates(rows.data, true);
 				});
 			}
 		});
 	});
+
+	socket.on('get-tractor-details', function(){
+		io.emit('tractor-details', {
+			currentLocation : "Calculating...",
+			status			: isOngoing,
+			currentActivity : "Checking..."
+		});
+	})
 
 	socket.on('get-event-data', function(data){
 		var minPerMsq = 0.006;

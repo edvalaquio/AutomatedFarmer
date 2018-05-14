@@ -29,7 +29,7 @@
 			<button class="btn btn-deselect-all" ng-disabled="template.path.length == 0" ng-click="toggleSelectAll(false)">Deselect All</button>
 		</div>
 		<div ng-if="option == 'create' && (activity.type == 'seed' || activity.type == 'harvest')" class="col-xs-12 automated-controls-select">
-			<select class="form-control" ng-model="template" ng-change="setTemplate(template, false)" ng-disabled="template.path.length == 0">
+			<select class="form-control" ng-model="template" ng-change="setTemplate(template, false)" ng-disabled="templateList.length == 0">
 				<option ng-repeat="item in templateList" ng-value="item">{{ item.label }}</option>
 			</select>
 		</div>
