@@ -3,21 +3,15 @@
 var app = require("./config/express.js");
 var server = require('http').createServer(app);
 var env = require('./env');
-
-
 var mysql = require('mysql');
-var con = mysql.createConnection({
-	host     	: 'localhost',
-	user     	: 'root',
-	password 	: '',
-	database	: 'automated_farmer' 	
-});
+var con = mysql.createConnection(env.db);
  
 con.connect(function(err) {
 	if (err) {
 		console.error('error connecting: ' + err.stack);
 		return;
 	}
+	
 	console.log("Successfully connected!");
 	require('./api/routes.js')(app, con, env);
 
