@@ -55,8 +55,8 @@ angular.module("indexApp",
 				url		: '/getSocketData'
 			}).then(function(res){
 				var hostAddress = res.data;
-				console.log($location.host());
-				$rootScope.socket = io('http://' + $location.host() + ':3000');
+				console.log($location);
+				$rootScope.socket = io('http://' +  + ':3000');
 				// $rootScope.socket.emit('event-ongoing');
 				// $rootScope.socket.on('is-ongoing', function(data){
 				// 	$rootScope.autoPilot.ongoing = data;

@@ -7,10 +7,11 @@ var env = require('./env');
 
 var mysql = require('mysql');
 var con = mysql.createConnection({
-	host     	: 'localhost',
-	user     	: 'root',
-	password 	: '',
-	database	: 'automated_farmer' 	
+	host     	: '10.3.141.1',
+	user     	: 'farmer',
+	password 	: 'MarbaValaquio2017',
+	database	: 'automated_farmer',
+	socketPath	: '/var/run/mysqld/mysqld.sock'
 });
  
 con.connect(function(err) {
