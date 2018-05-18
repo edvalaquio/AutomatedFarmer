@@ -1,19 +1,22 @@
 <div class="row col-md-6 col-xs-12">
 	<h1>Autopilot</h1>
 	<p>Click the button to start.</p>
-	<div class="autopilot-button">
-		<button class="btn btn-success btn-lg" ng-click="startActivity(); disableButton = true" ng-disabled="pilotData.status == 'Ongoing'">Begin Activity</button>
-	</div>
-	<div class="autopilot-info-wrapper">
-		<div ng-if="pilotData.status">
-			<h3>Status: {{ pilotData.status }}</h3>
+	<div class="form-horizontal">
+		<div class="autopilot-button form-group">
+			<button class="btn btn-success btn-lg" ng-click="startActivity(); disableButton = true" ng-disabled="pilotData.status == 'Ongoing'">Begin Activity</button>
 		</div>
-		<div ng-if="pilotData.currentActivity">
-			<h3>Activity: {{ pilotData.currentActivity }}</h3>
+		<div class="form-group col-xs-12">
+			<label class="control-label">Status:</label>
+			<input ng-if="pilotData.status" class="autopilot-input" type="text" readonly="true" value="{{ pilotData.status }}" disabled="true" ng-class="{ 'has-success': pilotData.status == 'Finished' }" />
+			<input ng-if="!pilotData.status" class="autopilot-input" type="text" readonly="true" value="Pending" disabled="true" />
 		</div>
-		<div ng-if="pilotData.currentLocation">
-			<h3>Location:</h3>
-			<p>{{ pilotData.currentLocation }}</p>
+		<div ng-if="pilotData.currentActivity" class="form-group col-xs-12">
+			<label class="control-label">Activity:</label>
+			<input ng-if="pilotData.currentActivity" class="autopilot-input" type="text" readonly="true" value="{{ pilotData.currentActivity }}" disabled="true" />
+		</div>
+		<div ng-if="pilotData.currentLocation" class="form-group col-xs-12">
+			<label class="control-label">Location:</label>
+			<input class="autopilot-input" type="text" readonly="true" value="{{ pilotData.currentLocation }}" disabled="true" />
 		</div>
 	</div>
 </div>
