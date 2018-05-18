@@ -211,3 +211,16 @@
   display: flex;
   justify-content: center;
 }
+
+.autopilot-input{
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-bottom: 3px solid #757575;
+  outline: none;
+  background-color: transparent;
+}
+
+.has-success{
+  border-bottom: 3px solid #8bc34a;
+}
