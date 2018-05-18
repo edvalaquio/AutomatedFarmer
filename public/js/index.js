@@ -49,24 +49,24 @@ angular.module("indexApp",
 	function($rootScope, $scope, $window, $location, $http){
 		$scope.active = $location.url();
 		$rootScope.autoPilot = {};
-		if(!$scope.hasSocket){
-			$http({
-				method	: 'GET', 
-				url		: '/getSocketData'
-			}).then(function(res){
-				var hostAddress = res.data;
-				console.log($location.host());
-				$rootScope.socket = io('http://' + $location.host() + ':3000');
-				// $rootScope.socket.emit('event-ongoing');
-				// $rootScope.socket.on('is-ongoing', function(data){
-				// 	$rootScope.autoPilot.ongoing = data;
-				// 	console.log(data);
-				// });
-				console.log(res);
-			}, function(error){
-				console.log(error);
-			});
-		}
+		$rootScope.socket = io('http://' + $location.host() + ':3000');
+		// if(!$scope.hasSocket){
+		// 	$rootScope.socket = io('http://' + $location.host() + ':3000');
+		// 	$http({
+		// 		method	: 'GET', 
+		// 		url		: '/getSocketData'
+		// 	}).then(function(res){
+		// 		var hostAddress = res.data;
+		// 		// $rootScope.socket.emit('event-ongoing');
+		// 		// $rootScope.socket.on('is-ongoing', function(data){
+		// 		// 	$rootScope.autoPilot.ongoing = data;
+		// 		// 	console.log(data);
+		// 		// });
+		// 		console.log(res);
+		// 	}, function(error){
+		// 		console.log(error);
+		// 	});
+		// }
 	}	
 ]);
 

@@ -6,10 +6,6 @@ module.exports = function(app, con, env){
 
 	var sf = new ServerFunctions(con);
 
-	app.get('/getSocketData', function(req, res){
-		res.send(env.host);
-	});
-
 	// ==============================================================
 	//ROUTES FOR Rice Age
 
