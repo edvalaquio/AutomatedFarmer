@@ -4,14 +4,21 @@ var moment = require('moment');
 var ServerFunction = require('./../api/server-functions.js');
 var Path = require('./path-partner.js');
 var _ = require('lodash');
+
+// var stepper = require('./stepper-module');
+// var motor = new stepper(2, 3, 4, 17, 27, 22, 10, 9);
 // var stepper = require('./manual-socket.js');
 // var motor = new stepper(pin numbers);
 
 module.exports = function(io, socket, con){
-	// console.log(io);
+	console.log(io);
 	var isOngoing = false;
 	var activity, event, path;
 	var sf = new ServerFunction(con);
+
+	var moveTractor = function(direction){
+		console.log("Tractor is moving " + direction);
+	}
 
 	var updateEvent = function(status){
 		var where = " WHERE event.id=" + event.id;
@@ -23,8 +30,8 @@ module.exports = function(io, socket, con){
 		var columns = ['latitude', 'longitude', 'activity_id'];
 		var insertData = [data.latitude, data.longitude, activity.id];
 		sf.insertWithPromise(tableName, columns, insertData).then(function(rows){
-			console.log(rows.data);
-			console.log(rows.message);
+			// console.log(rows.data);
+			// console.log(rows.message);
 		});
 	}
 
@@ -34,14 +41,14 @@ module.exports = function(io, socket, con){
 		var counter = 0;
 		// console.log(coordinates[0].latitude);
 		var interval = setInterval(function(){
-			if(counter == coordinates.length-1){
+			if(counter == coordinates.length){
 				clearInterval(interval);
 				updateEvent("'success'");
 				isOngoing = false;
 				io.emit('finished', coordinates);
 				return;
 			}
-
+			moveTractor(directions[counter]);
 			if(flag){
 				storeCoordinates(coordinates[counter])
 			}
@@ -64,17 +71,18 @@ module.exports = function(io, socket, con){
 		var interval = setInterval(function(){
 			if(counter == directions.length){
 				clearInterval(interval);
-				console.log(event);
+				// console.log(event);
 				updateEvent("'success'");
 				isOngoing = false;
 				io.emit('finished', coordinates);
 				return;
 			}
-			console.log("Tractor is moving: ", directions[counter]);
 
-			var tempLocation = pathTemplate.getDestinationPoint(currentLocation, 0.5, directions[counter]);
+			moveTractor(directions[counter]);
+
+			var tempLocation = pathTemplate.getDestinationPoint(currentLocation, inc, directions[counter]);
 			var distance = geolib.getDistanceSimple(currentLocation, tempLocation);
-			console.log(distance);;
+			// console.log(distance);;
 			if(distance >= 1){
 				counter++;
 				coordinates.push(currentLocation);
@@ -103,11 +111,11 @@ module.exports = function(io, socket, con){
 		var columns = ['c.latitude', 'c.longitude'];
 		var on = " ON c.activity_id=a.id ";
 		var where = " WHERE a.id=" + activity.id + " AND a.type='" + activity.type + "'";
-		console.log(where);
+		// console.log(where);
 		sf.selectWithPromise(tableName, columns, on, where).then(function(rows){
 			var results = rows.data;
 			if(results.length){
-				console.log(results);
+				// console.log(results);
 				coordinates = results
 				reuseCoordinates(results, false);
 				return;
@@ -117,7 +125,7 @@ module.exports = function(io, socket, con){
 				var currentLocation = {latitude: 51.516272, longitude: 0.45425};
 				generateCoordinates(currentLocation);
 			} else {
-				console.log(activity);
+				// console.log(activity);
 				var tempType = "";
 				if(activity.type == 'seed'){
 					tempType = "plow";
@@ -151,7 +159,7 @@ module.exports = function(io, socket, con){
 		var distance = path.length;
 		var speed = speedKmPerHr * (1000/3600);
 		var time = distance / speed;
-		console.log(time);
+		// console.log(time);
 		var startTime = moment(new Date(data.event.start));
 		var estimatedEndTime = moment(new Date(data.event.start)).add(time, 'seconds');
 
