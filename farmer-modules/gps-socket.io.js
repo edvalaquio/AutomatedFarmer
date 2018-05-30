@@ -1,15 +1,25 @@
 
 var serial = require('serialport');
-var nmea = require('nmea')
+// var nmea = require('nmea')
 
 
 module.exports = function(socket){
-	var port = new serialport.SerialPort('/dev/ttyAMA0', {
-		baudrate: 9600,
-		parser: serialport.parsers.readline('\r\n')});
+	var serialport = require("serialport");
+	var SerialPort = serialport.SerialPort;
+	var sp = new SerialPort("/dev/ttyAMA0", {
+		baudrate:9600,
+		databits: 8,
+		parity: 'none',
+		stopBits: 1,
+		flowControl: false,
+		parser: serialport.parsers.readline("\n"),
+	});
 
-	port.on('data', function(line) {
-		console.log(nmea.parse(line));
+	sp.on('open', function() {
+		console.log('open');
+		sp.on('data', function(data) {
+			console.log('data received: ' + data);
+		});
 	});
 
 }
