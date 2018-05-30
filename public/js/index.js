@@ -5,6 +5,7 @@ angular.module("indexApp",
 	"autoFarm.controllers.manualCtrl",
 	"autoFarm.controllers.autoCtrl",
 	"autoFarm.controllers.activityCtrl",
+	"autoFarm.controllers.gpsCtrl",
 	"controllers.modalController",
 	"angularjs-datetime-picker"])
 .config(["$routeProvider", "$locationProvider",
@@ -39,6 +40,10 @@ angular.module("indexApp",
 		.when("/activities", {
 			templateUrl	: "/partials/activityPage.html",
 			controller 	: "activityCtrl"
+		})
+		.when("/gps", {
+			templateUrl : "/partials/gpsTest.html",
+			controller 	: "gpsCtrl"
 		})
 		.otherwise({
 			template 	: "<h1>Page does not exist</h1>"
