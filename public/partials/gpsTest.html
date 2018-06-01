@@ -2,6 +2,11 @@
 	<h1>GPS Testing</h1>
 	<p>Find out where your tractor is now.</p>
 	<button class="btn btn-default" ng-click="requestGPS()">Get GPS</button>
-	<h2>{{gpsData.latitude}}</h2>
-	<h2>{{gpsData.longitude}}</h2>
+	<div ng-if="gpsData.quality == '0' || !gpsData.quality">
+		<h2>No GPS available</h2>
+	</div>
+	<div ng-if="gpsData.quality != '0'">
+		<h2>{{gpsData.latitude}}</h2>
+		<h2>{{gpsData.longitude}}</h2>
+	</div>
 </div>
