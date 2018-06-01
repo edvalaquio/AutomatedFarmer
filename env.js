@@ -8,8 +8,8 @@ console.log(os.arch());
 // if()
 env.db = {
 	host     	: env.host,
-	user     	: 'root',
-	password 	: '',
+	user     	: 'farmer',
+	password 	: 'MarbaValaquio2017',
 	database	: 'automated_farmer' 	
 }
 

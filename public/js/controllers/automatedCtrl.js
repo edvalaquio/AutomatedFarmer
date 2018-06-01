@@ -182,6 +182,36 @@ autoModule.controller("autoCtrl", ["$rootScope", "$scope", "$window", "$location
 			pathFunction(x, y);
 		}
 
+		$scope.changeHour = function(operation){
+			var time = parseInt($scope.event.start.hour);
+			if(operation == 'up' && time < 24){
+				time++;
+			} else if(operation == 'down' && time > 0){
+				time--;
+			}
+
+			if(time < 10){
+				$scope.event.start.hour = "0" + time;
+			} else {
+				$scope.event.start.hour = "" + time;
+			}
+		}
+
+		$scope.changeMinute = function(operation){
+			var time = parseInt($scope.event.start.minute);
+			if(operation == 'up' && time < 59){
+				time++;
+			} else if(operation == 'down' && time > 0){
+				time--;
+			}
+
+			if(time < 10){
+				$scope.event.start.minute = "0" + time;
+			} else {
+				$scope.event.start.minute = "" + time;
+			}
+		}
+
 		var pathFunction = function(x, y){
 			if($rootScope.template.grid[x][y]){
 				$rootScope.template.path = createPath($rootScope.template.path, x, y);

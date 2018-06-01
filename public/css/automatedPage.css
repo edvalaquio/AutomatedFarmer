@@ -230,11 +230,26 @@ justify-content: center;
 
 .automated-schedule-time{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
 }
 
+.automated-schedule-input{
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+}
+
+.automated-schedule-input input{
+    text-align: center;
+    font-size: 50px;
+}
+
+.automated-schedule-input button{
+    padding: 10px 0px;
+}
+/*
 .automated-schedule-input, .automated-schedule-btn{
     display: flex;
     flex: column;
-}
+}*/
