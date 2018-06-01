@@ -10,6 +10,7 @@ angular.module("autoFarm.controllers.gpsCtrl", [])
 		}
 
 		$rootScope.socket.on('gps-data', function(data){
+			console.log(data);
 			$scope.gpsData = data;
 		})
 	}	

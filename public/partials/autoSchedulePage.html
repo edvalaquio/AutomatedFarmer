@@ -5,9 +5,26 @@
 		<a href="">Schedule</a>
 	</div>
 	<div class="form-horizontal"> 
-		<div class="form-group col-xs-12">
+<!-- 		<div class="form-group col-xs-12">
 			<label class="control-label">Start Date</label>
 			<input datetime-picker ng-model="event.start" class="create-sched-input" />
+		</div> -->
+		<div class="form-group automated-schedule-time col-xs-12">
+			<!-- <span class="col-xs-6">
+				<input class="form-control col-xs-6" type="time" ng-model="event.start" />
+			</span> -->
+			<div class="automated-schedule-btn col-xs-4">
+				<button class="btn btn-default"><span class="glyphicon glyphicon-chevron-up"></span></button>
+				<button class="btn btn-default"><span class="glyphicon glyphicon-chevron-up"></span></button>
+			</div>
+			<div class="automated-schedule-input col-xs-4">
+				<input ng-init="activity.start.minute = '00'" type="text" ng-model="activity.start.minute" />
+				<input ng-init="activity.start.second = '00'" type="text" ng-model="activity.start.second" name="" />
+			</div>
+			<div class="automated-schedule-btn col-xs-4">
+				<button class="btn btn-default"><span class="glyphicon glyphicon-chevron-down"></span></button>
+				<button class="btn btn-default"><span class="glyphicon glyphicon-chevron-down"></span></button>				
+			</div>
 		</div>
 		<div class="form-group col-xs-12">
 			<label class="control-label">Type of Activity</label>

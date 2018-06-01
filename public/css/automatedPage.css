@@ -1,72 +1,72 @@
 .automated-form-output{
-  display: flex;
-  flex-direction: column;
-  /*height: 60vh;*/
+    display: flex;
+    flex-direction: column;
+/*height: 60vh;*/
 }
 
 .automated-table-output tr, .automated-table-output td{
-  width: 50px;
-  height: 50px;
-  padding: 10px;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
 }
 
 .automated-table-output td{
-  margin: 100px;
+    margin: 100px;
 }
 
 .automated-table{
-  height: 40vh;
-  overflow-y: scroll;
-  overflow-x: scroll;
-  /*display: flex;*/
-  /*justify-content: center;*/
-  /*border: 1px solid;*/
-  /*overflow: auto;*/
-  /*overflow-y: auto;*/
-  /*overflow-x: auto;*/
+    height: 40vh;
+    overflow-y: scroll;
+    overflow-x: scroll;
+/*display: flex;*/
+/*justify-content: center;*/
+/*border: 1px solid;*/
+/*overflow: auto;*/
+/*overflow-y: auto;*/
+/*overflow-x: auto;*/
 }
 
 .btn.automated-plus-button{
-  border: none;
-  background-color: #e0e0e0;
-  color: #333;
-  border-radius: 50%;
-  padding: 10px 14px;
+    border: none;
+    background-color: #e0e0e0;
+    color: #333;
+    border-radius: 50%;
+    padding: 10px 14px;
 }
 
 .btn.automated-plus-button:hover{
-  border: none;
-  color: #212121;
-  background-color: #D2D7D3;
-  box-shadow: 0 2px 2px #999;
+    border: none;
+    color: #212121;
+    background-color: #D2D7D3;
+    box-shadow: 0 2px 2px #999;
 }
 
 .table-responsive{
-  overflow: auto;
+    overflow: auto;
 }
 
 .checkbox-big{
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  border-radius: 0;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    border-radius: 0;
 }
 
 .checkbox-start{
-  background: green;
+    background: green;
 }
 
 .automated-choose{
-  /*width: 100%;*/
-  display: flex;
-  flex-direction: column;
-  /*padding: 20px;*/
+/*width: 100%;*/
+    display: flex;
+    flex-direction: column;
+/*padding: 20px;*/
 }
 
 .automated-choose-options{
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 .automated-choose-select{
@@ -80,147 +80,161 @@
 }
 
 .automated-choose-select a{
-  border: 0;
-  border-radius: 0;
-  border-bottom: 1px solid #ddd;
-  min-height: 30%;
-  width: 100%;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  /*justify-content: flex-start;*/
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #ddd;
+    min-height: 30%;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+/*justify-content: flex-start;*/
 }
 
 .automated-choose-select a *{
-  width: 100%;
-  margin: auto 0;
-  text-align: left;
+    width: 100%;
+    margin: auto 0;
+    text-align: left;
 }
 
 .automated-choose-select a > p{
-  word-wrap: break-word;  
-  width: 100%;
+    word-wrap: break-word;  
+    width: 100%;
 }
 
 .automated-controls-panel, .automated-controls-select{
-  margin-bottom: 15px;
-  display: flex;
-  flex-direction: row;
-  /*height: 10%;*/
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: row;
+/*height: 10%;*/
 }
 
 .automated-controls-panel > *, .automated-controls-select > *{
-  /*height: 100%;*/
-  height: 35px;
+/*height: 100%;*/
+    height: 35px;
 }
 
 .automated-choose-paragraph{
-  color: #558b2f;
+    color: #558b2f;
 }
 
 .btn.automated-choose-options{
-  background-color: #F9FAFA;
-  color: #111;
-  opacity: 0.8;
+    background-color: #F9FAFA;
+    color: #111;
+    opacity: 0.8;
 }
 
 .btn.automated-choose-options:hover{
-  background-color: #ecf0f1;
-  opacity: 1;
+    background-color: #ecf0f1;
+    opacity: 1;
 }
 
 
 .modal-content{
-  border-radius: 0;
-  border: none;
+    border-radius: 0;
+    border: none;
 }
 
 .automated-modal-header{
-  background-color: #7cb342;
-  color: #fff;
+    background-color: #7cb342;
+    color: #fff;
 }
 
 .automated-modal-close{
-  color: #fff;
-  opacity: 0.7;
+    color: #fff;
+    opacity: 0.7;
 }
 
 .automated-modal-close:hover, .automated-modal-close:focus{
-  color: #fff;
-  opacity: 1;
+    color: #fff;
+    opacity: 1;
 }
 
 .automated-modal-input{
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-bottom: 3px solid #ccc;
-  transition: 0.5s;
-  outline: none;
-  background-color: transparent;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-bottom: 3px solid #ccc;
+    transition: 0.5s;
+    outline: none;
+    background-color: transparent;
 }
 
 .automated-modal-input:focus{
-  border: none;
-  border-bottom: 3px solid #566573;
+    border: none;
+    border-bottom: 3px solid #566573;
 }
 
 .btn-select-all{
-  background-color: #5CB85C;
-  color: #fff;
+    background-color: #5CB85C;
+    color: #fff;
 }
 
 .btn-select-all:hover, .btn-select-all:focus{
-  background-color: #5CB83C;
-  color: #fff;
+    background-color: #5CB83C;
+    color: #fff;
 }
 
 .btn-deselect-all{
-  background-color: #cb4335;
-  color: #fff;
+    background-color: #cb4335;
+    color: #fff;
 }
 
 .btn-deselect-all:hover, .btn-deselect-all:focus{
-  background-color: #c0392b;
-  color: #fff;
+    background-color: #c0392b;
+    color: #fff;
 }
 
 .automated-paragraph-info{
-  font-size: 15px;
-  color: #092930;
+    font-size: 15px;
+    color: #092930;
 }
 
 .create-sched-input{
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-bottom: 3px solid #ccc;
-  transition: 0.5s;
-  outline: none;
-  background-color: transparent;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-bottom: 3px solid #ccc;
+    transition: 0.5s;
+    outline: none;
+    background-color: transparent;
 }
 
 .create-sched-input:focus{
-  border: none;
-  border-bottom: 3px solid #566573;
+    border: none;
+    border-bottom: 3px solid #566573;
 }
 
 /*****************Autopilot Page**********************/
 
 .autopilot-button{
-  display: flex;
-  justify-content: center;
+display: flex;
+justify-content: center;
 }
 
 .autopilot-input{
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-bottom: 3px solid #757575;
-  outline: none;
-  background-color: transparent;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-bottom: 3px solid #757575;
+    outline: none;
+    background-color: transparent;
 }
 
 .has-success{
-  border-bottom: 3px solid #8bc34a;
+    border-bottom: 3px solid #8bc34a;
+}
+
+
+/*****************Schedule Page**********************/
+
+.automated-schedule-time{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.automated-schedule-input, .automated-schedule-btn{
+    display: flex;
+    flex: column;
 }
