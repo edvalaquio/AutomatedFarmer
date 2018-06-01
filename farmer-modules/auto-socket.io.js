@@ -22,7 +22,9 @@ module.exports = function(io, socket, con){
 
 	var updateEvent = function(status){
 		var where = " WHERE event.id=" + event.id;
-		sf.updateWithPromise('event', ['status', 'actual_end_time'], where, [status, 'NOW()']);
+		var time = new Date();
+		console.log(time);
+		sf.updateWithPromise('event', ['status', 'actual_end_time'], where, [status, "NOW()"]);
 	}
 
 	var storeCoordinates = function(data){
