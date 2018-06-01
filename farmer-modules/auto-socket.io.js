@@ -11,7 +11,6 @@ var _ = require('lodash');
 // var motor = new stepper(pin numbers);
 
 module.exports = function(io, socket, con){
-	console.log(io);
 	var isOngoing = false;
 	var activity, event, path;
 	var sf = new ServerFunction(con);
