@@ -13,6 +13,7 @@ module.exports = function(socket){
 	parser.on('data', function(data){
 		if(data.startsWith("$GPGGA")){
 			gpgga_array.push(data);
+			console.log(data);
 		}
 	});
 
@@ -21,12 +22,18 @@ module.exports = function(socket){
 		var labels = ['label', 'time', 'latitude', 'latDirection', 'longitude', 'lonDirection', 
 		'quality', 'numSat', 'horPosition', 'altitude', 'height', 'geoSep', 'geoMet', 'age', 
 		'statID', 'checksum'];
+		var gpgga;
+		if(!gpgga_array.length){
+			gpgga = "No GPS available";
+		} else {
 
-		var temp = gpgga_array[gpgga_array.length - 1].split(',');
-		var gpgga = {};
-		labels.forEach(function(item, index){
-			gpsData[item] = temp[index];
-		})
+			var temp = gpgga_array[gpgga_array.length - 1].split(',');
+			gpgga = {};
+			labels.forEach(function(item, index){
+				gpgga[item] = temp[index];
+			})
+
+		}
 
 		socket.emit('gps-data', gpgga);
 	});
